@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'globalvariables.dart';
 import 'home.dart';
 import 'intro.dart';
+import 'sudoku.dart';
 
 class SliderWidget extends StatefulWidget {
   @override
@@ -42,7 +43,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                         ? () {}
                         : () {
                             if (introComplete == true) {
-                              sudoku();
+                              generateSudoku();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -84,7 +85,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                               isComplete == true
                           ? () {}
                           : () {
-                              sudoku();
+                              generateSudoku();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -141,7 +142,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                               isComplete == true
                           ? () {}
                           : () {
-                              sudoku();
+                              generateSudoku();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -198,7 +199,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                               isComplete == true
                           ? () {}
                           : () {
-                              sudoku();
+                              generateSudoku();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -255,7 +256,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                               isComplete == true
                           ? () {}
                           : () {
-                              sudoku();
+                              generateSudoku();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -312,7 +313,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                               isComplete == true
                           ? () {}
                           : () {
-                              sudoku();
+                              generateSudoku();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

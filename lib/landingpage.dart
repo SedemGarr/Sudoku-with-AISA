@@ -118,7 +118,7 @@ class _LandingPageState extends State<LandingPage> {
                 height: MediaQuery.of(context).size.height,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [colors[colorindex], Colors.white],
+                    colors: [themecolorbackground, Colors.white],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),

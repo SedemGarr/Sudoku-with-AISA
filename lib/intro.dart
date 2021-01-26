@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sudoku/globalvariables.dart';
 import 'package:flutter_sudoku/home.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:audioplayers/audio_cache.dart';
+
+import 'sudoku.dart';
 
 class IntroPage extends StatefulWidget {
   @override
@@ -61,6 +64,7 @@ class _IntroPageState extends State<IntroPage> {
         elevation: 0,
         title: Text('Before you start...', style: GoogleFonts.lato()),
         centerTitle: true,
+        backgroundColor: themecolor,
       ),
       body: Container(
         padding: EdgeInsets.all(20),
@@ -68,11 +72,8 @@ class _IntroPageState extends State<IntroPage> {
           SizedBox(
             height: 10,
           ),
-          Image(
-            image: AssetImage(
-              'images/aisa.png',
-            ),
-          ),
+          Lottie.network(
+              'https://assets5.lottiefiles.com/temp/lf20_VUFNS8.json'),
           SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -150,7 +151,7 @@ class _IntroPageState extends State<IntroPage> {
                 RaisedButton(
                   elevation: 0,
                   onPressed: () async {
-                    sudoku();
+                    generateSudoku();
                     introComplete = true;
                     saveProgessData();
                     stop();
@@ -160,8 +161,10 @@ class _IntroPageState extends State<IntroPage> {
                           builder: (context) => Home(),
                         ));
                   },
-                  child: Text('Begin', style: GoogleFonts.architectsDaughter()),
-                  color: colors[colorindex],
+                  child: Text('Begin',
+                      style:
+                          GoogleFonts.architectsDaughter(color: Colors.white)),
+                  color: themecolor,
                 ),
               ],
             ),

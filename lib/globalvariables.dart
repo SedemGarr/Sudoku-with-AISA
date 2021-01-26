@@ -3,12 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sudoku/aisa.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:sudoku_api/sudoku_api.dart';
 
-var board1;
-List board2 = List.generate(9, (i) => List(9), growable: false);
-List board = List.generate(9, (i) => List(9), growable: false);
-List solvedboard = List.generate(9, (i) => List(9), growable: false);
+import 'puzzles.dart';
+
 List usedNames = [];
 int difficultyLevel = 20;
 int level = 0;
@@ -276,20 +273,6 @@ reset() async {
   prefs.setBool("isComplete", isComplete);
 }
 
-// getSaved() async {
-//   final SharedPreferences prefs = await SharedPreferences.getInstance();
-//   if (prefs.getBool("saved") == null) {
-//     saved = true;
-//   } else {
-//     saved = prefs.getBool("saved");
-//   }
-// }
-
-// saveSaved() async {
-//   final SharedPreferences prefs = await SharedPreferences.getInstance();
-//   prefs.setBool("saved", saved);
-// }
-
 Future resetTimer() async {
   Map stats = {};
   return await FirebaseFirestore.instance
@@ -336,9 +319,6 @@ Future getSave() async {
 }
 
 Future wait() async {
-// getSaved();
-  //print(saved);
-
   checkProgress().then((value) {
     getSave();
   });
@@ -369,91 +349,12 @@ Future getHighScores() async {
   });
 }
 
-sudoku() async {
-  // Random random = new Random();
-  // String pattern;
-
-  // int randomNumber = random.nextInt(5);
-
-  // switch (randomNumber) {
-  //   case 0:
-  //     pattern = "spring";
-  //     break;
-  //   case 1:
-  //     pattern = "summer";
-  //     break;
-  //   case 2:
-  //     pattern = "fall";
-  //     break;
-  //   case 3:
-  //     pattern = "winter";
-  //     break;
-  //   case 4:
-  //     pattern = "Random";
-  //     break;
-  // }
-
-  PuzzleOptions puzzleOptions =
-      new PuzzleOptions(patternName: "Random", difficulty: difficultyLevel);
-  Puzzle puzzle = new Puzzle(puzzleOptions);
-
-  puzzle.generate().then((_) {
-    if (loaded.isEmpty || loadedsolved.isEmpty) {
-      // printGrid(puzzle.board());
-      board1 = puzzle.board();
-      for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-          board[i][j] =
-              puzzle.board().cellAt(Position(row: i, column: j)).getValue();
-          //print(board[i][j]);
-        }
-      }
-
-      //printGrid(puzzle.solvedBoard());
-      for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-          solvedboard[i][j] = puzzle
-              .solvedBoard()
-              .cellAt(Position(row: i, column: j))
-              .getValue();
-          //print(solvedboard[i][j]);
-        }
-      }
-
-      printGrid(puzzle.solvedBoard());
-
-      for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-          board2[i][j] =
-              puzzle.board().cellAt(Position(row: i, column: j)).getValue();
-          //print(board[i][j]);
-        }
-      }
-
-      // setState(() {
-      //   done = true;
-      // });
-    }
-
-    if (loaded.length > 50 && loadedsolved.length > 50) {
-      loadTime1 = loadTime;
-      print(loaded);
-      print(loadedsolved);
-
-      for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-          board[i][j] = int.parse(loaded[count]);
-          solvedboard[i][j] = int.parse(loadedsolved[count]);
-          board2[i][j] = int.parse(loaded[count]);
-          count++;
-        }
-      }
-// show toast
-      // Toast.show("loaded your previous saved game", context,
-      //     duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-    }
-    // setState(() {
-    //   // done = true;
-    // });
-  });
-}
+// Future setPuzzles() async {
+//   return await FirebaseFirestore.instance
+//       .collection("Puzzles")
+//       .doc("Puzzle Data")
+//       .set({
+//     "puzzles": puzzles,
+//     "solvedPuzzles": solvedPuzzles,
+//   });
+// }

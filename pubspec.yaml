@@ -34,13 +34,13 @@ dependencies:
   cloud_firestore: ^0.14.0+2
   firebase_core: ^0.5.0
   flutter_phoenix: ^0.1.0
-  sudoku_api: ^1.1.1
   audioplayers: ^0.16.2
   stop_watch_timer: ^0.6.0+1
   toast: ^0.1.5
   wakelock: ^0.1.4+2
   scrollable_positioned_list: ^0.1.7
-  splashscreen: ^1.2.0
+  animated_text_kit: ^3.1.0
+  lottie: ^0.7.0+1
 
 dev_dependencies:
   flutter_test:

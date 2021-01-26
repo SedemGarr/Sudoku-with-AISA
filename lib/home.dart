@@ -1,9 +1,12 @@
+import 'dart:async';
 import 'dart:math';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sudoku/endpage.dart';
 import 'package:flutter_sudoku/globalvariables.dart';
 import 'package:flutter_sudoku/landingpage.dart';
+import 'package:flutter_sudoku/sudoku.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'aisa.dart';
@@ -12,6 +15,7 @@ import 'package:collection/collection.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:toast/toast.dart';
 import 'package:wakelock/wakelock.dart';
+import 'package:lottie/lottie.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -19,6 +23,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final audioCache = AudioCache();
+  AudioPlayer playerTaunts;
+
   int selectedindex;
   int x1;
   int y1;
@@ -27,8 +34,8 @@ class _HomeState extends State<Home> {
   List highListC = [];
 
   checkHighlight() {
-    print(row);
-    print(column);
+//    print(row);
+    //  print(column);
 
     List highListR1 = [];
     List highListC1 = [];
@@ -49,11 +56,10 @@ class _HomeState extends State<Home> {
     }
   }
 
-  playNoAudio() {
-    final player = AudioCache();
+  playNoAudio() async {
     Random random = new Random();
     if (hasAudio) {
-      player.play(aisaNo[random.nextInt(7)]);
+      playerTaunts = await audioCache.play(aisaNo[random.nextInt(7)]);
     }
   }
 
@@ -69,18 +75,15 @@ class _HomeState extends State<Home> {
     }
     if (userName != null) {
       return await FirebaseFirestore.instance
-              .collection("Users")
-              .doc(userName)
-              .update(
+          .collection("Users")
+          .doc(userName)
+          .update(
         {
           "saveboard": saveboard,
           "solvedsavedboard": savesolvedboard,
           "saveTime": saveTime
         },
-      )
-          // .then((value) => Toast.show("saved your game", context,
-          //         duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM))
-          ;
+      );
     }
   }
 
@@ -92,7 +95,10 @@ class _HomeState extends State<Home> {
         builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: themecolorbackground,
-            title: Center(child: Image(image: AssetImage('images/aisa.png'))),
+            title: Center(
+              child: Lottie.network(
+                  'https://assets5.lottiefiles.com/temp/lf20_VUFNS8.json'),
+            ),
             content: SingleChildScrollView(
               child: Column(
                 children: [
@@ -146,7 +152,9 @@ class _HomeState extends State<Home> {
                         error = "";
                         nextLevel();
                         _stopWatchTimer.setPresetSecondTime(0);
-                        sudoku();
+                        setState(() {
+                          generateSudoku();
+                        });
                         _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
                         _stopWatchTimer.onExecute.add(StopWatchExecute.start);
                         Navigator.pop(context);
@@ -241,11 +249,30 @@ class _HomeState extends State<Home> {
       playAudio();
       Wakelock.disable();
     } else {
-      setState(() {
-        error = "Nope. Try again. Reset the puzzle if you are stuck";
-        playNoAudio();
-      });
+      bool hasFinished = true;
+      for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+          if (board[i][j] == 0) {
+            hasFinished = false;
+          }
+        }
+      }
+      if (hasFinished) {
+        setState(() {
+          error = "Nope. Try again. Reset the puzzle if you are stuck";
+          playNoAudio();
+        });
+      }
     }
+  }
+
+  taunt() {
+    Random random = new Random();
+    final duration = Duration(seconds: (300 + random.nextInt(100)));
+    Timer.periodic(duration, (timer) {
+      playNoAudio();
+      print('repeating');
+    });
   }
 
   @override
@@ -261,10 +288,15 @@ class _HomeState extends State<Home> {
       }
       _stopWatchTimer.onExecute.add(StopWatchExecute.start);
     });
+    taunt();
     if (loaded.length > 50 && loadedsolved.length > 50) {
-      Toast.show("loaded your previously saved game", context,
-          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+      // delay
+      Future.delayed(const Duration(milliseconds: 500), () {
+        Toast.show("loaded your previously saved game", context,
+            duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+      });
     }
+
     super.initState();
   }
 
@@ -283,47 +315,48 @@ class _HomeState extends State<Home> {
           elevation: 0,
           backgroundColor: themecolor,
           centerTitle: true,
-          leading: IconButton(
-            onPressed: () async {
-              _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
-              _stopWatchTimer.setPresetSecondTime(0);
-              loadTime1 = 0;
-              worked = 0;
-              setState(() {
-                setState(() {
-                  selectedindex = null;
-                  highListR = [];
-                  highListC = [];
-                  print(level);
-                  error = "";
-                  loaded = [];
-                  loadedsolved = [];
-                });
-                sudoku();
-                _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
-              });
+          leading:
+              // IconButton(
+              //   onPressed: () async {
+              //     _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+              //     _stopWatchTimer.setPresetSecondTime(0);
+              //     loadTime1 = 0;
+              //     worked = 0;
+              //     setState(() {
+              //       setState(() {
+              //         selectedindex = null;
+              //         highListR = [];
+              //         highListC = [];
+              //         print(level);
+              //         error = "";
+              //         loaded = [];
+              //         loadedsolved = [];
+              //       });
+              //       generateSudoku();
+              //       _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
+              //     });
 
-              return await FirebaseFirestore.instance
-                  .collection("Users")
-                  .doc(userName)
-                  .update(
-                {"saveboard": [], "solvedsavedboard": [], "saveTime": 0},
-              ).then((value) => initState());
-            },
-            icon: Icon(
-              Icons.refresh,
-              color: textcolor,
-            ),
-          ),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+              //     return await FirebaseFirestore.instance
+              //         .collection("Users")
+              //         .doc(userName)
+              //         .update(
+              //       {"saveboard": [], "solvedsavedboard": [], "saveTime": 0},
+              //     ).then((value) => initState());
+              //   },
+              //   icon: Icon(
+              //     Icons.refresh,
+              //     color: textcolor,
+              //   ),
+              // )
               IconButton(
                   icon: Icon(
                     FontAwesomeIcons.laughSquint,
                     color: textcolor,
                   ),
                   onPressed: () {
+                    if (hasAudio) {
+                      playerTaunts?.stop();
+                    }
                     Wakelock.disable();
                     loadTime1 = 0;
                     _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
@@ -338,84 +371,94 @@ class _HomeState extends State<Home> {
                           builder: (context) => LandingPage(),
                         ));
                   }),
-              StreamBuilder<int>(
-                stream: _stopWatchTimer.rawTime,
-                initialData: 0,
-                builder: (context, snap) {
-                  final value = snap.data;
-                  //  final displayTime = StopWatchTimer.getDisplayTime(value);
-                  times = StopWatchTimer.getDisplayTime(value);
-                  saveTime = StopWatchTimer.getRawSecond(value);
-                  return
-                      // Container();
-
-                      Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              StopWatchTimer.getDisplayTimeHours(value),
-                              style: GoogleFonts.lato(
-                                  color: textcolor,
-                                  fontSize: 20,
-                                  //  fontFamily: 'Helvetica',
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              ":",
-                              style: GoogleFonts.lato(
-                                  color: textcolor,
-                                  fontSize: 20,
-                                  //   fontFamily: 'Helvetica',
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              StopWatchTimer.getDisplayTimeMinute(value),
-                              style: GoogleFonts.lato(
-                                  color: textcolor,
-                                  fontSize: 20,
-                                  //       fontFamily: 'Helvetica',
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              ":",
-                              style: GoogleFonts.lato(
-                                  color: textcolor,
-                                  fontSize: 20,
-                                  //  fontFamily: 'Helvetica',
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              StopWatchTimer.getDisplayTimeSecond(value),
-                              style: GoogleFonts.lato(
-                                  color: textcolor,
-                                  fontSize: 20,
-                                  //      fontFamily: 'Helvetica',
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              cheat
+                  ? IconButton(
+                      onPressed: () {
+                        setState(() {
+                          isCorrect();
+                        });
+                      },
+                      icon: Icon(
+                        Icons.check_circle_outline,
+                        color: cheat ? highlightcolor : textcolor,
                       ),
-                    ],
-                  );
-                },
-              ),
+                    )
+                  : Container()
             ],
           ),
           actions: [
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  isCorrect();
-                });
-              },
-              icon: Icon(
-                Icons.check_circle_outline,
-                color: cheat ? highlightcolor : textcolor,
-              ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                StreamBuilder<int>(
+                  stream: _stopWatchTimer.rawTime,
+                  initialData: 0,
+                  builder: (context, snap) {
+                    final value = snap.data;
+                    //  final displayTime = StopWatchTimer.getDisplayTime(value);
+                    times = StopWatchTimer.getDisplayTime(value);
+                    saveTime = StopWatchTimer.getRawSecond(value);
+                    return
+                        // Container();
+
+                        Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                StopWatchTimer.getDisplayTimeHours(value),
+                                style: GoogleFonts.lato(
+                                    color: textcolor,
+                                    fontSize: 20,
+                                    //  fontFamily: 'Helvetica',
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                ":",
+                                style: GoogleFonts.lato(
+                                    color: textcolor,
+                                    fontSize: 20,
+                                    //   fontFamily: 'Helvetica',
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                StopWatchTimer.getDisplayTimeMinute(value),
+                                style: GoogleFonts.lato(
+                                    color: textcolor,
+                                    fontSize: 20,
+                                    //       fontFamily: 'Helvetica',
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                ":",
+                                style: GoogleFonts.lato(
+                                    color: textcolor,
+                                    fontSize: 20,
+                                    //  fontFamily: 'Helvetica',
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                StopWatchTimer.getDisplayTimeSecond(value),
+                                style: GoogleFonts.lato(
+                                    color: textcolor,
+                                    fontSize: 20,
+                                    //      fontFamily: 'Helvetica',
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ],
             )
           ],
         ),
@@ -560,6 +603,7 @@ class _HomeState extends State<Home> {
                               int x, y = 0;
                               x = (index / gridStateLength).floor();
                               y = (index % gridStateLength);
+
                               return gridSelector(x, y);
                             },
                             itemCount: 81,
@@ -595,6 +639,7 @@ class _HomeState extends State<Home> {
                             color: Colors.black,
                           ),
                           onPressed: () async {
+                            print(board);
                             setState(() {
                               error = "";
                               _stopWatchTimer.onExecute
@@ -604,10 +649,9 @@ class _HomeState extends State<Home> {
                                   .add(StopWatchExecute.reset);
                               for (int i = 0; i < 9; i++) {
                                 for (int j = 0; j < 9; j++) {
-                                  board[i][j] = board2[i][j];
+                                  board[i][j] = backupBoard[i][j];
                                 }
                               }
-                              print(board2[0][0]);
                               _stopWatchTimer.onExecute
                                   .add(StopWatchExecute.start);
                               selectedindex = null;
@@ -675,6 +719,7 @@ class _HomeState extends State<Home> {
                                     error = "";
                                   });
                                 }
+                                isCorrect();
                               },
                             ),
                           ),
@@ -703,6 +748,7 @@ class _HomeState extends State<Home> {
                                     error = "";
                                   });
                                 }
+                                isCorrect();
                               },
                             ),
                           ),
@@ -731,6 +777,7 @@ class _HomeState extends State<Home> {
                                     error = "";
                                   });
                                 }
+                                isCorrect();
                               },
                             ),
                           ),
@@ -759,6 +806,7 @@ class _HomeState extends State<Home> {
                                     error = "";
                                   });
                                 }
+                                isCorrect();
                               },
                             ),
                           ),
@@ -787,6 +835,7 @@ class _HomeState extends State<Home> {
                                     error = "";
                                   });
                                 }
+                                isCorrect();
                               },
                             ),
                           ),
@@ -815,6 +864,7 @@ class _HomeState extends State<Home> {
                                     error = "";
                                   });
                                 }
+                                isCorrect();
                               },
                             ),
                           ),
@@ -843,6 +893,7 @@ class _HomeState extends State<Home> {
                                     error = "";
                                   });
                                 }
+                                isCorrect();
                               },
                             ),
                           ),
@@ -871,6 +922,7 @@ class _HomeState extends State<Home> {
                                     error = "";
                                   });
                                 }
+                                isCorrect();
                               },
                             ),
                           ),
@@ -901,6 +953,7 @@ class _HomeState extends State<Home> {
                                     error = "";
                                   });
                                 }
+                                isCorrect();
                               },
                             ),
                           ),

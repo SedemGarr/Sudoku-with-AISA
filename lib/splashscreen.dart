@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sudoku/landingpage.dart';
-import 'package:splashscreen/splashscreen.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'globalvariables.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class Splashcreen extends StatefulWidget {
   @override
@@ -11,60 +12,88 @@ class Splashcreen extends StatefulWidget {
 class _SplashcreenState extends State<Splashcreen> {
 //  bool _visible = false;
 
+  Color _colour = Colors.white;
+
+  updateColour() {
+    Future.delayed(const Duration(milliseconds: 500), () {
+      setState(() {
+        _colour = themecolor;
+      });
+    });
+  }
+
   @override
   void initState() {
+    updateColour();
+    checkProgress();
     setState(() {
       wait();
-      // Future.delayed(const Duration(seconds: 2), () {
-      //   setState(() {
-      //     _visible = true;
-      //   });
-      // });
-      // Future.delayed(
-      //     const Duration(seconds: 6),
-      //     () => Navigator.push(
-      //         context,
-      //         MaterialPageRoute(
-      //           builder: (context) => LandingPage(),
-      //         )));
     });
-
+    Future.delayed(const Duration(milliseconds: 7000), () {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LandingPage(),
+          ));
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return
-        //Container(
-        //     color: colors[colorindex],
-        //     child: Center(
-        //       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        //         AnimatedOpacity(
-        //           // If the widget is visible, animate to 0.0 (invisible).
-        //           // If the widget is hidden, animate to 1.0 (fully visible).
-        //           opacity: _visible ? 1.0 : 0.0,
-        //           duration: Duration(milliseconds: 2500),
-        //           // The green box must be a child of the AnimatedOpacity widget.
-        //           child: CircularProgressIndicator(
-        //             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-        //             backgroundColor: colors[colorindex],
-        //           ),
-        //         )
-        //       ]),
-        //     ));
-
-        SplashScreen(
-            seconds: 10,
-            navigateAfterSeconds: LandingPage(),
-            // title: new Text(
-            //   'Welcome',
-            //   style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-            // ),
-            image: new Image.asset('images/aisa.png'),
-            backgroundColor: Colors.white,
-            //  styleTextUnderTheLoader: new TextStyle(),
-            photoSize: 100.0,
-            // onClick: () => print("Flutter Egypt"),
-            loaderColor: colors[colorindex]);
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: SafeArea(
+        child: Scaffold(
+          body: Stack(
+            children: [
+              Container(
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        color: themecolor,
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      child: AnimatedContainer(
+                        color: _colour,
+                        duration: Duration(seconds: 5),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        color: themecolor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Center(
+                child: SizedBox(
+                  child: TextLiquidFill(
+                    loadDuration: Duration(seconds: 7),
+                    waveDuration: Duration(seconds: 2),
+                    text: 'half-full games',
+                    waveColor: themecolor,
+                    boxBackgroundColor: themecolor,
+                    textAlign: TextAlign.center,
+                    textStyle: GoogleFonts.chilanka(
+                      color: Colors.white,
+                      fontSize: MediaQuery.of(context).size.width * 0.15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    boxWidth: MediaQuery.of(context).size.width,
+                    boxHeight: MediaQuery.of(context).size.height * 0.33,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
