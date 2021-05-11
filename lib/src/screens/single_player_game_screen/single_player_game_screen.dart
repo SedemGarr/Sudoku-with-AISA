@@ -436,7 +436,13 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
 
   void updateUserAfterGame() async {
     // create new stat
-    if (this.user.stats.length < 54) {
+    if (this
+            .user
+            .stats
+            .where((element) => element['isSinglePlayer'] == true)
+            .toList()
+            .length <
+        54) {
       this.user.stats.add(Stats(
           isCompetitive: false,
           isCoop: false,
