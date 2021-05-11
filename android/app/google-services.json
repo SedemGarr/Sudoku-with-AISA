@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "790230386085",
+    "firebase_url": "https://sudoku-39762.firebaseio.com",
+    "project_id": "sudoku-39762",
+    "storage_bucket": "sudoku-39762.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790230386085:android:6168a468c38c23bcb4d44c",
+        "android_client_info": {
+          "package_name": "com.sedemgarr.flutter_sudoku"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "790230386085-600uro715fthmeo15p678ei0u6p27e8j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARZb2FjE1nzAZwqzle7vTSHDKz7aeDIMw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "790230386085-600uro715fthmeo15p678ei0u6p27e8j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790230386085:android:ea5cd1c23a9ba14eb4d44c",
+        "android_client_info": {
+          "package_name": "com.sedemgarr.sudoku"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "790230386085-f9e3r0la0n08vpckq9n4d6eg568hlbn2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sedemgarr.sudoku",
+            "certificate_hash": "ce27b8c8d77c0e8bbf4c349401452613b81c7889"
+          }
+        },
+        {
+          "client_id": "790230386085-600uro715fthmeo15p678ei0u6p27e8j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARZb2FjE1nzAZwqzle7vTSHDKz7aeDIMw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "790230386085-600uro715fthmeo15p678ei0u6p27e8j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
