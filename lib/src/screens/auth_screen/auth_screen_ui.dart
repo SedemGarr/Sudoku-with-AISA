@@ -19,7 +19,7 @@ class AuthScreenView extends AuthScreenState {
           color: appTheme.themeColor,
         ),
         shape: StadiumBorder(),
-        borderSide: BorderSide(color: appTheme.themeColor),
+        borderSide: BorderSide(color: isDark ? Colors.grey[900] : Colors.white),
         padding: const EdgeInsets.all(10),
         label: Text(
           'sign in with google',
