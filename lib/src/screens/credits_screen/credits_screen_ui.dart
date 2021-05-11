@@ -18,7 +18,9 @@ class CreditsScreenView extends CreditsScreenState {
                 ),
                 FlatButton(
                     splashColor: appTheme.themeColor,
-                    onPressed: () {},
+                    onPressed: () {
+                      endGame();
+                    },
                     child: Text(
                       'home',
                       style: GoogleFonts.lato(

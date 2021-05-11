@@ -50,9 +50,11 @@ class SinglePlayerGameScreenView extends SinglePlayerGameScreenState {
                 int value =
                     game[user.difficultyLevel].levels[user.level].board[index];
                 return GestureDetector(
-                  onTap: () {
-                    selectIndex(index);
-                  },
+                  onTap: filledCells.contains(index)
+                      ? () {}
+                      : () {
+                          selectIndex(index);
+                        },
                   child: Container(
                     margin: const EdgeInsets.all(2),
                     color: getCellColor(index, value),

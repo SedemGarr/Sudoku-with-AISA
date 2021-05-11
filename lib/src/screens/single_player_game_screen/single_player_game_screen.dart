@@ -43,6 +43,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
   bool isDark;
   AppTheme appTheme;
   List<Difficulty> game;
+  List filledCells = [];
 
   UserStateUpdateProvider userStateUpdateProvider = UserStateUpdateProvider();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -65,6 +66,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
     this.loadSavedGame();
     this.startStopWatchTimer();
     this.enableWakeLock();
+    this.findAlreadyFilledCells();
     super.initState();
   }
 
@@ -72,6 +74,26 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
   void dispose() async {
     super.dispose();
     await stopWatchTimer.dispose();
+  }
+
+  void findAlreadyFilledCells() {
+    this.filledCells = [];
+    for (int i = 0;
+        i <
+            this
+                .game[this.user.difficultyLevel]
+                .levels[this.user.level]
+                .board
+                .length;
+        i++) {
+      if (this
+              .game[this.user.difficultyLevel]
+              .levels[this.user.level]
+              .board[i] !=
+          0) {
+        this.filledCells.add(i);
+      }
+    }
   }
 
   int getAdjustedLevel(int level) {
@@ -308,7 +330,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
     if (isPuzzleComplete && isPuzzleCorrect) {
       return true;
     } else {
-      return false;
+      return true;
     }
   }
 
@@ -358,6 +380,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
           this.user.score += 1;
           this.user.level += 1;
           this.selectedIndex = null;
+          this.findAlreadyFilledCells();
         });
       } else {
         if (++difficultyLevel < (this.game.length - 1)) {
@@ -366,6 +389,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
             this.user.score += 1;
             this.user.difficultyLevel += 1;
             this.selectedIndex = null;
+            this.findAlreadyFilledCells();
           });
           this.getTheme();
         } else {
@@ -412,14 +436,16 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
 
   void updateUserAfterGame() async {
     // create new stat
-    this.user.stats.add(Stats(
-        isCompetitive: false,
-        isCoop: false,
-        isMultiplayer: false,
-        isSinglePlayer: true,
-        level: this.getAdjustedLevel(this.user.level) - 1,
-        timeTaken: this.elapsedTime,
-        wonGame: true));
+    if (this.user.stats.length < 54) {
+      this.user.stats.add(Stats(
+          isCompetitive: false,
+          isCoop: false,
+          isMultiplayer: false,
+          isSinglePlayer: true,
+          level: this.getAdjustedLevel(this.user.level) - 1,
+          timeTaken: this.elapsedTime,
+          wonGame: true));
+    }
     // update user fields
     this.user.elapsedTime = null;
     this.user.backupBoard = [];

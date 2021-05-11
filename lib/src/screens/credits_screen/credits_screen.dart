@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sudoku/src/models/theme.dart';
 import 'package:sudoku/src/models/user.dart';
 import 'package:sudoku/src/providers/theme_provider.dart';
+import 'package:sudoku/src/screens/home_screen/home_screen.dart';
 import 'credits_screen_ui.dart';
 
 class CreditsScreen extends StatefulWidget {
@@ -40,5 +41,18 @@ abstract class CreditsScreenState extends State<CreditsScreen>
     setState(() {
       this.appTheme = this.themeProvider.getCurrentAppTheme(this.user);
     });
+  }
+
+  void endGame() async {
+    // go to home
+    goToHomeScreen();
+  }
+
+  void goToHomeScreen() {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (BuildContext context) {
+        return HomeScreen(user: this.user);
+      },
+    ));
   }
 }

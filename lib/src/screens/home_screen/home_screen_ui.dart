@@ -91,7 +91,9 @@ class HomeScreenView extends HomeScreenState {
           children: [
             ListTile(
               title: Text(
-                'currently on...',
+                listOfSinglePlayerStats.length >= 54
+                    ? 'game completed'
+                    : 'has completed...',
                 style: GoogleFonts.lato(
                     fontWeight: FontWeight.bold,
                     color: isMe(id)
