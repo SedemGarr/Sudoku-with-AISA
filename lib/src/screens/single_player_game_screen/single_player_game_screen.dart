@@ -439,7 +439,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
     if (this
             .user
             .stats
-            .where((element) => element['isSinglePlayer'] == true)
+            .where((element) => element['isSinglePlayer'])
             .toList()
             .length <
         54) {

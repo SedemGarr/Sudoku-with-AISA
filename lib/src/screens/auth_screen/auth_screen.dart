@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:package_info/package_info.dart';
 import 'package:sudoku/src/models/theme.dart';
 import 'package:sudoku/src/models/user.dart';
 import 'package:sudoku/src/providers/authentication_provider.dart';
@@ -28,6 +29,7 @@ abstract class AuthScreenState extends State<AuthScreen>
   Users user;
 
   AppTheme appTheme;
+  PackageInfo packageInfo;
 
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -47,8 +49,17 @@ abstract class AuthScreenState extends State<AuthScreen>
 
   @override
   void initState() {
-    initVariables();
+    this.initVariables();
+    this.getPackageInfo();
     super.initState();
+  }
+
+  Future<void> getPackageInfo() async {
+    PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+      setState(() {
+        this.packageInfo = packageInfo;
+      });
+    });
   }
 
   Future<void> getUser() async {

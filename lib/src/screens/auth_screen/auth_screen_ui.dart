@@ -8,6 +8,25 @@ import 'package:sudoku/src/screens/home_screen/home_screen.dart';
 import 'auth_screen.dart';
 
 class AuthScreenView extends AuthScreenState {
+  Widget buildCopyrightText() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Text(
+            packageInfo == null ? '' : 'version ${packageInfo.version}',
+            style: GoogleFonts.lato(color: appTheme.themeColor),
+          ),
+          Text(
+            'copyright © ${DateTime.now().year} half-full games. all rights reserved',
+            style: GoogleFonts.lato(
+                color: appTheme.themeColor, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget buildSignInButton() {
     return Container(
       child: OutlineButton.icon(
@@ -51,6 +70,7 @@ class AuthScreenView extends AuthScreenState {
               ? LoadingWidget(appTheme: appTheme, isDark: isDark)
               : buildSignInButton(),
           Spacer(),
+          buildCopyrightText()
         ],
       ),
     );
