@@ -60,14 +60,14 @@ class Difficulty {
     return levels;
   }
 
-  static Future<Level> regenerateLevel(
-      int difficultyLevel, int levelNumber, bool isFreePlay) async {
+  static Future<Level> regenerateLevel(int difficultyLevel, int levelNumber,
+      bool isFreePlay, String patternName) async {
     Level level = Level(
         board: [], levelNumber: levelNumber, solvedBoard: [], backupBoard: []);
 
     Puzzle sudoku = Puzzle(
       PuzzleOptions(
-        patternName: "Random",
+        patternName: patternName,
         difficulty: parseDifficultyLevel(
             isFreePlay ? generateRandomInt(0, 7) : difficultyLevel),
       ),

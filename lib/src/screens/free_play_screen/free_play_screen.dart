@@ -292,7 +292,7 @@ abstract class FreePlayScreenState extends State<FreePlayScreen>
 
   void regenerateBoard(int difficultyLevel, int levelNumber) async {
     Level level =
-        await Difficulty.regenerateLevel(difficultyLevel, levelNumber, true);
+        await Difficulty.regenerateLevel(difficultyLevel, levelNumber, true, 'Random');
 
     // reset timers
     this.stopStopWatchTimer();

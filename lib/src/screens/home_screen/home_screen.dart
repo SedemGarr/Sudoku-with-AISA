@@ -255,7 +255,7 @@ abstract class HomeScreenState extends State<HomeScreen>
 
   void goToFreePlayGameScreen() async {
     Level freePlayLevel =
-        await Difficulty.regenerateLevel(this.user.difficultyLevel, 300, true);
+        await Difficulty.regenerateLevel(this.user.difficultyLevel, 300, true, 'Random');
 
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (BuildContext context) {

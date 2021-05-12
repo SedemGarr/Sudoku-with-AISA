@@ -19,6 +19,12 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
   Users user;
   bool isDark;
 
+  bool isHosting = false;
+  bool isJoining = false;
+  String error = '';
+  String gameId;
+  String joiningGameId;
+
   AppTheme appTheme;
   ThemeProvider themeProvider = ThemeProvider();
 
