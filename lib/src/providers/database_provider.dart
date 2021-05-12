@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:path/path.dart' as Path;
 import 'package:sudoku/src/models/user.dart';
 import 'package:sudoku/src/providers/local_storage_provider.dart';
+import 'package:sudoku/src/providers/multiplayer_provider.dart';
 import 'package:sudoku/src/providers/user_state_update_provider.dart';
 
 class DatabaseProvider {
@@ -87,6 +88,10 @@ class DatabaseProvider {
     UserStateUpdateProvider userStateUpdateProvider = UserStateUpdateProvider();
     await userStateUpdateProvider.updateUser(user);
 
+    // update multiplayer records
+    MultiplayerProvider multiplayerProvider = MultiplayerProvider();
+    await multiplayerProvider.updateOngoingGames(user);
+
     return user;
   }
 
@@ -101,6 +106,10 @@ class DatabaseProvider {
 
     UserStateUpdateProvider userStateUpdateProvider = UserStateUpdateProvider();
     await userStateUpdateProvider.updateUser(user);
+
+    // update multiplayer records
+    MultiplayerProvider multiplayerProvider = MultiplayerProvider();
+    await multiplayerProvider.updateOngoingGames(user);
   }
 
   Future<List<Stats>> getUserStatistics(String uid) async {

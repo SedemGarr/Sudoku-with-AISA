@@ -1,62 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:sudoku/src/models/user.dart';
+
+import 'level.dart';
 
 class MultiplayerGame {
   String id;
   String hostId;
   String lastPlayer;
+  String createdOn;
+  String lastPlayedOn;
+  int elapsedTime;
   bool hasStarted;
   bool hasFinished;
   bool isCompetitive;
   bool isCooperative;
   List<dynamic> players;
-  List<dynamic> board;
-  List<dynamic> backupBoard;
-  List<dynamic> solvedBoard;
+  Level level;
 
   MultiplayerGame({
-    @required this.backupBoard,
-    @required this.board,
     @required this.hasFinished,
+    @required this.createdOn,
+    @required this.lastPlayer,
+    @required this.lastPlayedOn,
     @required this.hasStarted,
     @required this.hostId,
+    @required this.elapsedTime,
     @required this.id,
     @required this.isCompetitive,
     @required this.isCooperative,
     @required this.players,
-    @required this.solvedBoard,
+    @required this.level,
   });
 
   MultiplayerGame.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     hostId = json['hostId'];
+    createdOn = json['createdOn'];
+    lastPlayedOn = json['lastPlayedOn'];
     lastPlayer = json['lastPlayer'];
     hasStarted = json['hasStarted'];
+    elapsedTime = json['elapsedTime'];
     hasFinished = json['hasFinished'];
     isCompetitive = json['isCompetitive'];
     isCooperative = json['isCooperative'];
+    level = Level.fromJson(json['level']);
 
     if (json['players'] != null) {
-      players = <String>[];
+      players = <Users>[];
       json['players'].forEach((v) {
-        players.add(v);
-      });
-    }
-    if (json['board'] != null) {
-      board = [];
-      json['board'].forEach((v) {
-        board.add(v);
-      });
-    }
-    if (json['solvedBoard'] != null) {
-      solvedBoard = [];
-      json['solvedBoard'].forEach((v) {
-        solvedBoard.add(v);
-      });
-    }
-    if (json['backupBoard'] != null) {
-      backupBoard = [];
-      json['backupBoard'].forEach((v) {
-        backupBoard.add(v);
+        players.add(new Users.fromJson(v));
       });
     }
   }
@@ -65,24 +57,20 @@ class MultiplayerGame {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['hostId'] = this.hostId;
+    data['createdOn'] = this.createdOn;
+    data['lastPlayedOn'] = this.lastPlayedOn;
     data['lastPlayer'] = this.lastPlayer;
     data['hasFinished'] = this.hasFinished;
+    data['elapsedTime'] = this.elapsedTime;
     data['hasStarted'] = this.hasStarted;
     data['isCompetitive'] = this.isCompetitive;
     data['isCooperative'] = this.isCooperative;
+    data['level'] = this.level.toJson();
 
     if (this.players != null) {
       data['players'] = this.players.map((v) => v.toJson()).toList();
     }
-    if (this.board != null) {
-      data['board'] = this.board.map((v) => v).toList();
-    }
-    if (this.solvedBoard != null) {
-      data['solvedBoard'] = this.solvedBoard.map((v) => v).toList();
-    }
-    if (this.backupBoard != null) {
-      data['backupBoard'] = this.backupBoard.map((v) => v).toList();
-    }
+
     return data;
   }
 }

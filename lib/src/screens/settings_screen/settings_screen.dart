@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sudoku/src/providers/connectivity_provider.dart';
 import 'package:sudoku/src/providers/local_storage_provider.dart';
+import 'package:sudoku/src/providers/multiplayer_provider.dart';
 import 'package:sudoku/src/providers/user_state_update_provider.dart';
 import 'package:sudoku/src/providers/database_provider.dart';
 import 'settings_screen_ui.dart';
@@ -78,12 +79,15 @@ abstract class SettingsScreenState extends State<SettingsScreen>
   }
 
   // profile
-  void setUsername() {
+  void setUsername() async {
     setState(() {
       this.user.username = temporaryUsername;
     });
     // save
     this.userStateUpdateProvider.updateUser(this.user);
+    // update any ongoing multiplayer games
+    MultiplayerProvider multiplayerProvider = MultiplayerProvider();
+    await multiplayerProvider.updateOngoingGames(user);
     // disable editing
     this.disableEditing();
     // show snackbar

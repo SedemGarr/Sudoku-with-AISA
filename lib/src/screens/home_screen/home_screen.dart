@@ -100,9 +100,8 @@ abstract class HomeScreenState extends State<HomeScreen>
     }
   }
 
-  void processLeaderboardStreamData(snapshot) {
+  void processLeaderboardStreamData(AsyncSnapshot snapshot) {
     this.leaderboard = [];
-
     snapshot.data.docs.forEach((user) {
       this.leaderboard.add(Users(
           audioEnabled: user['audioEnabled'],
@@ -254,8 +253,8 @@ abstract class HomeScreenState extends State<HomeScreen>
   }
 
   void goToFreePlayGameScreen() async {
-    Level freePlayLevel =
-        await Difficulty.regenerateLevel(this.user.difficultyLevel, 300, true, 'Random');
+    Level freePlayLevel = await Difficulty.regenerateLevel(
+        this.user.difficultyLevel, 300, true, 'Random');
 
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (BuildContext context) {
