@@ -3,6 +3,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:sudoku/src/models/level.dart';
 import 'package:sudoku/src/models/theme.dart';
 import 'package:sudoku_api/sudoku_api.dart';
+import 'dart:math';
 
 class Difficulty {
   int id;
@@ -10,6 +11,11 @@ class Difficulty {
   String difficultyName;
   IconData icon;
   AppTheme theme;
+
+  static final random = new Random();
+  static int generateRandomInt(int min, int max) {
+    return min + random.nextInt(max - min);
+  }
 
   static int parseDifficultyLevel(int difficultyLevel) {
     if (difficultyLevel <= 1) {
@@ -55,14 +61,15 @@ class Difficulty {
   }
 
   static Future<Level> regenerateLevel(
-      int difficultyLevel, int levelNumber) async {
+      int difficultyLevel, int levelNumber, bool isFreePlay) async {
     Level level = Level(
         board: [], levelNumber: levelNumber, solvedBoard: [], backupBoard: []);
 
     Puzzle sudoku = Puzzle(
       PuzzleOptions(
         patternName: "Random",
-        difficulty: parseDifficultyLevel(difficultyLevel),
+        difficulty: parseDifficultyLevel(
+            isFreePlay ? generateRandomInt(0, 7) : difficultyLevel),
       ),
     );
 

@@ -330,7 +330,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
     if (isPuzzleComplete && isPuzzleCorrect) {
       return true;
     } else {
-      return true;
+      return false;
     }
   }
 
@@ -353,7 +353,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
 
   void regenerateBoard(int difficultyLevel, int levelNumber) async {
     Level level =
-        await Difficulty.regenerateLevel(difficultyLevel, levelNumber);
+        await Difficulty.regenerateLevel(difficultyLevel, levelNumber, false);
 
     // reset timers
     this.stopStopWatchTimer();
@@ -363,6 +363,8 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
     setState(() {
       this.game[this.user.difficultyLevel].levels[this.user.level] = level;
     });
+
+    this.findAlreadyFilledCells();
   }
 
   void goToHomeScreen() {

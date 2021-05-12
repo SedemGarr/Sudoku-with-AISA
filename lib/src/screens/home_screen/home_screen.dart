@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
+import 'package:sudoku/src/models/level.dart';
 import 'package:sudoku/src/models/theme.dart';
 import 'package:sudoku/src/models/user.dart';
 import 'package:sudoku/src/models/game.dart';
 import 'package:sudoku/src/models/difficulty.dart';
+import 'package:sudoku/src/screens/free_play_screen/free_play_screen.dart';
 import 'package:sudoku/src/screens/multiplayer_lobby_screen/multiplayer_lobby_screen.dart';
 import 'package:sudoku/src/screens/settings_screen/settings_screen.dart';
 import 'package:sudoku/src/screens/introduction_screen/introduction_screen.dart';
@@ -145,12 +147,22 @@ abstract class HomeScreenState extends State<HomeScreen>
     return difficultyLevel >= index ? true : false;
   }
 
-  void autoScrollToUserIndex() {
-    Future.delayed(Duration(seconds: 2), () {
+  void findMe() {
+    if (this.leaderboard.indexWhere((user) => user.id == this.user.id) != -1) {
       this.autoScrollController.scrollToIndex(
           this.leaderboard.indexWhere((user) => user.id == this.user.id),
           preferPosition: AutoScrollPosition.begin);
-    });
+    }
+  }
+
+  void autoScrollToUserIndex() {
+    if (this.leaderboard.indexWhere((user) => user.id == this.user.id) != -1) {
+      Future.delayed(Duration(seconds: 2), () {
+        this.autoScrollController.scrollToIndex(
+            this.leaderboard.indexWhere((user) => user.id == this.user.id),
+            preferPosition: AutoScrollPosition.begin);
+      });
+    }
   }
 
   String getInitials(String username) {
@@ -173,7 +185,7 @@ abstract class HomeScreenState extends State<HomeScreen>
         Scaffold.of(context).showSnackBar(SnackBar(
             backgroundColor: appTheme.themeColor,
             content: Text(
-              'welcome ' + this.user.username,
+              'welcome back, ' + this.user.username,
               style: GoogleFonts.lato(
                   color: this.isDark ? Colors.grey[900] : Colors.white),
               textAlign: TextAlign.center,
@@ -204,7 +216,11 @@ abstract class HomeScreenState extends State<HomeScreen>
 
   void startGame() {
     if (this.user.hasCompletedIntro) {
-      this.goToSinglePlayerGameScreen();
+      if (this.user.hasCompletedGame) {
+        this.goToFreePlayGameScreen();
+      } else {
+        this.goToSinglePlayerGameScreen();
+      }
     } else {
       this.goToIntroductionScreen();
     }
@@ -231,6 +247,23 @@ abstract class HomeScreenState extends State<HomeScreen>
           user: this.user,
           appTheme: this.appTheme,
           game: this.game,
+          isSavedGame: this.user.elapsedTime != null ? true : false,
+        );
+      },
+    ));
+  }
+
+  void goToFreePlayGameScreen() async {
+    Level freePlayLevel =
+        await Difficulty.regenerateLevel(this.user.difficultyLevel, 300, true);
+
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (BuildContext context) {
+        return FreePlayScreen(
+          isDark: this.isDark,
+          user: this.user,
+          appTheme: this.appTheme,
+          level: freePlayLevel,
           isSavedGame: this.user.elapsedTime != null ? true : false,
         );
       },

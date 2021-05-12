@@ -18,7 +18,7 @@ class SettingsScreenView extends SettingsScreenState {
               setTheme(theme);
             },
             child: AspectRatio(
-              aspectRatio: 1.5,
+              aspectRatio: 1.7,
               child: Container(
                 decoration: BoxDecoration(
                     color: theme.themeColor,
@@ -37,9 +37,6 @@ class SettingsScreenView extends SettingsScreenState {
 
       return Column(
         children: [
-          Divider(
-            color: this.appTheme.themeColor,
-          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: listOfThemeWidgets,
@@ -144,6 +141,7 @@ class SettingsScreenView extends SettingsScreenState {
             inactiveTrackColor: Colors.grey[300],
           ),
         ),
+        buildThemeSelectorRow()
       ],
     );
   }
@@ -608,7 +606,6 @@ class SettingsScreenView extends SettingsScreenState {
                             ],
                           ),
                         ),
-                        buildThemeSelectorRow()
                       ],
                     ),
             ),

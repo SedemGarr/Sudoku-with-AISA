@@ -86,7 +86,7 @@ class HomeScreenView extends HomeScreenState {
     return Container(
       child: Padding(
         padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * 0.12),
+            horizontal: MediaQuery.of(context).size.width * 0.05),
         child: Column(
           children: [
             ListTile(
@@ -137,6 +137,45 @@ class HomeScreenView extends HomeScreenState {
         ),
       ),
     );
+  }
+
+  Widget buildFreePlayStats(List<dynamic> stats, String id) {
+    List listOfFreePlayStats =
+        stats.where((element) => element['level'] == 300).toList();
+    return listOfFreePlayStats.length > 0
+        ? Container(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.05),
+              child: Column(
+                children: [
+                  ListTile(
+                    title: Text(
+                      'free-play games played...',
+                      style: GoogleFonts.lato(
+                          fontWeight: FontWeight.bold,
+                          color: isMe(id)
+                              ? isDark
+                                  ? Colors.grey[900]
+                                  : Colors.white
+                              : appTheme.themeColor),
+                    ),
+                    subtitle: Text(
+                      listOfFreePlayStats.length.toString(),
+                      style: GoogleFonts.lato(
+                          fontWeight: FontWeight.bold,
+                          color: isMe(id)
+                              ? isDark
+                                  ? Colors.grey[900]
+                                  : Colors.white
+                              : appTheme.themeColor),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
+        : Container();
   }
 
   Widget buildLeaderboard() {
@@ -261,6 +300,9 @@ class HomeScreenView extends HomeScreenState {
                                       children: [
                                         buildSinglePlayerStats(
                                             leaderboard[index].stats,
+                                            leaderboard[index].id),
+                                        buildFreePlayStats(
+                                            leaderboard[index].stats,
                                             leaderboard[index].id)
                                       ],
                                     )
@@ -342,6 +384,19 @@ class HomeScreenView extends HomeScreenState {
     );
   }
 
+  Widget buildFindMeButton() {
+    return FlatButton(
+      onPressed: () {
+        findMe();
+      },
+      child: Text(
+        'find me',
+        style: GoogleFonts.lato(
+            fontWeight: FontWeight.bold, color: appTheme.themeColor),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -357,6 +412,7 @@ class HomeScreenView extends HomeScreenState {
               children: [
                 !isLeaderboardExpanded ? buildTitleWidget() : Container(),
                 !isLeaderboardExpanded ? buildTitleSlider() : Container(),
+                isLeaderboardExpanded ? buildFindMeButton() : Container(),
                 buildLeaderboard(),
                 buildMenuIconsRow()
               ],
