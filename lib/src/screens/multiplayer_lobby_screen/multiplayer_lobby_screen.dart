@@ -69,7 +69,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
 
   void join() {
     if (!isJoining) {
-      multiplayerProvider.deleteGame(this.currentGame.id);
+      this.multiplayerProvider.deleteGame(this.currentGame.id);
       this.currentGame = null;
 
       setState(() {
@@ -81,17 +81,14 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
 
   Future<void> createGame() async {
     this.toggleLoading();
-
     this.currentGame = await multiplayerProvider.createGame(this.user);
-
     this.toggleLoading();
   }
 
   void processOngoingGamesStreamData(AsyncSnapshot snapshot) {
     this.onGoingGames = [];
-
     snapshot.data.docs.forEach((game) {
-      this.onGoingGames.add(MultiplayerGame.fromJson(game));
+      this.onGoingGames.add(MultiplayerGame.fromJson(game.data()));
     });
   }
 
@@ -111,6 +108,10 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
   }
 
   void goToHomeScreen() {
+    if (this.isHosting) {
+      this.multiplayerProvider.deleteGame(this.currentGame.id);
+    }
+
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (BuildContext context) {
         return HomeScreen(user: this.user);

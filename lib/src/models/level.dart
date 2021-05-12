@@ -16,7 +16,7 @@ class Level {
     }
     if (json['solvedBoard'] != null) {
       solvedBoard = new List<dynamic>();
-      json['solvedBboard'].forEach((v) {
+      json['solvedBoard'].forEach((v) {
         solvedBoard.add(v);
       });
     }
@@ -32,13 +32,13 @@ class Level {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['levelNumber'] = this.levelNumber;
     if (this.board != null) {
-      data['board'] = this.board.map((v) => v.toJson()).toList();
+      data['board'] = this.board.map((v) => v).toList();
     }
     if (this.board != null) {
-      data['solvedBoard'] = this.solvedBoard.map((v) => v.toJson()).toList();
+      data['solvedBoard'] = this.solvedBoard.map((v) => v).toList();
     }
     if (this.board != null) {
-      data['backupBoard'] = this.backupBoard.map((v) => v.toJson()).toList();
+      data['backupBoard'] = this.backupBoard.map((v) => v).toList();
     }
     return data;
   }

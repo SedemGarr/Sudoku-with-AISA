@@ -7,6 +7,7 @@ import 'package:sudoku/src/models/theme.dart';
 import 'package:sudoku/src/models/user.dart';
 import 'package:sudoku/src/models/game.dart';
 import 'package:sudoku/src/models/difficulty.dart';
+import 'package:sudoku/src/providers/connectivity_provider.dart';
 import 'package:sudoku/src/screens/free_play_screen/free_play_screen.dart';
 import 'package:sudoku/src/screens/multiplayer_lobby_screen/multiplayer_lobby_screen.dart';
 import 'package:sudoku/src/screens/settings_screen/settings_screen.dart';
@@ -44,6 +45,9 @@ abstract class HomeScreenState extends State<HomeScreen>
   DatabaseProvider databaseProvider = DatabaseProvider();
   ThemeProvider themeProvider = ThemeProvider();
   AutoScrollController autoScrollController = AutoScrollController();
+  ConnectivityProvider connectivityProvider = ConnectivityProvider();
+
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   initVariables() async {
     this.getDarkMode();
@@ -178,6 +182,17 @@ abstract class HomeScreenState extends State<HomeScreen>
     return initials;
   }
 
+  showNoInternetSnackBar() {
+    scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: appTheme.themeColor,
+        content: Text(
+          'it\'s better if you\'re connected to the internet for this. trust us',
+          style: GoogleFonts.lato(
+              color: this.isDark ? Colors.grey[900] : Colors.white),
+          textAlign: TextAlign.start,
+        )));
+  }
+
   void showGreeting() {
     if (widget.fromAuthScreen != null && widget.fromAuthScreen) {
       Future.delayed(Duration(seconds: 1), () {
@@ -193,12 +208,16 @@ abstract class HomeScreenState extends State<HomeScreen>
     }
   }
 
-  void goToMultiplayerLobbyScreen() {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (BuildContext context) {
-        return MultiplayerLobbyScreen(user: this.user);
-      },
-    ));
+  void goToMultiplayerLobbyScreen() async {
+    if (await this.connectivityProvider.isConnected()) {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (BuildContext context) {
+          return MultiplayerLobbyScreen(user: this.user);
+        },
+      ));
+    } else {
+      this.showNoInternetSnackBar();
+    }
   }
 
   void goToSettingsScreen() {
