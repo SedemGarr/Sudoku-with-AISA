@@ -10,6 +10,7 @@ import 'package:sudoku/src/providers/multiplayer_provider.dart';
 import 'package:sudoku/src/providers/theme_provider.dart';
 import 'package:sudoku/src/providers/user_state_update_provider.dart';
 import 'package:sudoku/src/screens/home_screen/home_screen.dart';
+import 'package:sudoku/src/screens/multiplayer_game_screen/multiplayer_game_screen.dart';
 import 'multiplayer_lobby_screen_ui.dart';
 
 class MultiplayerLobbyScreen extends StatefulWidget {
@@ -109,12 +110,14 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
 
   void hasGameStarted(MultiplayerGame currentGame, BuildContext context) {
     Future.delayed(Duration(seconds: 1), () {
-      // go to game screen
-      if (currentGame.players.length == 2) {
-        this.showGameStartingDialog(this.currentGame.players[this
-            .currentGame
-            .players
-            .indexWhere((user) => user.id != this.user.id)]);
+      if (currentGame.players.length > 1) {
+        // this.showGameStartingDialog(this.currentGame.players[this
+        //     .currentGame
+        //     .players
+        //     .indexWhere((user) => user.id != this.user.id)]);
+
+        // go to game screen
+        this.goToMultiplayerGameScreen();
       }
     });
   }
@@ -196,7 +199,17 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
   }
 
   joinGameWithCode() async {
-    await this.multiplayerProvider.joinGame(this.joiningGameId, this.user);
+    this.toggleLoading();
+    if (await this.multiplayerProvider.checkIfGameExists(this.joiningGameId)) {
+      this.currentGame = await this
+          .multiplayerProvider
+          .joinGame(this.joiningGameId, this.user);
+      this.goToMultiplayerGameScreen();
+    } else {
+      // game with that id does not exist
+      this.toggleLoading();
+      this.showNoSuchGameSnackBar();
+    }
   }
 
   void setCompetitiveSetting(bool value) async {
@@ -271,6 +284,30 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
             textAlign: TextAlign.start,
           )));
     });
+  }
+
+  showNoSuchGameSnackBar() {
+    Future.delayed(Duration(seconds: 1), () {
+      scaffoldKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: appTheme.themeColor,
+          content: Text(
+            'a game with that id was not found',
+            style: GoogleFonts.lato(
+                color: this.isDark ? Colors.grey[900] : Colors.white),
+            textAlign: TextAlign.start,
+          )));
+    });
+  }
+
+  void goToMultiplayerGameScreen() async {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (BuildContext context) {
+        return MultiplayerGameScreenScreen(
+          currentGame: this.currentGame,
+          user: this.user,
+        );
+      },
+    ));
   }
 
   void goToHomeScreen() async {

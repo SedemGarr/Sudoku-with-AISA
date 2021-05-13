@@ -126,7 +126,15 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
 
   Widget buildJoining() {
     return isLoading
-        ? LoadingWidget(appTheme: appTheme, isDark: user.isDark)
+        ? Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.25),
+                child: LoadingWidget(appTheme: appTheme, isDark: user.isDark),
+              ),
+            ],
+          )
         : Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

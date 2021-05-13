@@ -8,6 +8,7 @@ class MultiplayerGame {
   String hostId;
   String lastPlayer;
   String createdOn;
+  String preferedPattern;
   String lastPlayedOn;
   int elapsedTime;
   int difficulty;
@@ -23,6 +24,7 @@ class MultiplayerGame {
     @required this.hasFinished,
     @required this.createdOn,
     @required this.lastPlayer,
+    @required this.preferedPattern,
     @required this.lastPlayedOn,
     @required this.hasStarted,
     @required this.hostId,
@@ -40,6 +42,7 @@ class MultiplayerGame {
     createdOn = json['createdOn'];
     lastPlayedOn = json['lastPlayedOn'];
     lastPlayer = json['lastPlayer'];
+    preferedPattern = json['preferedPattern'];
     hasStarted = json['hasStarted'];
     elapsedTime = json['elapsedTime'];
     difficulty = json['difficulty'];
@@ -65,6 +68,7 @@ class MultiplayerGame {
     data['lastPlayer'] = this.lastPlayer;
     data['hasFinished'] = this.hasFinished;
     data['elapsedTime'] = this.elapsedTime;
+    data['preferedPattern'] = this.preferedPattern;
     data['difficulty'] = this.difficulty;
     data['hasStarted'] = this.hasStarted;
     data['isCompetitive'] = this.isCompetitive;

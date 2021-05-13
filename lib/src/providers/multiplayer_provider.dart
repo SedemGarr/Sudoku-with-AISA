@@ -6,6 +6,13 @@ import 'package:sudoku/src/models/user.dart';
 class MultiplayerProvider {
   final firestore = FirebaseFirestore.instance;
 
+  Stream getCurrentGame(String gameId) {
+    return firestore
+        .collection('games')
+        .where('id', isEqualTo: gameId)
+        .snapshots();
+  }
+
   Stream getOngoingGames(String id) {
     return firestore
         .collection('games')
@@ -20,6 +27,15 @@ class MultiplayerProvider {
         .snapshots();
   }
 
+  Future<void> startGameOnInit(MultiplayerGame currentGame) async {
+    currentGame.hasStarted = true;
+
+    await firestore
+        .collection('games')
+        .doc(currentGame.id)
+        .set(currentGame.toJson(), SetOptions(merge: true));
+  }
+
   Future<MultiplayerGame> createGame(Users user) async {
     var gameRef = firestore.collection("games");
 
@@ -29,6 +45,7 @@ class MultiplayerProvider {
         hasFinished: false,
         difficulty: user.freePlayDifficulty,
         hasStarted: false,
+        preferedPattern: user.preferedPattern,
         hostId: user.id,
         id: gameRef.doc().id,
         isCompetitive: false,
@@ -46,10 +63,23 @@ class MultiplayerProvider {
     return game;
   }
 
-  Future<void> joinGame(String gameId, Users user) async {
+  Future<bool> checkIfGameExists(String gameId) async {
+    var doc = await firestore.collection('games').doc(gameId).get();
+
+    if (doc.exists) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<MultiplayerGame> joinGame(String gameId, Users user) async {
     firestore.collection('games').doc(gameId).update({
       "players": FieldValue.arrayUnion([user.toJson()])
     });
+
+    return MultiplayerGame.fromJson(
+        (await firestore.collection('games').doc(gameId).get()).data());
   }
 
   Future<void> deleteGame(String gameId) async {
