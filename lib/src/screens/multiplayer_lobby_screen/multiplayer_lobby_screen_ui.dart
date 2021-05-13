@@ -1,3 +1,4 @@
+import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
@@ -141,29 +142,124 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
               mainAxisSize: MainAxisSize.min,
               children: [
                 buildJoinGameForm(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    onGoingGames.length != 0 ? 'currently running games' : '',
-                    style: GoogleFonts.lato(
-                        color: appTheme.themeColor,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
                 Flexible(
                   child: StreamBuilder(
-                    stream: multiplayerProvider.getOngoingGames(this.user.id),
+                    stream: multiplayerProvider.getOngoingGames(user),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData || snapshot.data == null) {
                         return Container();
                       }
                       processOngoingGamesStreamData(snapshot);
-                      if (onGoingGames.length == 0) {
-                        buildNoGames();
-                      }
-                      return Container(
-                        child: ListTile(),
-                        // add end game to the trailing if user is the host
+                      return Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              onGoingGames.length != 0
+                                  ? 'currently running games'
+                                  : '',
+                              style: GoogleFonts.lato(
+                                  color: appTheme.themeColor,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Container(
+                              child: onGoingGames.length == 0
+                                  ? buildNoGames()
+                                  : ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: onGoingGames.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: ListTile(
+                                            onTap: () {
+                                              showJoiningGameFromListDialog(
+                                                  onGoingGames[index]);
+                                            },
+                                            dense: true,
+                                            tileColor: appTheme.themeColor,
+                                            leading: CircularProfileAvatar(
+                                              onGoingGames[index]
+                                                  .players[onGoingGames[index]
+                                                      .players
+                                                      .indexWhere((element) =>
+                                                          element.id !=
+                                                          user.id)]
+                                                  .profileUrl,
+                                              radius: 20,
+                                              backgroundColor: isDark
+                                                  ? Colors.grey[900]
+                                                  : Colors.white,
+                                              initialsText: Text(
+                                                getInitials(onGoingGames[index]
+                                                    .players[onGoingGames[index]
+                                                        .players
+                                                        .indexWhere((element) =>
+                                                            element.id !=
+                                                            user.id)]
+                                                    .username),
+                                                style: GoogleFonts.lato(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14,
+                                                  color: appTheme.themeColor,
+                                                ),
+                                              ),
+                                              borderColor: Colors.transparent,
+                                              elevation: 0.0,
+                                              foregroundColor:
+                                                  Colors.transparent,
+                                              cacheImage: true,
+                                              showInitialTextAbovePicture:
+                                                  false,
+                                            ),
+                                            title: Text(
+                                              onGoingGames[index]
+                                                      .players[
+                                                          onGoingGames[index]
+                                                              .players
+                                                              .indexWhere(
+                                                                  (element) =>
+                                                                      element
+                                                                          .id !=
+                                                                      user.id)]
+                                                      .username +
+                                                  ' and you',
+                                              style: GoogleFonts.lato(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: isDark
+                                                      ? Colors.grey[900]
+                                                      : Colors.white),
+                                            ),
+                                            subtitle: Text(
+                                              formatDateTime(onGoingGames[index]
+                                                  .lastPlayedOn),
+                                              style: GoogleFonts.lato(
+                                                  color: isDark
+                                                      ? Colors.grey[900]
+                                                      : Colors.white),
+                                            ),
+                                            trailing: onGoingGames[index]
+                                                        .hostId ==
+                                                    user.id
+                                                ? IconButton(
+                                                    icon: Icon(LineIcons.trash,
+                                                        color: isDark
+                                                            ? Colors.grey[900]
+                                                            : Colors.white),
+                                                    onPressed: () {
+                                                      showDeleteGameDialog(
+                                                          onGoingGames[index]);
+                                                    })
+                                                : null,
+                                          ),
+                                        );
+                                      })
+                              // add end game to the trailing if user is the host
+                              ),
+                        ],
                       );
                     },
                   ),

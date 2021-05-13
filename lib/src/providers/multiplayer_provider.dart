@@ -13,10 +13,10 @@ class MultiplayerProvider {
         .snapshots();
   }
 
-  Stream getOngoingGames(String id) {
+  Stream getOngoingGames(Users user) {
     return firestore
         .collection('games')
-        .where('players', arrayContains: id)
+        // .where('players', arrayContains: user)
         .snapshots();
   }
 
@@ -41,12 +41,14 @@ class MultiplayerProvider {
 
     MultiplayerGame game = MultiplayerGame(
         level: null,
-        elapsedTime: 0,
+        elapsedTime: null,
         hasFinished: false,
         difficulty: user.freePlayDifficulty,
         hasStarted: false,
         preferedPattern: user.preferedPattern,
         hostId: user.id,
+        hostSelectedIndex: null,
+        participantSelectedIndex: null,
         id: gameRef.doc().id,
         isCompetitive: false,
         isCooperative: true,

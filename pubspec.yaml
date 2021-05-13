@@ -48,6 +48,7 @@ dependencies:
   firebase_storage: ^5.2.0
   package_info: ^0.4.3+4
   clipboard: ^0.1.2+8
+  jiffy: ^2.2.0
 
 dev_dependencies:
   flutter_test:

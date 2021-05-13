@@ -2,6 +2,7 @@ import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:sudoku/src/models/difficulty.dart';
 import 'package:sudoku/src/models/multiplayer.dart';
 import 'package:sudoku/src/models/theme.dart';
@@ -11,6 +12,7 @@ import 'package:sudoku/src/providers/theme_provider.dart';
 import 'package:sudoku/src/providers/user_state_update_provider.dart';
 import 'package:sudoku/src/screens/home_screen/home_screen.dart';
 import 'package:sudoku/src/screens/multiplayer_game_screen/multiplayer_game_screen.dart';
+import 'package:wakelock/wakelock.dart';
 import 'multiplayer_lobby_screen_ui.dart';
 
 class MultiplayerLobbyScreen extends StatefulWidget {
@@ -72,6 +74,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
       });
 
       this.createGame();
+      this.enableWakeLock();
     }
   }
 
@@ -85,6 +88,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
         isHosting = !isHosting;
       });
     }
+    this.disableWakeLock();
   }
 
   Future<void> createGame() async {
@@ -97,8 +101,17 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
 
   void processOngoingGamesStreamData(AsyncSnapshot snapshot) {
     this.onGoingGames = [];
+    List<MultiplayerGame> tempArray = [];
     snapshot.data.docs.forEach((game) {
-      this.onGoingGames.add(MultiplayerGame.fromJson(game.data()));
+      tempArray.add(MultiplayerGame.fromJson(game.data()));
+      if (tempArray[tempArray.length - 1]
+              .players
+              .where((element) => element.id == this.user.id)
+              .toList()
+              .length >
+          0) {
+        this.onGoingGames.add(tempArray[tempArray.length - 1]);
+      }
     });
   }
 
@@ -212,6 +225,19 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
     }
   }
 
+  joinGameFromList(MultiplayerGame game) async {
+    this.toggleLoading();
+    if (await this.multiplayerProvider.checkIfGameExists(game.id)) {
+      this.currentGame =
+          await this.multiplayerProvider.joinGame(game.id, this.user);
+      this.goToMultiplayerGameScreen();
+    } else {
+      // game with that id does not exist
+      this.toggleLoading();
+      this.showNoSuchGameSnackBar();
+    }
+  }
+
   void setCompetitiveSetting(bool value) async {
     if (value) {
       setState(() {
@@ -299,12 +325,22 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
     });
   }
 
+  void enableWakeLock() {
+    Wakelock.enable();
+  }
+
+  void disableWakeLock() {
+    Wakelock.disable();
+  }
+
   void goToMultiplayerGameScreen() async {
+    disableWakeLock();
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (BuildContext context) {
         return MultiplayerGameScreenScreen(
           currentGame: this.currentGame,
           user: this.user,
+          isSavedGame: this.currentGame.elapsedTime != null,
         );
       },
     ));
@@ -312,6 +348,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
 
   void goToHomeScreen() async {
     this.toggleLoading();
+    this.disableWakeLock();
     if (this.isHosting) {
       await this.multiplayerProvider.deleteGame(this.currentGame.id);
     }
@@ -321,5 +358,103 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
         return HomeScreen(user: this.user);
       },
     ));
+  }
+
+  String formatDateTime(String datetime) {
+    return Jiffy(datetime).fromNow();
+  }
+
+  showJoiningGameFromListDialog(MultiplayerGame game) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+            title: Text(
+                'rejoin this game with ' +
+                    game
+                        .players[game.players
+                            .indexWhere((element) => element.id != user.id)]
+                        .username +
+                    '?',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.lato(
+                    color: isDark ? Colors.white : Colors.grey[900])),
+            actions: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('oops!',
+                          textAlign: TextAlign.end,
+                          style: GoogleFonts.lato(
+                              color:
+                                  isDark ? Colors.white : Colors.grey[900]))),
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      this.joinGameFromList(game);
+                    },
+                    child: Text(
+                      'yes please',
+                      textAlign: TextAlign.end,
+                      style: GoogleFonts.lato(color: appTheme.themeColor),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        });
+  }
+
+  showDeleteGameDialog(MultiplayerGame game) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+            title: Text(
+                'end this game with ' +
+                    game
+                        .players[game.players
+                            .indexWhere((element) => element.id != user.id)]
+                        .username +
+                    '?',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.lato(
+                    color: isDark ? Colors.white : Colors.grey[900])),
+            actions: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('oops!',
+                          textAlign: TextAlign.end,
+                          style: GoogleFonts.lato(
+                              color:
+                                  isDark ? Colors.white : Colors.grey[900]))),
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      this.multiplayerProvider.deleteGame(game.id);
+                    },
+                    child: Text(
+                      'mmhm, end it',
+                      textAlign: TextAlign.end,
+                      style: GoogleFonts.lato(color: appTheme.themeColor),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        });
   }
 }

@@ -274,7 +274,7 @@ abstract class FreePlayScreenState extends State<FreePlayScreen>
     if (isPuzzleComplete && isPuzzleCorrect) {
       return true;
     } else {
-      return true;
+      return false;
     }
   }
 
