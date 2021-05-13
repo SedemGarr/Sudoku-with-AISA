@@ -199,7 +199,10 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
                     .board[this.selectedIndex] ==
                 value &&
             this.selectedIndex != index) {
-          return this.appTheme.themeColor[100];
+          return Difficulty.isConflicting(
+                  this.selectedIndex, index, user.hasTrainingWheels)
+              ? this.appTheme.partnerColor
+              : this.appTheme.themeColor[100];
         }
         // if cell is selected
         if (this.selectedIndex == index) {
@@ -362,6 +365,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
 
     setState(() {
       this.game[this.user.difficultyLevel].levels[this.user.level] = level;
+      this.selectedIndex = null;
     });
 
     this.findAlreadyFilledCells();

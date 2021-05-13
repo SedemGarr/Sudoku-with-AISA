@@ -168,5 +168,40 @@ class Difficulty {
     }
   }
 
-  
+  static bool isConflicting(
+      int selectedIndex, int index, bool hasTrainingWheels) {
+    if (hasTrainingWheels) {
+      return false;
+    }
+
+    int row = (index / 9).floor();
+    int col = (index % 9).floor();
+
+    int rowS = (selectedIndex / 9).floor();
+    int colS = (selectedIndex % 9).floor();
+
+    if (row == rowS) {
+      return true;
+    }
+
+    if (col == colS) {
+      return true;
+    }
+
+    // wrong formulas
+    // int gridIndex = ((col / 3) + (row / 3) * 3).floor();
+    // int gridIndexS = ((colS / 3) + (rowS / 3) * 3).floor();
+
+    int gridIndex =
+        (((index % 9).floor() / 3) + 3 * (index / (9 * 3)).floor()).floor();
+    int gridIndexS = (((selectedIndex % 9).floor() / 3) +
+            3 * (selectedIndex / (9 * 3)).floor())
+        .floor();
+
+    if (gridIndex == gridIndexS) {
+      return true;
+    }
+
+    return false;
+  }
 }

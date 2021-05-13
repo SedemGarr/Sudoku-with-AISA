@@ -211,7 +211,10 @@ abstract class MultiplayerGameScreenScreenState
         // as selected cell
         if (this.currentGame.level.board[this.selectedIndex] == value &&
             this.selectedIndex != index) {
-          return this.appTheme.themeColor[100];
+          return Difficulty.isConflicting(
+                  this.selectedIndex, index, user.hasTrainingWheels)
+              ? this.appTheme.partnerColor
+              : this.appTheme.themeColor[100];
         }
         // if cell is selected
         if (this.selectedIndex == index) {
@@ -239,9 +242,18 @@ abstract class MultiplayerGameScreenScreenState
                   ? Colors.grey[900]
                   : Colors.white;
     } else {
-      return isSelectedByOther(index)
-          ? this.appTheme.partnerColor
-          : this.appTheme.themeColor;
+      if (this.selectedIndex != null) {
+        return isSelectedByOther(index)
+            ? Difficulty.isConflicting(
+                    this.selectedIndex, index, this.user.hasTrainingWheels)
+                ? this.appTheme.themeColor
+                : this.appTheme.partnerColor
+            : this.appTheme.themeColor;
+      } else {
+        return isSelectedByOther(index)
+            ? this.appTheme.partnerColor
+            : this.appTheme.themeColor;
+      }
     }
   }
 

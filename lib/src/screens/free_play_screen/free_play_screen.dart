@@ -177,7 +177,10 @@ abstract class FreePlayScreenState extends State<FreePlayScreen>
         // as selected cell
         if (this.level.board[this.selectedIndex] == value &&
             this.selectedIndex != index) {
-          return this.appTheme.themeColor[100];
+          return Difficulty.isConflicting(
+                  this.selectedIndex, index, user.hasTrainingWheels)
+              ? this.appTheme.partnerColor
+              : this.appTheme.themeColor[100];
         }
         // if cell is selected
         if (this.selectedIndex == index) {
