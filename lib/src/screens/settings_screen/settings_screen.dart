@@ -211,31 +211,31 @@ abstract class SettingsScreenState extends State<SettingsScreen>
         });
         await this.userStateUpdateProvider.updateUser(this.user);
         break;
-      case 'Spring':
+      case 'spring':
         setState(() {
-          preferedPattern = 'Spring';
-          this.user.preferedPattern = 'Spring';
+          preferedPattern = 'spring';
+          this.user.preferedPattern = 'spring';
         });
         await this.userStateUpdateProvider.updateUser(this.user);
         break;
-      case 'Summer':
+      case 'summer':
         setState(() {
-          preferedPattern = 'Summer';
-          this.user.preferedPattern = 'Summer';
+          preferedPattern = 'summer';
+          this.user.preferedPattern = 'summer';
         });
         await this.userStateUpdateProvider.updateUser(this.user);
         break;
-      case 'Fall':
+      case 'fall':
         setState(() {
-          preferedPattern = 'Fall';
-          this.user.preferedPattern = 'Fall';
+          preferedPattern = 'fall';
+          this.user.preferedPattern = 'fall';
         });
         await this.userStateUpdateProvider.updateUser(this.user);
         break;
-      case 'Winter':
+      case 'winter':
         setState(() {
-          preferedPattern = 'Winter';
-          this.user.preferedPattern = 'Winter';
+          preferedPattern = 'winter';
+          this.user.preferedPattern = 'winter';
         });
         await this.userStateUpdateProvider.updateUser(this.user);
         break;

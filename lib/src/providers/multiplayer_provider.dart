@@ -50,6 +50,14 @@ class MultiplayerProvider {
     await firestore.collection('games').doc(gameId).delete();
   }
 
+  Future<void> updateGameSettings(MultiplayerGame currentGame) async {
+    // make a transaction
+    await firestore
+        .collection('games')
+        .doc(currentGame.id)
+        .set(currentGame.toJson(), SetOptions(merge: true));
+  }
+
   Future<void> updateOngoingGames(Users user) async {
     await firestore
         .collection('games')

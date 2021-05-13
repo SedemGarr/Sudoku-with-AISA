@@ -1,11 +1,13 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sudoku/src/models/difficulty.dart';
 import 'package:sudoku/src/models/multiplayer.dart';
 import 'package:sudoku/src/models/theme.dart';
 import 'package:sudoku/src/models/user.dart';
 import 'package:sudoku/src/providers/multiplayer_provider.dart';
 import 'package:sudoku/src/providers/theme_provider.dart';
+import 'package:sudoku/src/providers/user_state_update_provider.dart';
 import 'package:sudoku/src/screens/home_screen/home_screen.dart';
 import 'multiplayer_lobby_screen_ui.dart';
 
@@ -28,6 +30,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
   bool isJoining = true;
   String error = '';
   String joiningGameId;
+  String preferedPattern;
 
   List<MultiplayerGame> onGoingGames = [];
 
@@ -39,10 +42,12 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
   final formKey = GlobalKey<FormState>();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   MultiplayerProvider multiplayerProvider = MultiplayerProvider();
+  UserStateUpdateProvider userStateUpdateProvider = UserStateUpdateProvider();
 
   void initVariables() {
     this.user = widget.user;
     this.isDark = widget.user.isDark;
+    this.preferedPattern = this.user.preferedPattern;
     this.appTheme = this.themeProvider.getCurrentAppTheme(this.user);
   }
 
@@ -103,12 +108,74 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
 
   void hasGameStarted(MultiplayerGame currentGame) {
     if (currentGame.players.length == 2) {
-      // go to game screen
+      // show dialog where user cannot go back
+      // launch in some seconds
     }
   }
 
   void submitAndJoinGame() {
     if (formKey.currentState.validate()) {}
+  }
+
+  void setCompetitiveSetting(bool value) async {
+    if (value) {
+      setState(() {
+        this.currentGame.isCompetitive = true;
+        this.currentGame.isCooperative = false;
+      });
+      this.multiplayerProvider.updateGameSettings(this.currentGame);
+    } else {
+      setState(() {
+        this.currentGame.isCompetitive = false;
+        this.currentGame.isCooperative = true;
+      });
+      this.multiplayerProvider.updateGameSettings(this.currentGame);
+    }
+  }
+
+  Future<void> setBoardPatterns(String pattern) async {
+    switch (pattern) {
+      case 'Random':
+        setState(() {
+          this.preferedPattern = 'Random';
+        });
+        this.currentGame.level = await Difficulty.regenerateLevel(
+            currentGame.difficulty, 400, preferedPattern);
+        await this.multiplayerProvider.updateGameSettings(this.currentGame);
+        break;
+      case 'spring':
+        setState(() {
+          this.preferedPattern = 'spring';
+        });
+        this.currentGame.level = await Difficulty.regenerateLevel(
+            currentGame.difficulty, 400, preferedPattern);
+        await this.multiplayerProvider.updateGameSettings(this.currentGame);
+        break;
+      case 'summer':
+        setState(() {
+          this.preferedPattern = 'summer';
+        });
+        this.currentGame.level = await Difficulty.regenerateLevel(
+            currentGame.difficulty, 400, preferedPattern);
+        await this.multiplayerProvider.updateGameSettings(this.currentGame);
+        break;
+      case 'fall':
+        setState(() {
+          this.preferedPattern = 'fall';
+        });
+        this.currentGame.level = await Difficulty.regenerateLevel(
+            currentGame.difficulty, 400, preferedPattern);
+        await this.multiplayerProvider.updateGameSettings(this.currentGame);
+        break;
+      case 'winter':
+        setState(() {
+          this.preferedPattern = 'winter';
+        });
+        this.currentGame.level = await Difficulty.regenerateLevel(
+            currentGame.difficulty, 400, preferedPattern);
+        await this.multiplayerProvider.updateGameSettings(this.currentGame);
+        break;
+    }
   }
 
   showCopiedSnackBar() {
@@ -122,9 +189,10 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
         )));
   }
 
-  void goToHomeScreen() {
+  void goToHomeScreen() async {
+    this.toggleLoading();
     if (this.isHosting) {
-      this.multiplayerProvider.deleteGame(this.currentGame.id);
+      await this.multiplayerProvider.deleteGame(this.currentGame.id);
     }
 
     Navigator.of(context).pushReplacement(MaterialPageRoute(

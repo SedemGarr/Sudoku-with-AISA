@@ -74,7 +74,7 @@ class Difficulty {
       PuzzleOptions(
         patternName: patternName,
         difficulty: parseDifficultyLevel(difficultyLevel) == 10
-            ? generateRandomInt(0, 6)
+            ? parseDifficultyLevel(generateRandomInt(0, 6))
             : parseDifficultyLevel(difficultyLevel),
       ),
     );

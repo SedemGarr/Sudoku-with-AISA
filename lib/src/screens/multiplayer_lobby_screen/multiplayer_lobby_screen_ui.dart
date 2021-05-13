@@ -206,22 +206,194 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                   ),
                 ),
                 Flexible(
-                    child: StreamBuilder(
-                        stream:
-                            multiplayerProvider.getStartingGame(currentGame.id),
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
-                          if (!snapshot.hasData || snapshot.data == null) {
-                            return Container();
-                          }
-                          processStartingGameStreamData(snapshot);
-                          return Column(
-                            children: [
-                              // build options
-                              ListTile(),
-                            ],
-                          );
-                        }))
+                  child: StreamBuilder(
+                      stream:
+                          multiplayerProvider.getStartingGame(currentGame.id),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (!snapshot.hasData || snapshot.data == null) {
+                          return Container();
+                        }
+                        processStartingGameStreamData(snapshot);
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Divider(
+                              color: appTheme.themeColor,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'game options',
+                                style: GoogleFonts.lato(
+                                    color: appTheme.themeColor,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    'cooperative',
+                                    style: GoogleFonts.lato(
+                                        color: appTheme.themeColor,
+                                        fontWeight: currentGame.isCooperative
+                                            ? FontWeight.bold
+                                            : FontWeight.normal),
+                                  ),
+                                  Switch(
+                                    value: currentGame.isCompetitive,
+                                    onChanged: (value) {
+                                      setCompetitiveSetting(value);
+                                    },
+                                    activeTrackColor: appTheme.themeColor[300],
+                                    activeColor: appTheme.themeColor,
+                                    inactiveThumbColor: Colors.grey,
+                                    inactiveTrackColor: Colors.grey[300],
+                                  ),
+                                  Text(
+                                    'competitive',
+                                    style: GoogleFonts.lato(
+                                        color: appTheme.themeColor,
+                                        fontWeight: currentGame.isCompetitive
+                                            ? FontWeight.bold
+                                            : FontWeight.normal),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Wrap(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0),
+                                    child: ChoiceChip(
+                                      avatar: Icon(LineIcons.dice),
+                                      label: Text('random'),
+                                      labelStyle: GoogleFonts.lato(
+                                          color: isDark
+                                              ? Colors.grey[900]
+                                              : Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                      backgroundColor: appTheme.themeColor,
+                                      selected:
+                                          preferedPattern == 'Random',
+                                      selectedColor: appTheme.themeColor[900],
+                                      elevation: 0,
+                                      disabledColor: appTheme.themeColor,
+                                      onSelected: (value) {
+                                        if (preferedPattern != 'Random') {
+                                          setBoardPatterns('Random');
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0),
+                                    child: ChoiceChip(
+                                      avatar: Icon(LineIcons.seedling),
+                                      label: Text('spring'),
+                                      labelStyle: GoogleFonts.lato(
+                                          color: isDark
+                                              ? Colors.grey[900]
+                                              : Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                      backgroundColor: appTheme.themeColor,
+                                      selected:
+                                          preferedPattern == 'spring',
+                                      selectedColor: appTheme.themeColor[900],
+                                      elevation: 0,
+                                      disabledColor: appTheme.themeColor,
+                                      onSelected: (value) {
+                                        if (preferedPattern != 'spring') {
+                                          setBoardPatterns('spring');
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0),
+                                    child: ChoiceChip(
+                                      avatar: Icon(LineIcons.sunAlt),
+                                      label: Text('summer'),
+                                      labelStyle: GoogleFonts.lato(
+                                          color: isDark
+                                              ? Colors.grey[900]
+                                              : Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                      backgroundColor: appTheme.themeColor,
+                                      selected:
+                                          preferedPattern == 'summer',
+                                      selectedColor: appTheme.themeColor[900],
+                                      elevation: 0,
+                                      disabledColor: appTheme.themeColor,
+                                      onSelected: (value) {
+                                        if (preferedPattern != 'summer') {
+                                          setBoardPatterns('summer');
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0),
+                                    child: ChoiceChip(
+                                      avatar: Icon(LineIcons.leaf),
+                                      label: Text('fall'),
+                                      labelStyle: GoogleFonts.lato(
+                                          color: isDark
+                                              ? Colors.grey[900]
+                                              : Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                      backgroundColor: appTheme.themeColor,
+                                      selected: preferedPattern == 'fall',
+                                      selectedColor: appTheme.themeColor[900],
+                                      elevation: 0,
+                                      disabledColor: appTheme.themeColor,
+                                      onSelected: (value) {
+                                        if (preferedPattern != 'fall') {
+                                          setBoardPatterns('fall');
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0),
+                                    child: ChoiceChip(
+                                      avatar: Icon(LineIcons.snowflake),
+                                      label: Text('winter'),
+                                      labelStyle: GoogleFonts.lato(
+                                          color: isDark
+                                              ? Colors.grey[900]
+                                              : Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                      backgroundColor: appTheme.themeColor,
+                                      selected:
+                                          preferedPattern == 'winter',
+                                      selectedColor: appTheme.themeColor[900],
+                                      elevation: 0,
+                                      disabledColor: appTheme.themeColor,
+                                      onSelected: (value) {
+                                        if (preferedPattern != 'winter') {
+                                          setBoardPatterns('winter');
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
+                ),
               ],
             ),
     );
