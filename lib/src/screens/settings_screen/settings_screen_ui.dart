@@ -8,44 +8,40 @@ import 'package:line_icons/line_icons.dart';
 
 class SettingsScreenView extends SettingsScreenState {
   Widget buildThemeSelectorRow() {
-    if (this.user.hasCompletedGame) {
-      List<Widget> listOfThemeWidgets = [];
+    List<Widget> listOfThemeWidgets = [];
 
-      AppTheme.themes.forEach((theme) {
-        listOfThemeWidgets.add(Expanded(
-          child: GestureDetector(
-            onTap: () {
-              setTheme(theme);
-            },
-            child: AspectRatio(
-              aspectRatio: 1.7,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: theme.themeColor,
-                    border: Border.all(
-                        width: 2,
-                        color: this.appTheme.themeColor == theme.themeColor
-                            ? isDark
-                                ? Colors.white
-                                : Colors.grey[900]
-                            : theme.themeColor)),
-              ),
+    AppTheme.themes.forEach((theme) {
+      listOfThemeWidgets.add(Expanded(
+        child: GestureDetector(
+          onTap: () {
+            setTheme(theme);
+          },
+          child: AspectRatio(
+            aspectRatio: 1.7,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: theme.themeColor,
+                  border: Border.all(
+                      width: 2,
+                      color: this.appTheme.themeColor == theme.themeColor
+                          ? isDark
+                              ? Colors.white
+                              : Colors.grey[900]
+                          : theme.themeColor)),
             ),
           ),
-        ));
-      });
+        ),
+      ));
+    });
 
-      return Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: listOfThemeWidgets,
-          ),
-        ],
-      );
-    } else {
-      return Container();
-    }
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: listOfThemeWidgets,
+        ),
+      ],
+    );
   }
 
   Widget buildAppearanceSettings() {
@@ -141,7 +137,41 @@ class SettingsScreenView extends SettingsScreenState {
             inactiveTrackColor: Colors.grey[300],
           ),
         ),
-        buildThemeSelectorRow()
+        !user.hasCompletedGame
+            ? ExpansionTile(
+                leading: GestureDetector(
+                  onTap: () {
+                    showHelpSnackBar(2);
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.info,
+                        color: appTheme.themeColor,
+                      ),
+                    ],
+                  ),
+                ),
+                title: Text(
+                  'select theme',
+                  style: GoogleFonts.lato(
+                      color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                ),
+                subtitle: Text(
+                  'select a theme for the entire app',
+                  style: GoogleFonts.lato(
+                    color: appTheme.themeColor,
+                  ),
+                ),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: buildThemeSelectorRow(),
+                  )
+                ],
+              )
+            : Container()
       ],
     );
   }
@@ -160,7 +190,7 @@ class SettingsScreenView extends SettingsScreenState {
         ListTile(
           leading: GestureDetector(
             onTap: () {
-              showHelpSnackBar(2);
+              showHelpSnackBar(3);
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -202,7 +232,7 @@ class SettingsScreenView extends SettingsScreenState {
         ListTile(
           leading: GestureDetector(
             onTap: () {
-              showHelpSnackBar(3);
+              showHelpSnackBar(4);
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -241,6 +271,81 @@ class SettingsScreenView extends SettingsScreenState {
             inactiveTrackColor: Colors.grey[300],
           ),
         ),
+        !user.hasCompletedGame
+            ? ExpansionTile(
+                leading: GestureDetector(
+                  onTap: () {
+                    showHelpSnackBar(5);
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.info,
+                        color: appTheme.themeColor,
+                      ),
+                    ],
+                  ),
+                ),
+                title: Text(
+                  'difficulty level',
+                  style: GoogleFonts.lato(
+                      color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                ),
+                subtitle: Text(
+                  'for free-play and multiplayer',
+                  style: GoogleFonts.lato(
+                    color: appTheme.themeColor,
+                  ),
+                ),
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Slider(
+                            label: freePlayDifficulty.toString(),
+                            value: freePlayDifficulty.toDouble(),
+                            min: 0,
+                            max: 5,
+                            divisions: 5,
+                            activeColor: appTheme.themeColor,
+                            inactiveColor: appTheme.themeColor[200],
+                            onChanged: user.freePlayDifficulty == 10
+                                ? null
+                                : (value) {
+                                    setFreePlaydifficulty(value);
+                                  }),
+                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      //   child: Column(
+                      //     children: [
+                      //       Text(
+                      //         'random?',
+                      //         style: GoogleFonts.lato(
+                      //           color: appTheme.themeColor,
+                      //         ),
+                      //       ),
+                      //       Checkbox(
+                      //         focusColor: appTheme.themeColor,
+                      //         hoverColor: appTheme.themeColor,
+                      //         value: freePlayDifficulty == 10,
+                      //         onChanged: (value) {
+                      //           setFreePlaydifficultyToRandom();
+                      //         },
+                      //         activeColor: appTheme.themeColor,
+                      //         checkColor:
+                      //             isDark ? Colors.grey[900] : Colors.white,
+                      //       )
+                      //     ],
+                      //   ),
+                      // )
+                    ],
+                  )
+                ],
+              )
+            : Container(),
+        user.hasCompletedGame ? ListTile() : Container(),
       ],
     );
   }
@@ -259,7 +364,7 @@ class SettingsScreenView extends SettingsScreenState {
         ListTile(
           leading: GestureDetector(
             onTap: () {
-              showHelpSnackBar(4);
+              showHelpSnackBar(6);
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -316,7 +421,7 @@ class SettingsScreenView extends SettingsScreenState {
         ListTile(
           leading: GestureDetector(
             onTap: () {
-              showHelpSnackBar(5);
+              showHelpSnackBar(7);
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -353,6 +458,75 @@ class SettingsScreenView extends SettingsScreenState {
             activeColor: appTheme.themeColor,
             inactiveThumbColor: Colors.grey,
             inactiveTrackColor: Colors.grey[300],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildAdvancedSettings() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'advanced',
+          style: GoogleFonts.lato(
+              fontSize: 16,
+              color: appTheme.themeColor,
+              fontWeight: FontWeight.bold),
+        ),
+        ExpansionTile(
+          leading: GestureDetector(
+            onTap: () {
+              showHelpSnackBar(8);
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.info,
+                  color: appTheme.themeColor,
+                ),
+              ],
+            ),
+          ),
+          title: Text(
+            'restart single-player',
+            style: GoogleFonts.lato(
+                color: appTheme.themeColor, fontWeight: FontWeight.bold),
+          ),
+          subtitle: Text(
+            'reset single-player progress',
+            style: GoogleFonts.lato(
+              color: appTheme.themeColor,
+            ),
+          ),
+        ),
+        ExpansionTile(
+          leading: GestureDetector(
+            onTap: () {
+              showHelpSnackBar(9);
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.info,
+                  color: appTheme.themeColor,
+                ),
+              ],
+            ),
+          ),
+          title: Text(
+            'delete account',
+            style: GoogleFonts.lato(
+                color: appTheme.themeColor, fontWeight: FontWeight.bold),
+          ),
+          subtitle: Text(
+            'permantently delete your account',
+            style: GoogleFonts.lato(
+              color: appTheme.themeColor,
+            ),
           ),
         ),
       ],
@@ -602,7 +776,11 @@ class SettingsScreenView extends SettingsScreenState {
                               Divider(
                                 color: appTheme.themeColor,
                               ),
-                              buildSocialSettings()
+                              buildSocialSettings(),
+                              Divider(
+                                color: appTheme.themeColor,
+                              ),
+                              buildAdvancedSettings(),
                             ],
                           ),
                         ),

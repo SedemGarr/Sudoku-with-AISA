@@ -207,7 +207,8 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                 ),
                 Flexible(
                     child: StreamBuilder(
-                        stream: multiplayerProvider.getStartingGame(gameId),
+                        stream:
+                            multiplayerProvider.getStartingGame(currentGame.id),
                         builder:
                             (BuildContext context, AsyncSnapshot snapshot) {
                           if (!snapshot.hasData || snapshot.data == null) {
@@ -231,6 +232,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
+        key: scaffoldKey,
         appBar: AppBar(
           backgroundColor: isDark ? Colors.grey[900] : Colors.white,
           elevation: 0,

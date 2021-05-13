@@ -1,4 +1,6 @@
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sudoku/src/models/multiplayer.dart';
 import 'package:sudoku/src/models/theme.dart';
 import 'package:sudoku/src/models/user.dart';
@@ -25,7 +27,6 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
   bool isHosting = false;
   bool isJoining = true;
   String error = '';
-  String gameId;
   String joiningGameId;
 
   List<MultiplayerGame> onGoingGames = [];
@@ -36,6 +37,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
 
   ThemeProvider themeProvider = ThemeProvider();
   final formKey = GlobalKey<FormState>();
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   MultiplayerProvider multiplayerProvider = MultiplayerProvider();
 
   void initVariables() {
@@ -83,6 +85,8 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
     this.toggleLoading();
     this.currentGame = await multiplayerProvider.createGame(this.user);
     this.toggleLoading();
+    FlutterClipboard.copy(this.currentGame.id)
+        .then((value) => this.showCopiedSnackBar());
   }
 
   void processOngoingGamesStreamData(AsyncSnapshot snapshot) {
@@ -105,6 +109,17 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
 
   void submitAndJoinGame() {
     if (formKey.currentState.validate()) {}
+  }
+
+  showCopiedSnackBar() {
+    scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: appTheme.themeColor,
+        content: Text(
+          '${this.currentGame.id} copied to clipbaord',
+          style: GoogleFonts.lato(
+              color: this.isDark ? Colors.grey[900] : Colors.white),
+          textAlign: TextAlign.start,
+        )));
   }
 
   void goToHomeScreen() {

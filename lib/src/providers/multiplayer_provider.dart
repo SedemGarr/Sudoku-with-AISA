@@ -27,6 +27,7 @@ class MultiplayerProvider {
         level: null,
         elapsedTime: 0,
         hasFinished: false,
+        difficulty: user.freePlayDifficulty,
         hasStarted: false,
         hostId: user.id,
         id: gameRef.doc().id,
@@ -38,7 +39,7 @@ class MultiplayerProvider {
         lastPlayer: user.id);
 
     game.level = await Difficulty.regenerateLevel(
-        Difficulty.generateRandomInt(0, 6), 400, false, 'Random');
+        user.freePlayDifficulty, 400, user.preferedPattern);
 
     await gameRef.doc(game.id).set(game.toJson(), SetOptions(merge: true));
 

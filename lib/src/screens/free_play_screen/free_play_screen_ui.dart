@@ -150,7 +150,7 @@ class FreePlayScreenView extends FreePlayScreenState {
               color: appTheme.themeColor,
             ),
             onPressed: () {
-              regenerateBoard(this.user.difficultyLevel, this.user.level);
+              regenerateBoard();
             }),
       ),
     ];

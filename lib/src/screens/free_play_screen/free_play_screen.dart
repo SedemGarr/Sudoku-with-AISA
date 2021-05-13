@@ -290,9 +290,9 @@ abstract class FreePlayScreenState extends State<FreePlayScreen>
     });
   }
 
-  void regenerateBoard(int difficultyLevel, int levelNumber) async {
-    Level level =
-        await Difficulty.regenerateLevel(difficultyLevel, levelNumber, true, 'Random');
+  void regenerateBoard() async {
+    Level level = await Difficulty.regenerateLevel(
+        this.user.freePlayDifficulty, 300, this.user.preferedPattern);
 
     // reset timers
     this.stopStopWatchTimer();
@@ -317,7 +317,7 @@ abstract class FreePlayScreenState extends State<FreePlayScreen>
   void incrementLevel() {
     this.selectedIndex = null;
     this.updateUserAfterGame();
-    this.regenerateBoard(this.user.difficultyLevel, 300);
+    this.regenerateBoard();
     this.resetStopWatchTimer();
     this.startStopWatchTimer();
     this.enableWakeLock();

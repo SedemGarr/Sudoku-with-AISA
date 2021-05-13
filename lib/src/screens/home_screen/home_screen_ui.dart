@@ -405,6 +405,7 @@ class HomeScreenView extends HomeScreenState {
         return false;
       },
       child: Scaffold(
+        key: scaffoldKey,
         body: Container(
           color: isDark ? Colors.grey[900] : Colors.white,
           child: SafeArea(

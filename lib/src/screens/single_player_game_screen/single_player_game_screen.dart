@@ -352,8 +352,8 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
   }
 
   void regenerateBoard(int difficultyLevel, int levelNumber) async {
-    Level level =
-        await Difficulty.regenerateLevel(difficultyLevel, levelNumber, false, 'Random');
+    Level level = await Difficulty.regenerateLevel(
+        difficultyLevel, levelNumber, 'Random');
 
     // reset timers
     this.stopStopWatchTimer();

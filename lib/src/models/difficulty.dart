@@ -21,10 +21,13 @@ class Difficulty {
     if (difficultyLevel <= 1) {
       return 1;
     }
-    if (difficultyLevel <= 3) {
+    if (difficultyLevel > 1 && difficultyLevel <= 3) {
       return 2;
-    } else {
+    }
+    if (difficultyLevel > 3 && difficultyLevel <= 5) {
       return 3;
+    } else {
+      return 10;
     }
   }
 
@@ -36,7 +39,9 @@ class Difficulty {
       Puzzle sudoku = Puzzle(
         PuzzleOptions(
           patternName: "Random",
-          difficulty: parseDifficultyLevel(difficultyLevel),
+          difficulty: parseDifficultyLevel(difficultyLevel) == 10
+              ? 3
+              : parseDifficultyLevel(difficultyLevel),
         ),
       );
       sudoku.generate().then((_) {
@@ -60,16 +65,17 @@ class Difficulty {
     return levels;
   }
 
-  static Future<Level> regenerateLevel(int difficultyLevel, int levelNumber,
-      bool isFreePlay, String patternName) async {
+  static Future<Level> regenerateLevel(
+      int difficultyLevel, int levelNumber, String patternName) async {
     Level level = Level(
         board: [], levelNumber: levelNumber, solvedBoard: [], backupBoard: []);
 
     Puzzle sudoku = Puzzle(
       PuzzleOptions(
         patternName: patternName,
-        difficulty: parseDifficultyLevel(
-            isFreePlay ? generateRandomInt(0, 7) : difficultyLevel),
+        difficulty: parseDifficultyLevel(difficultyLevel) == 10
+            ? generateRandomInt(0, 6)
+            : parseDifficultyLevel(difficultyLevel),
       ),
     );
 

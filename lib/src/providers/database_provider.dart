@@ -11,7 +11,7 @@ import 'package:sudoku/src/providers/user_state_update_provider.dart';
 class DatabaseProvider {
   final firestore = FirebaseFirestore.instance;
 
-  Future<Map> createUser(String uid, String username) async {
+  Future<Map> createUser(String uid, String username, String profileUrl) async {
     Users user;
 
     var doc = await firestore.collection('user-data').doc(uid).get();
@@ -25,9 +25,11 @@ class DatabaseProvider {
     } else {
       // create user
       user = Users(
+          freePlayDifficulty: 0,
+          preferedPattern: 'Random',
           id: uid,
           username: username,
-          profileUrl: '',
+          profileUrl: profileUrl,
           level: 0,
           difficultyLevel: 0,
           audioEnabled: true,
@@ -66,7 +68,7 @@ class DatabaseProvider {
   }
 
   Future<Users> updateProfilePhoto(Users user, File image) async {
-    if (user.profileUrl != '') {
+    if (user.profileUrl != '' && user.profilePath != '') {
       Reference oldStorageReference;
       oldStorageReference =
           FirebaseStorage.instance.ref().child(user.profilePath);
@@ -96,11 +98,12 @@ class DatabaseProvider {
   }
 
   Future deleteProfilePhoto(Users user) async {
-    Reference oldStorageReference;
-    oldStorageReference =
-        FirebaseStorage.instance.ref().child(user.profilePath);
-    await oldStorageReference.delete();
-
+    if (user.profilePath != '') {
+      Reference oldStorageReference;
+      oldStorageReference =
+          FirebaseStorage.instance.ref().child(user.profilePath);
+      await oldStorageReference.delete();
+    }
     user.profileUrl = '';
     user.profilePath = '';
 

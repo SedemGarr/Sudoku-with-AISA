@@ -25,7 +25,7 @@ class AuthenticationProvider {
 
     DatabaseProvider databaseProvider = DatabaseProvider();
     res = await databaseProvider.createUser(
-        signedInUser.uid, signedInUser.displayName);
+        signedInUser.uid, signedInUser.displayName, signedInUser.photoURL);
 
     return res;
   }

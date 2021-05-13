@@ -6,11 +6,13 @@ class Users {
   String username;
   String profileUrl;
   String profilePath;
+  String preferedPattern;
   int score;
   int level;
   int elapsedTime;
   int difficultyLevel;
   int selectedTheme;
+  int freePlayDifficulty;
   double fontSize;
   bool hasCompletedIntro;
   bool enableWakelock;
@@ -30,6 +32,8 @@ class Users {
       @required this.profilePath,
       @required this.audioEnabled,
       @required this.isDark,
+      @required this.preferedPattern,
+      @required this.freePlayDifficulty,
       @required this.selectedTheme,
       @required this.hasCompletedGame,
       @required this.enableWakelock,
@@ -55,6 +59,8 @@ class Users {
     score = json['score'];
     level = json['level'];
     audioEnabled = json['audioEnabled'];
+    preferedPattern = json['preferedPattern'];
+    freePlayDifficulty = json['freePlayDifficulty'];
     isDark = json['isDark'];
     fontSize = json['fontSize'];
     hasCompletedGame = json['hasCompletedGame'];
@@ -100,6 +106,8 @@ class Users {
     data['score'] = this.score;
     data['level'] = this.level;
     data['hasCompletedGame'] = this.hasCompletedGame;
+    data['freePlayDifficulty'] = this.freePlayDifficulty;
+    data['preferedPattern'] = this.preferedPattern;
     data['audioEnabled'] = this.audioEnabled;
     data['enableWakelock'] = this.enableWakelock;
     data['fontSize'] = this.fontSize;

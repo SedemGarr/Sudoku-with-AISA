@@ -27,6 +27,9 @@ class SettingsScreen extends StatefulWidget {
 abstract class SettingsScreenState extends State<SettingsScreen>
     with TickerProviderStateMixin {
   String temporaryUsername;
+  String preferedPattern;
+
+  int freePlayDifficulty;
 
   bool isDark;
   bool enableWakelock;
@@ -39,7 +42,7 @@ abstract class SettingsScreenState extends State<SettingsScreen>
 
   List<String> helpDialogs = [
     'creature of the night?\n\ntoggle this to switch between light and dark modes. we really don\'t know why you\'d want to use a light theme though. but hey, you do you',
-    'blind as a bat? \n\ntoggle this to alternate between a smaller (and better) font and a larger(and much, much worse) font',
+    'blind as a bat?\n\ntoggle this to alternate between a smaller (and better) font and a larger(and much, much worse) font',
     'need help?\n\nenable this to get extra help solving puzzles. any cells in the same row or column with the same value as the cell you just filled will be highlighted',
     'breezing through the game?\n\nenable this setting to keep your screen on as you solve puzzles. please turn this off if you have a habit of falling asleep with your phone in you hand. we can\'t be held responsible for burnt in pixels',
     'shut AISA up?\n\n does what it says on the tin',
@@ -69,6 +72,8 @@ abstract class SettingsScreenState extends State<SettingsScreen>
     this.isFriendly = this.user.isFriendly;
     this.hasTrainingWheels = this.user.hasTrainingWheels;
     this.isEditing = false;
+    this.preferedPattern = this.user.preferedPattern;
+    this.freePlayDifficulty = this.user.freePlayDifficulty;
     this.isLoading = false;
   }
 
@@ -140,6 +145,27 @@ abstract class SettingsScreenState extends State<SettingsScreen>
     this.user.enableWakelock = value;
     this.userStateUpdateProvider.updateUser(this.user);
   }
+
+  void setFreePlaydifficulty(double value) async {
+    setState(() {
+      this.freePlayDifficulty = value.toInt();
+    });
+    this.user.freePlayDifficulty = value.toInt();
+    this.userStateUpdateProvider.updateUser(this.user);
+  }
+
+  // void setFreePlaydifficultyToRandom() async {
+  //   setState(() {
+  //     if (user.freePlayDifficulty != 10) {
+  //       freePlayDifficulty = 10;
+  //       user.freePlayDifficulty = 10;
+  //     } else {
+  //       freePlayDifficulty = 0;
+  //       user.freePlayDifficulty = 0;
+  //     }
+  //   });
+  //   this.userStateUpdateProvider.updateUser(this.user);
+  // }
 
   // audio
   void setAudio(bool value) async {

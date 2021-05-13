@@ -10,6 +10,7 @@ class MultiplayerGame {
   String createdOn;
   String lastPlayedOn;
   int elapsedTime;
+  int difficulty;
   bool hasStarted;
   bool hasFinished;
   bool isCompetitive;
@@ -18,6 +19,7 @@ class MultiplayerGame {
   Level level;
 
   MultiplayerGame({
+    @required this.difficulty,
     @required this.hasFinished,
     @required this.createdOn,
     @required this.lastPlayer,
@@ -40,6 +42,7 @@ class MultiplayerGame {
     lastPlayer = json['lastPlayer'];
     hasStarted = json['hasStarted'];
     elapsedTime = json['elapsedTime'];
+    difficulty = json['difficulty'];
     hasFinished = json['hasFinished'];
     isCompetitive = json['isCompetitive'];
     isCooperative = json['isCooperative'];
@@ -62,6 +65,7 @@ class MultiplayerGame {
     data['lastPlayer'] = this.lastPlayer;
     data['hasFinished'] = this.hasFinished;
     data['elapsedTime'] = this.elapsedTime;
+    data['difficulty'] = this.difficulty;
     data['hasStarted'] = this.hasStarted;
     data['isCompetitive'] = this.isCompetitive;
     data['isCooperative'] = this.isCooperative;

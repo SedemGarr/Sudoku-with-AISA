@@ -108,6 +108,8 @@ abstract class HomeScreenState extends State<HomeScreen>
     this.leaderboard = [];
     snapshot.data.docs.forEach((user) {
       this.leaderboard.add(Users(
+          freePlayDifficulty: user['freePlayDifficulty'],
+          preferedPattern: user['preferedPattern'],
           audioEnabled: user['audioEnabled'],
           profileUrl: user['profileUrl'],
           backupBoard: user['backupBoard'],
@@ -273,7 +275,7 @@ abstract class HomeScreenState extends State<HomeScreen>
 
   void goToFreePlayGameScreen() async {
     Level freePlayLevel = await Difficulty.regenerateLevel(
-        this.user.difficultyLevel, 300, true, 'Random');
+        this.user.freePlayDifficulty, 300, this.user.preferedPattern);
 
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (BuildContext context) {
@@ -287,8 +289,6 @@ abstract class HomeScreenState extends State<HomeScreen>
       },
     ));
   }
-
-  void goToMultiplayerScreen() {}
 
   showSignOutDialog(BuildContext context) {
     return showDialog(
