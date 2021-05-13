@@ -382,7 +382,10 @@ class SettingsScreenView extends SettingsScreenState {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ChoiceChip(
-                            avatar: Icon(LineIcons.dice),
+                            avatar: Icon(
+                              LineIcons.dice,
+                              color: isDark ? Colors.grey[900] : Colors.white,
+                            ),
                             label: Text('random'),
                             labelStyle: GoogleFonts.lato(
                                 color: isDark ? Colors.grey[900] : Colors.white,
@@ -400,7 +403,10 @@ class SettingsScreenView extends SettingsScreenState {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ChoiceChip(
-                            avatar: Icon(LineIcons.seedling),
+                            avatar: Icon(
+                              LineIcons.seedling,
+                              color: isDark ? Colors.grey[900] : Colors.white,
+                            ),
                             label: Text('spring'),
                             labelStyle: GoogleFonts.lato(
                                 color: isDark ? Colors.grey[900] : Colors.white,
@@ -418,7 +424,10 @@ class SettingsScreenView extends SettingsScreenState {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ChoiceChip(
-                            avatar: Icon(LineIcons.sunAlt),
+                            avatar: Icon(
+                              LineIcons.sunAlt,
+                              color: isDark ? Colors.grey[900] : Colors.white,
+                            ),
                             label: Text('summer'),
                             labelStyle: GoogleFonts.lato(
                                 color: isDark ? Colors.grey[900] : Colors.white,
@@ -436,7 +445,10 @@ class SettingsScreenView extends SettingsScreenState {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ChoiceChip(
-                            avatar: Icon(LineIcons.leaf),
+                            avatar: Icon(
+                              LineIcons.leaf,
+                              color: isDark ? Colors.grey[900] : Colors.white,
+                            ),
                             label: Text('fall'),
                             labelStyle: GoogleFonts.lato(
                                 color: isDark ? Colors.grey[900] : Colors.white,
@@ -454,7 +466,10 @@ class SettingsScreenView extends SettingsScreenState {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ChoiceChip(
-                            avatar: Icon(LineIcons.snowflake),
+                            avatar: Icon(
+                              LineIcons.snowflake,
+                              color: isDark ? Colors.grey[900] : Colors.white,
+                            ),
                             label: Text('winter'),
                             labelStyle: GoogleFonts.lato(
                                 color: isDark ? Colors.grey[900] : Colors.white,

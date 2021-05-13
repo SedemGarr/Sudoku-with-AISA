@@ -213,7 +213,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                         if (!snapshot.hasData || snapshot.data == null) {
                           return Container();
                         }
-                        processStartingGameStreamData(snapshot);
+                        processStartingGameStreamData(snapshot, context);
                         return Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -285,7 +285,12 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 10.0),
                                     child: ChoiceChip(
-                                      avatar: Icon(LineIcons.dice),
+                                      avatar: Icon(
+                                        LineIcons.dice,
+                                        color: isDark
+                                            ? Colors.grey[900]
+                                            : Colors.white,
+                                      ),
                                       label: Text('random'),
                                       labelStyle: GoogleFonts.lato(
                                           color: isDark
@@ -308,7 +313,12 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 10.0),
                                     child: ChoiceChip(
-                                      avatar: Icon(LineIcons.seedling),
+                                      avatar: Icon(
+                                        LineIcons.seedling,
+                                        color: isDark
+                                            ? Colors.grey[900]
+                                            : Colors.white,
+                                      ),
                                       label: Text('spring'),
                                       labelStyle: GoogleFonts.lato(
                                           color: isDark
@@ -331,7 +341,12 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 10.0),
                                     child: ChoiceChip(
-                                      avatar: Icon(LineIcons.sunAlt),
+                                      avatar: Icon(
+                                        LineIcons.sunAlt,
+                                        color: isDark
+                                            ? Colors.grey[900]
+                                            : Colors.white,
+                                      ),
                                       label: Text('summer'),
                                       labelStyle: GoogleFonts.lato(
                                           color: isDark
@@ -354,7 +369,12 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 10.0),
                                     child: ChoiceChip(
-                                      avatar: Icon(LineIcons.leaf),
+                                      avatar: Icon(
+                                        LineIcons.leaf,
+                                        color: isDark
+                                            ? Colors.grey[900]
+                                            : Colors.white,
+                                      ),
                                       label: Text('fall'),
                                       labelStyle: GoogleFonts.lato(
                                           color: isDark
@@ -377,7 +397,12 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 10.0),
                                     child: ChoiceChip(
-                                      avatar: Icon(LineIcons.snowflake),
+                                      avatar: Icon(
+                                        LineIcons.snowflake,
+                                        color: isDark
+                                            ? Colors.grey[900]
+                                            : Colors.white,
+                                      ),
                                       label: Text('winter'),
                                       labelStyle: GoogleFonts.lato(
                                           color: isDark

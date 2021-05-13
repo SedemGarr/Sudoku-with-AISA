@@ -46,6 +46,12 @@ class MultiplayerProvider {
     return game;
   }
 
+  Future<void> joinGame(String gameId, Users user) async {
+    firestore.collection('games').doc(gameId).update({
+      "players": FieldValue.arrayUnion([user.toJson()])
+    });
+  }
+
   Future<void> deleteGame(String gameId) async {
     await firestore.collection('games').doc(gameId).delete();
   }

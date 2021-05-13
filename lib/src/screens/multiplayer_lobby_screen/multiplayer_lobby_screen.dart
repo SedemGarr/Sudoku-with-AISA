@@ -1,3 +1,4 @@
+import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,7 +29,6 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
   bool isLoading = false;
   bool isHosting = false;
   bool isJoining = true;
-  String error = '';
   String joiningGameId;
   String preferedPattern;
 
@@ -101,20 +101,102 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
     });
   }
 
-  void processStartingGameStreamData(AsyncSnapshot snapshot) {
+  void processStartingGameStreamData(
+      AsyncSnapshot snapshot, BuildContext context) {
     this.currentGame = MultiplayerGame.fromJson(snapshot.data.docs[0].data());
-    this.hasGameStarted(currentGame);
+    this.hasGameStarted(currentGame, context);
   }
 
-  void hasGameStarted(MultiplayerGame currentGame) {
-    if (currentGame.players.length == 2) {
-      // show dialog where user cannot go back
-      // launch in some seconds
+  void hasGameStarted(MultiplayerGame currentGame, BuildContext context) {
+    Future.delayed(Duration(seconds: 1), () {
+      // go to game screen
+      if (currentGame.players.length == 2) {
+        this.showGameStartingDialog(this.currentGame.players[this
+            .currentGame
+            .players
+            .indexWhere((user) => user.id != this.user.id)]);
+      }
+    });
+  }
+
+  showGameStartingDialog(Users user) {
+    return showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: this.appTheme.themeColor,
+            title: Text('${user.username} has joined your game',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.lato(
+                    fontWeight: FontWeight.bold,
+                    color: isDark ? Colors.grey[900] : Colors.white)),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CircularProfileAvatar(
+                  user.profileUrl,
+                  radius: MediaQuery.of(context).size.width * 0.1,
+                  backgroundColor: appTheme.themeColor,
+                  initialsText: Text(
+                    getInitials(user.username),
+                    style: GoogleFonts.lato(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                      color: isDark ? Colors.grey[900] : Colors.white,
+                    ),
+                  ),
+                  borderColor: Colors.transparent,
+                  elevation: 0.0,
+                  foregroundColor: Colors.transparent,
+                  cacheImage: true,
+                  showInitialTextAbovePicture: false,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 8.0, right: 8.0, top: 8.0, bottom: 8.0),
+                  child: Text(
+                    'the game will start in a few seconds',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.lato(
+                        color: isDark ? Colors.grey[900] : Colors.white),
+                  ),
+                ),
+                LinearProgressIndicator(
+                  backgroundColor: this.appTheme.themeColor,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                      this.isDark ? Colors.grey[900] : Colors.white),
+                  minHeight: 1,
+                )
+              ],
+            ),
+          );
+        });
+  }
+
+  String getInitials(String username) {
+    List<String> names = username.split(" ");
+    String initials = "";
+    int numWords = names.length;
+
+    if (numWords < names.length) {
+      numWords = names.length;
     }
+    for (var i = 0; i < numWords; i++) {
+      initials += '${names[i][0]}'.toUpperCase();
+    }
+    return initials;
   }
 
   void submitAndJoinGame() {
-    if (formKey.currentState.validate()) {}
+    if (formKey.currentState.validate()) {
+      joinGameWithCode();
+    }
+  }
+
+  joinGameWithCode() async {
+    await this.multiplayerProvider.joinGame(this.joiningGameId, this.user);
   }
 
   void setCompetitiveSetting(bool value) async {
@@ -179,14 +261,16 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
   }
 
   showCopiedSnackBar() {
-    scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: appTheme.themeColor,
-        content: Text(
-          '${this.currentGame.id} copied to clipbaord',
-          style: GoogleFonts.lato(
-              color: this.isDark ? Colors.grey[900] : Colors.white),
-          textAlign: TextAlign.start,
-        )));
+    Future.delayed(Duration(seconds: 1), () {
+      scaffoldKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: appTheme.themeColor,
+          content: Text(
+            '${this.currentGame.id} copied to clipbaord',
+            style: GoogleFonts.lato(
+                color: this.isDark ? Colors.grey[900] : Colors.white),
+            textAlign: TextAlign.start,
+          )));
+    });
   }
 
   void goToHomeScreen() async {
