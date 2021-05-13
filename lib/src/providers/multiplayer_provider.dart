@@ -52,7 +52,7 @@ class MultiplayerProvider {
 
   Future<void> updateOngoingGames(Users user) async {
     await firestore
-        .collection("games")
+        .collection('games')
         .where('players', arrayContains: user.id)
         .get()
         .then((res) {

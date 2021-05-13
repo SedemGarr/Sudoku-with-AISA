@@ -5,6 +5,7 @@ import 'package:sudoku/src/providers/local_storage_provider.dart';
 import 'package:sudoku/src/providers/multiplayer_provider.dart';
 import 'package:sudoku/src/providers/user_state_update_provider.dart';
 import 'package:sudoku/src/providers/database_provider.dart';
+import 'package:sudoku/src/screens/splash_screen/splash_screen.dart';
 import 'settings_screen_ui.dart';
 import 'package:sudoku/src/models/theme.dart';
 import 'package:sudoku/src/models/user.dart';
@@ -43,10 +44,15 @@ abstract class SettingsScreenState extends State<SettingsScreen>
   List<String> helpDialogs = [
     'creature of the night?\n\ntoggle this to switch between light and dark modes. we really don\'t know why you\'d want to use a light theme though. but hey, you do you',
     'blind as a bat?\n\ntoggle this to alternate between a smaller (and better) font and a larger(and much, much worse) font',
+    'not a purple person?\n\nselect the theme you prefer. it will be applied across and the app and persist across restarts',
     'need help?\n\nenable this to get extra help solving puzzles. any cells in the same row or column with the same value as the cell you just filled will be highlighted',
     'breezing through the game?\n\nenable this setting to keep your screen on as you solve puzzles. please turn this off if you have a habit of falling asleep with your phone in you hand. we can\'t be held responsible for burnt in pixels',
+    'too easy? too hard?\n\nselect a difficulty level for free-play and multiplayer games. you can randomize the difficulty if you like to live on the wild side',
+    'we\'re really just flexing at this point\n\ncheck out cool patterns for your sudoku puzzles',
     'shut AISA up?\n\n does what it says on the tin',
     'introverted?\n\nturn this off if you don\'t want to appear in searches for multiplayer game invites',
+    'enjoying the torture?\n\nthis will reset your single-player progress. your overall score and free-play statistics will persist though',
+    '🥺\n\nwe can change, we promise',
   ];
 
   Users user;
@@ -58,6 +64,7 @@ abstract class SettingsScreenState extends State<SettingsScreen>
   final formKey = GlobalKey<FormState>();
   LocalStorageProvider localStorageProvider = LocalStorageProvider();
   ConnectivityProvider connectivityProvider = ConnectivityProvider();
+  MultiplayerProvider multiplayerProvider = MultiplayerProvider();
   UserStateUpdateProvider userStateUpdateProvider = UserStateUpdateProvider();
   DatabaseProvider databaseProvider = DatabaseProvider();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -154,18 +161,18 @@ abstract class SettingsScreenState extends State<SettingsScreen>
     this.userStateUpdateProvider.updateUser(this.user);
   }
 
-  // void setFreePlaydifficultyToRandom() async {
-  //   setState(() {
-  //     if (user.freePlayDifficulty != 10) {
-  //       freePlayDifficulty = 10;
-  //       user.freePlayDifficulty = 10;
-  //     } else {
-  //       freePlayDifficulty = 0;
-  //       user.freePlayDifficulty = 0;
-  //     }
-  //   });
-  //   this.userStateUpdateProvider.updateUser(this.user);
-  // }
+  void setFreePlaydifficultyToRandom() async {
+    setState(() {
+      if (user.freePlayDifficulty != 10) {
+        freePlayDifficulty = 10;
+        user.freePlayDifficulty = 10;
+      } else {
+        freePlayDifficulty = 0;
+        user.freePlayDifficulty = 0;
+      }
+    });
+    this.userStateUpdateProvider.updateUser(this.user);
+  }
 
   // audio
   void setAudio(bool value) async {
@@ -195,6 +202,103 @@ abstract class SettingsScreenState extends State<SettingsScreen>
     this.userStateUpdateProvider.updateUser(this.user);
   }
 
+  showRestartGameDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+            title: Text('are you sure?',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.lato(
+                    color: isDark ? Colors.white : Colors.grey[900])),
+            actions: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('oops!',
+                          textAlign: TextAlign.end,
+                          style: GoogleFonts.lato(
+                              color:
+                                  isDark ? Colors.white : Colors.grey[900]))),
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      this.resetProgress();
+                    },
+                    child: Text(
+                      'yep, I love the pain',
+                      textAlign: TextAlign.end,
+                      style: GoogleFonts.lato(color: appTheme.themeColor),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        });
+  }
+
+  void resetProgress() async {
+    this.toggleLoader();
+    this.user.hasCompletedGame = false;
+    this.user.difficultyLevel = 0;
+    this.user.level = 0;
+    this.user.hasCompletedIntro = false;
+    this.user.stats =
+        this.user.stats.where((element) => !element['isSinglePlayer']).toList();
+    await this.userStateUpdateProvider.updateUser(this.user);
+    await this.multiplayerProvider.updateOngoingGames(this.user);
+    this.goToSplashScreen();
+  }
+
+  showDeleteAccountDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+            title: Text('are you sure?',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.lato(
+                    color: isDark ? Colors.white : Colors.grey[900])),
+            actions: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('oops!',
+                          textAlign: TextAlign.end,
+                          style: GoogleFonts.lato(
+                              color:
+                                  isDark ? Colors.white : Colors.grey[900]))),
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      this.deleteAccount();
+                    },
+                    child: Text(
+                      'my mind is made up',
+                      textAlign: TextAlign.end,
+                      style: GoogleFonts.lato(color: appTheme.themeColor),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        });
+  }
+
+  void deleteAccount() async {}
+
   void enableEditing() {
     setState(() {
       this.isEditing = true;
@@ -220,6 +324,17 @@ abstract class SettingsScreenState extends State<SettingsScreen>
         ),
         content: Text(
           helpDialogs[index],
+          style: GoogleFonts.lato(
+              color: this.isDark ? Colors.grey[900] : Colors.white),
+          textAlign: TextAlign.start,
+        )));
+  }
+
+  showRestartSnackBar(int index) {
+    scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: appTheme.themeColor,
+        content: Text(
+          'success! you game is as fresh as a new born baby',
           style: GoogleFonts.lato(
               color: this.isDark ? Colors.grey[900] : Colors.white),
           textAlign: TextAlign.start,
@@ -359,6 +474,14 @@ abstract class SettingsScreenState extends State<SettingsScreen>
   //     },
   //   ));
   // }
+
+  void goToSplashScreen() {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (BuildContext context) {
+        return SplashScreen();
+      },
+    ));
+  }
 
   void goToHomeScreen() {
     Navigator.of(context).pushReplacement(MaterialPageRoute(

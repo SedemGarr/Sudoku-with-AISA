@@ -155,18 +155,18 @@ class FreePlayScreenView extends FreePlayScreenState {
       ),
     ];
 
-    if (user.hasCompletedGame) {
-      listOfButtonWidgets.add(Tooltip(
-        message: 'settings',
-        decoration: BoxDecoration(color: appTheme.themeColor),
-        child: IconButton(
-            icon: Icon(
-              LineIcons.cog,
-              color: appTheme.themeColor,
-            ),
-            onPressed: () {}),
-      ));
-    }
+    // if (user.hasCompletedGame) {
+    //   listOfButtonWidgets.add(Tooltip(
+    //     message: 'settings',
+    //     decoration: BoxDecoration(color: appTheme.themeColor),
+    //     child: IconButton(
+    //         icon: Icon(
+    //           LineIcons.cog,
+    //           color: appTheme.themeColor,
+    //         ),
+    //         onPressed: () {}),
+    //   ));
+    // }
 
     return Padding(
       padding: const EdgeInsets.all(8.0),

@@ -304,7 +304,9 @@ class SettingsScreenView extends SettingsScreenState {
                       Expanded(
                         child: Slider(
                             label: freePlayDifficulty.toString(),
-                            value: freePlayDifficulty.toDouble(),
+                            value: freePlayDifficulty == 10
+                                ? 0.0
+                                : freePlayDifficulty.toDouble(),
                             min: 0,
                             max: 5,
                             divisions: 5,
@@ -316,36 +318,65 @@ class SettingsScreenView extends SettingsScreenState {
                                     setFreePlaydifficulty(value);
                                   }),
                       ),
-                      // Padding(
-                      //   padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      //   child: Column(
-                      //     children: [
-                      //       Text(
-                      //         'random?',
-                      //         style: GoogleFonts.lato(
-                      //           color: appTheme.themeColor,
-                      //         ),
-                      //       ),
-                      //       Checkbox(
-                      //         focusColor: appTheme.themeColor,
-                      //         hoverColor: appTheme.themeColor,
-                      //         value: freePlayDifficulty == 10,
-                      //         onChanged: (value) {
-                      //           setFreePlaydifficultyToRandom();
-                      //         },
-                      //         activeColor: appTheme.themeColor,
-                      //         checkColor:
-                      //             isDark ? Colors.grey[900] : Colors.white,
-                      //       )
-                      //     ],
-                      //   ),
-                      // )
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: Column(
+                          children: [
+                            Text(
+                              'random?',
+                              style: GoogleFonts.lato(
+                                color: appTheme.themeColor,
+                              ),
+                            ),
+                            Checkbox(
+                              focusColor: appTheme.themeColor,
+                              hoverColor: appTheme.themeColor,
+                              value: freePlayDifficulty == 10,
+                              onChanged: (value) {
+                                setFreePlaydifficultyToRandom();
+                              },
+                              activeColor: appTheme.themeColor,
+                              checkColor:
+                                  isDark ? Colors.grey[900] : Colors.white,
+                            )
+                          ],
+                        ),
+                      )
                     ],
                   )
                 ],
               )
             : Container(),
-        user.hasCompletedGame ? ListTile() : Container(),
+        !user.hasCompletedGame
+            ? ExpansionTile(
+                leading: GestureDetector(
+                  onTap: () {
+                    showHelpSnackBar(6);
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.info,
+                        color: appTheme.themeColor,
+                      ),
+                    ],
+                  ),
+                ),
+                title: Text(
+                  'board patterns',
+                  style: GoogleFonts.lato(
+                      color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                ),
+                subtitle: Text(
+                  'select a cell arrangment pattern',
+                  style: GoogleFonts.lato(
+                    color: appTheme.themeColor,
+                  ),
+                ),
+                children: [],
+              )
+            : Container(),
       ],
     );
   }
@@ -355,7 +386,7 @@ class SettingsScreenView extends SettingsScreenState {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'audio',
+          'sound',
           style: GoogleFonts.lato(
               fontSize: 16,
               color: appTheme.themeColor,
@@ -364,7 +395,7 @@ class SettingsScreenView extends SettingsScreenState {
         ListTile(
           leading: GestureDetector(
             onTap: () {
-              showHelpSnackBar(6);
+              showHelpSnackBar(7);
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -377,7 +408,7 @@ class SettingsScreenView extends SettingsScreenState {
             ),
           ),
           title: Text(
-            'AISA dialog',
+            'AISA\'s dialog',
             style: GoogleFonts.lato(
                 color: appTheme.themeColor, fontWeight: FontWeight.bold),
           ),
@@ -421,7 +452,7 @@ class SettingsScreenView extends SettingsScreenState {
         ListTile(
           leading: GestureDetector(
             onTap: () {
-              showHelpSnackBar(7);
+              showHelpSnackBar(8);
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -478,7 +509,7 @@ class SettingsScreenView extends SettingsScreenState {
         ExpansionTile(
           leading: GestureDetector(
             onTap: () {
-              showHelpSnackBar(8);
+              showHelpSnackBar(9);
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -501,11 +532,27 @@ class SettingsScreenView extends SettingsScreenState {
               color: appTheme.themeColor,
             ),
           ),
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FlatButton(
+                  splashColor: appTheme.themeColor,
+                  onPressed: () {
+                    showRestartGameDialog(context);
+                  },
+                  child: Text(
+                    'restart',
+                    style: GoogleFonts.lato(
+                        fontWeight: FontWeight.bold,
+                        color: appTheme.themeColor),
+                  )),
+            )
+          ],
         ),
         ExpansionTile(
           leading: GestureDetector(
             onTap: () {
-              showHelpSnackBar(9);
+              showHelpSnackBar(10);
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -528,6 +575,22 @@ class SettingsScreenView extends SettingsScreenState {
               color: appTheme.themeColor,
             ),
           ),
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FlatButton(
+                  splashColor: appTheme.themeColor,
+                  onPressed: () {
+                    showDeleteAccountDialog(context);
+                  },
+                  child: Text(
+                    'delete account',
+                    style: GoogleFonts.lato(
+                        fontWeight: FontWeight.bold,
+                        color: appTheme.themeColor),
+                  )),
+            )
+          ],
         ),
       ],
     );
