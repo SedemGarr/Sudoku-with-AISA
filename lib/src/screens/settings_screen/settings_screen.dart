@@ -202,6 +202,46 @@ abstract class SettingsScreenState extends State<SettingsScreen>
     this.userStateUpdateProvider.updateUser(this.user);
   }
 
+  Future<void> setBoardPatterns(String pattern) async {
+    switch (pattern) {
+      case 'Random':
+        setState(() {
+          preferedPattern = 'Random';
+          this.user.preferedPattern = 'Random';
+        });
+        await this.userStateUpdateProvider.updateUser(this.user);
+        break;
+      case 'Spring':
+        setState(() {
+          preferedPattern = 'Spring';
+          this.user.preferedPattern = 'Spring';
+        });
+        await this.userStateUpdateProvider.updateUser(this.user);
+        break;
+      case 'Summer':
+        setState(() {
+          preferedPattern = 'Summer';
+          this.user.preferedPattern = 'Summer';
+        });
+        await this.userStateUpdateProvider.updateUser(this.user);
+        break;
+      case 'Fall':
+        setState(() {
+          preferedPattern = 'Fall';
+          this.user.preferedPattern = 'Fall';
+        });
+        await this.userStateUpdateProvider.updateUser(this.user);
+        break;
+      case 'Winter':
+        setState(() {
+          preferedPattern = 'Winter';
+          this.user.preferedPattern = 'Winter';
+        });
+        await this.userStateUpdateProvider.updateUser(this.user);
+        break;
+    }
+  }
+
   showRestartGameDialog(BuildContext context) {
     return showDialog(
         context: context,

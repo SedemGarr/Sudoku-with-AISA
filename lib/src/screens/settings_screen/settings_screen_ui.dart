@@ -374,7 +374,105 @@ class SettingsScreenView extends SettingsScreenState {
                     color: appTheme.themeColor,
                   ),
                 ),
-                children: [],
+                children: [
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ChoiceChip(
+                            avatar: Icon(LineIcons.dice),
+                            label: Text('Random'),
+                            labelStyle: GoogleFonts.lato(
+                                color: isDark ? Colors.grey[900] : Colors.white,
+                                fontWeight: FontWeight.bold),
+                            backgroundColor: appTheme.themeColor,
+                            selected: preferedPattern == 'Random',
+                            selectedColor: appTheme.themeColor[900],
+                            elevation: 0,
+                            disabledColor: appTheme.themeColor,
+                            onSelected: (value) {
+                              setBoardPatterns('Random');
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ChoiceChip(
+                            avatar: Icon(LineIcons.seedling),
+                            label: Text('Spring'),
+                            labelStyle: GoogleFonts.lato(
+                                color: isDark ? Colors.grey[900] : Colors.white,
+                                fontWeight: FontWeight.bold),
+                            backgroundColor: appTheme.themeColor,
+                            selected: preferedPattern == 'Spring',
+                            selectedColor: appTheme.themeColor[900],
+                            elevation: 0,
+                            disabledColor: appTheme.themeColor,
+                            onSelected: (value) {
+                              setBoardPatterns('Spring');
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ChoiceChip(
+                            avatar: Icon(LineIcons.sunAlt),
+                            label: Text('Summer'),
+                            labelStyle: GoogleFonts.lato(
+                                color: isDark ? Colors.grey[900] : Colors.white,
+                                fontWeight: FontWeight.bold),
+                            backgroundColor: appTheme.themeColor,
+                            selected: preferedPattern == 'Summer',
+                            selectedColor: appTheme.themeColor[900],
+                            elevation: 0,
+                            disabledColor: appTheme.themeColor,
+                            onSelected: (value) {
+                              setBoardPatterns('Summer');
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ChoiceChip(
+                            avatar: Icon(LineIcons.leaf),
+                            label: Text('Fall'),
+                            labelStyle: GoogleFonts.lato(
+                                color: isDark ? Colors.grey[900] : Colors.white,
+                                fontWeight: FontWeight.bold),
+                            backgroundColor: appTheme.themeColor,
+                            selected: preferedPattern == 'Fall',
+                            selectedColor: appTheme.themeColor[900],
+                            elevation: 0,
+                            disabledColor: appTheme.themeColor,
+                            onSelected: (value) {
+                              setBoardPatterns('Fall');
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ChoiceChip(
+                            avatar: Icon(LineIcons.snowflake),
+                            label: Text('Winter'),
+                            labelStyle: GoogleFonts.lato(
+                                color: isDark ? Colors.grey[900] : Colors.white,
+                                fontWeight: FontWeight.bold),
+                            backgroundColor: appTheme.themeColor,
+                            selected: preferedPattern == 'Winter',
+                            selectedColor: appTheme.themeColor[900],
+                            elevation: 0,
+                            disabledColor: appTheme.themeColor,
+                            onSelected: (value) {
+                              setBoardPatterns('Winter');
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               )
             : Container(),
       ],
