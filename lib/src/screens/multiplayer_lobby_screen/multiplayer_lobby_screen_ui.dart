@@ -200,7 +200,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                               color: appTheme.themeColor,
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -217,8 +217,16 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                         return Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Divider(
-                              color: appTheme.themeColor,
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: LinearProgressIndicator(
+                                backgroundColor:
+                                    isDark ? Colors.grey[900] : Colors.white,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    appTheme.themeColor),
+                                minHeight: 1,
+                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -239,6 +247,8 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                     'cooperative',
                                     style: GoogleFonts.lato(
                                         color: appTheme.themeColor,
+                                        fontSize:
+                                            currentGame.isCooperative ? 16 : 14,
                                         fontWeight: currentGame.isCooperative
                                             ? FontWeight.bold
                                             : FontWeight.normal),
@@ -250,13 +260,16 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                     },
                                     activeTrackColor: appTheme.themeColor[300],
                                     activeColor: appTheme.themeColor,
-                                    inactiveThumbColor: Colors.grey,
-                                    inactiveTrackColor: Colors.grey[300],
+                                    inactiveThumbColor: appTheme.themeColor,
+                                    inactiveTrackColor:
+                                        appTheme.themeColor[300],
                                   ),
                                   Text(
                                     'competitive',
                                     style: GoogleFonts.lato(
                                         color: appTheme.themeColor,
+                                        fontSize:
+                                            currentGame.isCompetitive ? 16 : 14,
                                         fontWeight: currentGame.isCompetitive
                                             ? FontWeight.bold
                                             : FontWeight.normal),
@@ -280,8 +293,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                               : Colors.white,
                                           fontWeight: FontWeight.bold),
                                       backgroundColor: appTheme.themeColor,
-                                      selected:
-                                          preferedPattern == 'Random',
+                                      selected: preferedPattern == 'Random',
                                       selectedColor: appTheme.themeColor[900],
                                       elevation: 0,
                                       disabledColor: appTheme.themeColor,
@@ -304,8 +316,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                               : Colors.white,
                                           fontWeight: FontWeight.bold),
                                       backgroundColor: appTheme.themeColor,
-                                      selected:
-                                          preferedPattern == 'spring',
+                                      selected: preferedPattern == 'spring',
                                       selectedColor: appTheme.themeColor[900],
                                       elevation: 0,
                                       disabledColor: appTheme.themeColor,
@@ -328,8 +339,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                               : Colors.white,
                                           fontWeight: FontWeight.bold),
                                       backgroundColor: appTheme.themeColor,
-                                      selected:
-                                          preferedPattern == 'summer',
+                                      selected: preferedPattern == 'summer',
                                       selectedColor: appTheme.themeColor[900],
                                       elevation: 0,
                                       disabledColor: appTheme.themeColor,
@@ -375,8 +385,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                               : Colors.white,
                                           fontWeight: FontWeight.bold),
                                       backgroundColor: appTheme.themeColor,
-                                      selected:
-                                          preferedPattern == 'winter',
+                                      selected: preferedPattern == 'winter',
                                       selectedColor: appTheme.themeColor[900],
                                       elevation: 0,
                                       disabledColor: appTheme.themeColor,
@@ -428,7 +437,10 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
           color: isDark ? Colors.grey[900] : Colors.white,
           child: SafeArea(
             child: Column(
-              children: [buildTopNavBar(), buildContents()],
+              children: [
+                buildTopNavBar(),
+                buildContents(),
+              ],
             ),
           ),
         ),
