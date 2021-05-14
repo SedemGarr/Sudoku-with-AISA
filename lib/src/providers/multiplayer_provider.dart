@@ -65,11 +65,19 @@ class MultiplayerProvider {
     return game;
   }
 
-  Future<bool> checkIfGameExists(String gameId) async {
+  Future<bool> checkIfGameExists(String gameId, Users user) async {
     var doc = await firestore.collection('games').doc(gameId).get();
 
     if (doc.exists) {
-      return true;
+      if (doc.data()['players'].length <= 1 ||
+          doc
+                  .data()['players']
+                  .indexWhere((element) => element['id'] != user.id) !=
+              -1) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       return false;
     }

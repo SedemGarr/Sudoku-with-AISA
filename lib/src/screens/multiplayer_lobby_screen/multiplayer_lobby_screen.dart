@@ -151,7 +151,9 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
 
   joinGameWithCode(BuildContext context) async {
     this.toggleLoading();
-    if (await this.multiplayerProvider.checkIfGameExists(this.joiningGameId)) {
+    if (await this
+        .multiplayerProvider
+        .checkIfGameExists(this.joiningGameId, this.user)) {
       this.currentGame = await this
           .multiplayerProvider
           .joinGame(this.joiningGameId, this.user);
@@ -163,12 +165,14 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
     }
   }
 
-  joinGameFromList(MultiplayerGame game, BuildContext context) async {
+  joinGameFromList(MultiplayerGame game) async {
     this.toggleLoading();
-    if (await this.multiplayerProvider.checkIfGameExists(game.id)) {
+    if (await this.multiplayerProvider.checkIfGameExists(game.id, this.user)) {
       this.currentGame =
           await this.multiplayerProvider.joinGame(game.id, this.user);
-      this.goToMultiplayerGameScreen(context);
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        this.goToMultiplayerGameScreen(context);
+      });
     } else {
       // game with that id does not exist
       this.toggleLoading();
@@ -337,7 +341,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
                   FlatButton(
                     onPressed: () {
                       Navigator.pop(context);
-                      this.joinGameFromList(game, context);
+                      this.joinGameFromList(game);
                     },
                     child: Text(
                       'yes please',

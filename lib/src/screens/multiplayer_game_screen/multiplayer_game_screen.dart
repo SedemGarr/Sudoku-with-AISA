@@ -213,6 +213,7 @@ abstract class MultiplayerGameScreenScreenState
 
   void loadSavedGame() {
     if (widget.isSavedGame) {
+      stopWatchTimer.setPresetSecondTime(this.currentGame.elapsedTime);
       // show snackbar
       Future.delayed(Duration(milliseconds: 500), () {
         scaffoldKey.currentState.showSnackBar(SnackBar(
