@@ -127,10 +127,18 @@ class DatabaseProvider {
     return stats;
   }
 
-  Future resetGame() async {
-// has completed == false
-// loop and remove all singleplayer stats
-// do not clear score
+  Future resetGame(Users user) async {
+    UserStateUpdateProvider userStateUpdateProvider = UserStateUpdateProvider();
+    MultiplayerProvider multiplayerProvider = MultiplayerProvider();
+
+    user.hasCompletedGame = false;
+    user.difficultyLevel = 0;
+    user.level = 0;
+    user.hasCompletedIntro = false;
+    user.stats =
+        user.stats.where((element) => !element['isSinglePlayer']).toList();
+    await userStateUpdateProvider.updateUser(user);
+    await multiplayerProvider.updateOngoingGames(user);
   }
 
   Stream getLeaderboard() {

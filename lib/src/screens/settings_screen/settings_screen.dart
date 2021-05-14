@@ -123,7 +123,6 @@ abstract class SettingsScreenState extends State<SettingsScreen>
     this.userStateUpdateProvider.updateUser(this.user);
   }
 
-
   // gameplay
   void setTrainingwheels(bool value) async {
     setState(() {
@@ -273,14 +272,7 @@ abstract class SettingsScreenState extends State<SettingsScreen>
 
   void resetProgress() async {
     this.toggleLoader();
-    this.user.hasCompletedGame = false;
-    this.user.difficultyLevel = 0;
-    this.user.level = 0;
-    this.user.hasCompletedIntro = false;
-    this.user.stats =
-        this.user.stats.where((element) => !element['isSinglePlayer']).toList();
-    await this.userStateUpdateProvider.updateUser(this.user);
-    await this.multiplayerProvider.updateOngoingGames(this.user);
+    await this.databaseProvider.resetGame(this.user);
     this.goToSplashScreen();
   }
 

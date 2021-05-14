@@ -116,23 +116,21 @@ class MultiplayerProvider {
   }
 
   Future<void> updateOngoingGames(Users user) async {
-    await firestore
-        .collection('games')
-        .where('players', arrayContains: user.id)
-        .get()
-        .then((res) {
+    await firestore.collection('games').get().then((res) {
       res.docs.forEach((game) async {
         MultiplayerGame tempGame = MultiplayerGame.fromJson(game.data());
 
         int index =
             tempGame.players.indexWhere((element) => element.id == user.id);
 
-        tempGame.players[index] = user;
+        if (index != -1) {
+          tempGame.players[index] = user;
 
-        await firestore
-            .collection('games')
-            .doc(game.data()['id'])
-            .set(tempGame.toJson(), SetOptions(merge: true));
+          await firestore
+              .collection('games')
+              .doc(game.data()['id'])
+              .set(tempGame.toJson(), SetOptions(merge: true));
+        }
       });
     });
   }

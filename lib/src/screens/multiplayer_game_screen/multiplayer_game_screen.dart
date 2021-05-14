@@ -470,6 +470,7 @@ abstract class MultiplayerGameScreenScreenState
   }
 
   void goToHomeScreen() {
+    this.disableWakeLock();
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (BuildContext context) {
         return HomeScreen(user: this.user);
