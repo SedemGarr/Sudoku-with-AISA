@@ -504,7 +504,7 @@ abstract class MultiplayerGameScreenScreenState
     if (mpStats.length < 100) {
       this.user.stats.add(Stats(
           isCompetitive: this.currentGame.isCompetitive,
-          isCoop: this.currentGame.isCompetitive,
+          isCoop: this.currentGame.isCooperative,
           isMultiplayer: true,
           isSinglePlayer: false,
           level: 400,
@@ -514,7 +514,7 @@ abstract class MultiplayerGameScreenScreenState
       mpStats.removeAt(0);
       mpStats.add(Stats(
           isCompetitive: this.currentGame.isCompetitive,
-          isCoop: this.currentGame.isCompetitive,
+          isCoop: this.currentGame.isCooperative,
           isMultiplayer: true,
           isSinglePlayer: false,
           level: 400,
