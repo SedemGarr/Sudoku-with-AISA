@@ -118,7 +118,6 @@ abstract class HomeScreenState extends State<HomeScreen>
           profilePath: user['profilePath'],
           hasCompletedIntro: user['hasCompletedIntro'],
           isDark: user['isDark'],
-          fontSize: user['fontSize'],
           enableWakelock: user['enableWakelock'],
           isFriendly: user['isFriendly'],
           selectedTheme: user['selectedTheme'],

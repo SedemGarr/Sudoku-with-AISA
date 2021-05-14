@@ -33,7 +33,6 @@ class DatabaseProvider {
           level: 0,
           difficultyLevel: 0,
           audioEnabled: true,
-          fontSize: 14,
           backupBoard: [],
           profilePath: '',
           enableWakelock: true,

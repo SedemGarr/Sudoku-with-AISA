@@ -97,46 +97,6 @@ class SettingsScreenView extends SettingsScreenState {
             inactiveTrackColor: Colors.grey[300],
           ),
         ),
-        ListTile(
-          leading: GestureDetector(
-            onTap: () {
-              showHelpSnackBar(1);
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.info,
-                  color: appTheme.themeColor,
-                ),
-              ],
-            ),
-          ),
-          title: Text(
-            'font size',
-            style: GoogleFonts.lato(
-                color: appTheme.themeColor, fontWeight: FontWeight.bold),
-          ),
-          subtitle: Text(
-            usesLargeFont ? 'font sizes are larger' : 'font sizes are smaller',
-            style: GoogleFonts.lato(
-              color: appTheme.themeColor,
-            ),
-          ),
-          trailing: Switch(
-            value: usesLargeFont,
-            onChanged: (value) {
-              setState(() {
-                usesLargeFont = value;
-              });
-              setLargeFonts(value);
-            },
-            activeTrackColor: appTheme.themeColor[300],
-            activeColor: appTheme.themeColor,
-            inactiveThumbColor: Colors.grey,
-            inactiveTrackColor: Colors.grey[300],
-          ),
-        ),
         !user.hasCompletedGame
             ? ExpansionTile(
                 leading: GestureDetector(

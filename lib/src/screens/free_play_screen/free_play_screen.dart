@@ -328,15 +328,31 @@ abstract class FreePlayScreenState extends State<FreePlayScreen>
   }
 
   void updateUserAfterGame() async {
-    // create new stat
-    this.user.stats.add(Stats(
-        isCompetitive: false,
-        isCoop: false,
-        isMultiplayer: false,
-        isSinglePlayer: false,
-        level: 300,
-        timeTaken: this.elapsedTime,
-        wonGame: true));
+    List<Stats> fpStats =
+        this.user.stats.where((element) => element.level == 300).toList();
+
+    if (fpStats.length < 100) {
+      this.user.stats.add(Stats(
+          isCompetitive: false,
+          isCoop: false,
+          isMultiplayer: false,
+          isSinglePlayer: false,
+          level: 300,
+          timeTaken: this.elapsedTime,
+          wonGame: true));
+    } else {
+      fpStats.removeAt(0);
+      fpStats.add(Stats(
+          isCompetitive: false,
+          isCoop: false,
+          isMultiplayer: false,
+          isSinglePlayer: false,
+          level: 300,
+          timeTaken: this.elapsedTime,
+          wonGame: true));
+      this.user.stats = [...fpStats];
+    }
+
     // update user fields
     this.user.score += 1;
     this.user.elapsedTime = null;

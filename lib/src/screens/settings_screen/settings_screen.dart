@@ -74,7 +74,6 @@ abstract class SettingsScreenState extends State<SettingsScreen>
     this.isDark = widget.isDark;
     this.appTheme = widget.appTheme;
     this.enableWakelock = this.user.enableWakelock;
-    this.usesLargeFont = this.user.fontSize == 15 ? false : true;
     this.audioEnabled = this.user.audioEnabled;
     this.isFriendly = this.user.isFriendly;
     this.hasTrainingWheels = this.user.hasTrainingWheels;
@@ -124,17 +123,6 @@ abstract class SettingsScreenState extends State<SettingsScreen>
     this.userStateUpdateProvider.updateUser(this.user);
   }
 
-  void setLargeFonts(bool value) async {
-    setState(() {
-      this.usesLargeFont = value;
-    });
-    if (value) {
-      this.user.fontSize = 18;
-    } else {
-      this.user.fontSize = 15;
-    }
-    this.userStateUpdateProvider.updateUser(this.user);
-  }
 
   // gameplay
   void setTrainingwheels(bool value) async {

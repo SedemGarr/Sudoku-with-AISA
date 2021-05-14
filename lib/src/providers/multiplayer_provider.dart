@@ -84,9 +84,14 @@ class MultiplayerProvider {
   }
 
   Future<MultiplayerGame> joinGame(String gameId, Users user) async {
-    await firestore.collection('games').doc(gameId).update({
-      "players": FieldValue.arrayUnion([user.toJson()])
-    });
+    MultiplayerGame game = MultiplayerGame.fromJson(
+        (await firestore.collection('games').doc(gameId).get()).data());
+
+    if (game.players.indexWhere((element) => element.id == user.id) == -1) {
+      await firestore.collection('games').doc(gameId).update({
+        "players": FieldValue.arrayUnion([user.toJson()])
+      });
+    }
 
     return MultiplayerGame.fromJson(
         (await firestore.collection('games').doc(gameId).get()).data());

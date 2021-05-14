@@ -254,6 +254,347 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
     );
   }
 
+  Widget buildHasCompleted() {
+    return Scaffold(
+      body: Container(
+        color: isDark ? Colors.grey[900] : Colors.white,
+        width: MediaQuery.of(context).size.width,
+        child: SafeArea(
+          child: Container(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('congratulations!',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.lato(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: appTheme.themeColor,
+                        )),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      parseLevelTime(Duration(seconds: elapsedTime))
+                          .toUpperCase(),
+                      style: GoogleFonts.lato(
+                          color: appTheme.themeColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 1 / 3,
+                      child: Icon(
+                        LineIcons.checkCircle,
+                        color: appTheme.themeColor,
+                        size: MediaQuery.of(context).size.width * 0.55,
+                      ),
+                    ),
+                  ),
+                  isHost
+                      ? Container()
+                      : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircularProgressIndicator()),
+                  isHost
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: FlatButton(
+                            child: Text('play again',
+                                style: GoogleFonts.lato(
+                                    fontSize: 16,
+                                    color: appTheme.themeColor,
+                                    fontWeight: FontWeight.bold)),
+                            onPressed: () {
+                              replay();
+                            },
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'waiting for ${currentGame.players[currentGame.players.indexWhere((element) => element.id != user.id)].username} to restart the game',
+                            style: GoogleFonts.lato(
+                                color: appTheme.themeColor,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'or',
+                      style: GoogleFonts.lato(
+                          color: appTheme.themeColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  isHost
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: FlatButton(
+                            child: Text('end game',
+                                style: GoogleFonts.lato(
+                                    fontSize: 16,
+                                    color: appTheme.themeColor,
+                                    fontWeight: FontWeight.bold)),
+                            onPressed: () {
+                              multiplayerProvider.deleteGame(currentGame.id);
+                              goToHomeScreen();
+                            },
+                          ),
+                        )
+                      : FlatButton(
+                          child: Text('leave game',
+                              style: GoogleFonts.lato(
+                                  fontSize: 16,
+                                  color: appTheme.themeColor,
+                                  fontWeight: FontWeight.bold)),
+                          onPressed: () {
+                            multiplayerProvider.leaveGame(currentGame, user);
+                            goToHomeScreen();
+                          },
+                        ),
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'your score: ${user.score}',
+                      style: GoogleFonts.lato(
+                          color: appTheme.themeColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  isHost
+                      ? Divider(
+                          color: appTheme.themeColor,
+                        )
+                      : Container(),
+                  isHost
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'game options',
+                            style: GoogleFonts.lato(
+                                color: appTheme.themeColor,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      : Container(),
+                  isHost
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    'cooperative',
+                                    style: GoogleFonts.lato(
+                                        color: appTheme.themeColor,
+                                        fontSize:
+                                            currentGame.isCooperative ? 16 : 14,
+                                        fontWeight: currentGame.isCooperative
+                                            ? FontWeight.bold
+                                            : FontWeight.normal),
+                                  ),
+                                  Switch(
+                                    value: currentGame.isCompetitive,
+                                    onChanged: (value) {
+                                      setCompetitiveSetting(value);
+                                    },
+                                    activeTrackColor: appTheme.themeColor[300],
+                                    activeColor: appTheme.themeColor,
+                                    inactiveThumbColor: appTheme.themeColor,
+                                    inactiveTrackColor:
+                                        appTheme.themeColor[300],
+                                  ),
+                                  Text(
+                                    'competitive',
+                                    style: GoogleFonts.lato(
+                                        color: appTheme.themeColor,
+                                        fontSize:
+                                            currentGame.isCompetitive ? 16 : 14,
+                                        fontWeight: currentGame.isCompetitive
+                                            ? FontWeight.bold
+                                            : FontWeight.normal),
+                                  ),
+                                ],
+                              ),
+                              Wrap(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0),
+                                    child: ChoiceChip(
+                                      avatar: Icon(
+                                        LineIcons.dice,
+                                        color: isDark
+                                            ? Colors.grey[900]
+                                            : Colors.white,
+                                      ),
+                                      label: Text('random'),
+                                      labelStyle: GoogleFonts.lato(
+                                          color: isDark
+                                              ? Colors.grey[900]
+                                              : Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                      backgroundColor: appTheme.themeColor,
+                                      selected: currentGame.preferedPattern ==
+                                          'Random',
+                                      selectedColor: appTheme.themeColor[900],
+                                      elevation: 0,
+                                      disabledColor: appTheme.themeColor,
+                                      onSelected: (value) {
+                                        if (currentGame.preferedPattern !=
+                                            'Random') {
+                                          setBoardPatterns('Random');
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0),
+                                    child: ChoiceChip(
+                                      avatar: Icon(
+                                        LineIcons.seedling,
+                                        color: isDark
+                                            ? Colors.grey[900]
+                                            : Colors.white,
+                                      ),
+                                      label: Text('spring'),
+                                      labelStyle: GoogleFonts.lato(
+                                          color: isDark
+                                              ? Colors.grey[900]
+                                              : Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                      backgroundColor: appTheme.themeColor,
+                                      selected: currentGame.preferedPattern ==
+                                          'spring',
+                                      selectedColor: appTheme.themeColor[900],
+                                      elevation: 0,
+                                      disabledColor: appTheme.themeColor,
+                                      onSelected: (value) {
+                                        if (currentGame.preferedPattern !=
+                                            'spring') {
+                                          setBoardPatterns('spring');
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0),
+                                    child: ChoiceChip(
+                                      avatar: Icon(
+                                        LineIcons.sunAlt,
+                                        color: isDark
+                                            ? Colors.grey[900]
+                                            : Colors.white,
+                                      ),
+                                      label: Text('summer'),
+                                      labelStyle: GoogleFonts.lato(
+                                          color: isDark
+                                              ? Colors.grey[900]
+                                              : Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                      backgroundColor: appTheme.themeColor,
+                                      selected: currentGame.preferedPattern ==
+                                          'summer',
+                                      selectedColor: appTheme.themeColor[900],
+                                      elevation: 0,
+                                      disabledColor: appTheme.themeColor,
+                                      onSelected: (value) {
+                                        if (currentGame.preferedPattern !=
+                                            'summer') {
+                                          setBoardPatterns('summer');
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0),
+                                    child: ChoiceChip(
+                                      avatar: Icon(
+                                        LineIcons.leaf,
+                                        color: isDark
+                                            ? Colors.grey[900]
+                                            : Colors.white,
+                                      ),
+                                      label: Text('fall'),
+                                      labelStyle: GoogleFonts.lato(
+                                          color: isDark
+                                              ? Colors.grey[900]
+                                              : Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                      backgroundColor: appTheme.themeColor,
+                                      selected:
+                                          currentGame.preferedPattern == 'fall',
+                                      selectedColor: appTheme.themeColor[900],
+                                      elevation: 0,
+                                      disabledColor: appTheme.themeColor,
+                                      onSelected: (value) {
+                                        if (currentGame.preferedPattern !=
+                                            'fall') {
+                                          setBoardPatterns('fall');
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0),
+                                    child: ChoiceChip(
+                                      avatar: Icon(
+                                        LineIcons.snowflake,
+                                        color: isDark
+                                            ? Colors.grey[900]
+                                            : Colors.white,
+                                      ),
+                                      label: Text('winter'),
+                                      labelStyle: GoogleFonts.lato(
+                                          color: isDark
+                                              ? Colors.grey[900]
+                                              : Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                      backgroundColor: appTheme.themeColor,
+                                      selected: currentGame.preferedPattern ==
+                                          'winter',
+                                      selectedColor: appTheme.themeColor[900],
+                                      elevation: 0,
+                                      disabledColor: appTheme.themeColor,
+                                      onSelected: (value) {
+                                        if (currentGame.preferedPattern !=
+                                            'winter') {
+                                          setBoardPatterns('winter');
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        )
+                      : Container()
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -271,39 +612,36 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                   width: MediaQuery.of(context).size.width,
                   child: SafeArea(
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height * 0.45),
-                            child: Column(
-                              children: [
-                                isHost
-                                    ? Container()
-                                    : Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          '$hostName has ended the game',
-                                          style: GoogleFonts.lato(
-                                              color: appTheme.themeColor,
-                                              fontWeight: FontWeight.bold),
-                                        ),
+                          child: Column(
+                            children: [
+                              isHost
+                                  ? Container()
+                                  : Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        '$hostName has ended the game',
+                                        style: GoogleFonts.lato(
+                                            color: appTheme.themeColor,
+                                            fontWeight: FontWeight.bold),
                                       ),
-                                Tooltip(
-                                  message: 'go home',
-                                  decoration:
-                                      BoxDecoration(color: appTheme.themeColor),
-                                  child: IconButton(
-                                      icon: Icon(
-                                        LineIcons.home,
-                                        color: appTheme.themeColor,
-                                      ),
-                                      onPressed: () {
-                                        goToHomeScreen();
-                                      }),
-                                ),
-                              ],
-                            ),
+                                    ),
+                              Tooltip(
+                                message: 'go home',
+                                decoration:
+                                    BoxDecoration(color: appTheme.themeColor),
+                                child: IconButton(
+                                    icon: Icon(
+                                      LineIcons.home,
+                                      color: appTheme.themeColor,
+                                    ),
+                                    onPressed: () {
+                                      goToHomeScreen();
+                                    }),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -315,85 +653,88 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
           }
           processMultiplayerGameStreamData(snapshot);
           return this.currentGame.hasStarted
-              ? Scaffold(
-                  key: scaffoldKey,
-                  appBar: PreferredSize(
-                    preferredSize: Size.fromHeight(
-                        MediaQuery.of(context).size.height * 0.1),
-                    child: AppBar(
-                      backgroundColor:
-                          user.isDark ? Colors.grey[900] : Colors.white,
-                      elevation: 0,
-                      leadingWidth: MediaQuery.of(context).size.width * 0.5,
-                      leading: ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: this.currentGame.players.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                child: CircularProfileAvatar(
-                                  currentGame.players[index].profileUrl,
-                                  radius: 20,
-                                  // MediaQuery.of(context).size.height * 0.1,
-                                  backgroundColor: appTheme.themeColor,
-                                  initialsText: Text(
-                                    getInitials(
-                                        currentGame.players[index].username),
-                                    style: GoogleFonts.lato(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                      color: isDark
-                                          ? Colors.grey[900]
-                                          : Colors.white,
+              ? this.currentGame.hasFinished
+                  ? buildHasCompleted()
+                  : Scaffold(
+                      key: scaffoldKey,
+                      appBar: PreferredSize(
+                        preferredSize: Size.fromHeight(
+                            MediaQuery.of(context).size.height * 0.1),
+                        child: AppBar(
+                          backgroundColor:
+                              user.isDark ? Colors.grey[900] : Colors.white,
+                          elevation: 0,
+                          leadingWidth: MediaQuery.of(context).size.width * 0.5,
+                          leading: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: this.currentGame.players.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    child: CircularProfileAvatar(
+                                      currentGame.players[index].profileUrl,
+                                      radius: 20,
+                                      // MediaQuery.of(context).size.height * 0.1,
+                                      backgroundColor: appTheme.themeColor,
+                                      initialsText: Text(
+                                        getInitials(currentGame
+                                            .players[index].username),
+                                        style: GoogleFonts.lato(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                          color: isDark
+                                              ? Colors.grey[900]
+                                              : Colors.white,
+                                        ),
+                                      ),
+                                      borderColor: Colors.transparent,
+                                      elevation: 0.0,
+                                      foregroundColor: Colors.transparent,
+                                      cacheImage: true,
+                                      showInitialTextAbovePicture: false,
                                     ),
                                   ),
-                                  borderColor: Colors.transparent,
-                                  elevation: 0.0,
-                                  foregroundColor: Colors.transparent,
-                                  cacheImage: true,
-                                  showInitialTextAbovePicture: false,
-                                ),
-                              ),
-                            );
-                          }),
-                      actions: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            buildStopWatch(),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  body: GestureDetector(
-                    onTap: () {
-                      clearSelectedIndex();
-                    },
-                    child: Container(
-                      color: user.isDark ? Colors.grey[900] : Colors.white,
-                      child: SafeArea(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.01,
-                            ),
-                            buildBoard(),
-                            Expanded(
-                              child: Container(),
-                            ),
-                            buildButtonRow(context),
-                            buildNumberPad(context)
+                                );
+                              }),
+                          actions: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                buildStopWatch(),
+                              ],
+                            )
                           ],
                         ),
                       ),
-                    ),
-                  ),
-                )
+                      body: GestureDetector(
+                        onTap: () {
+                          clearSelectedIndex();
+                        },
+                        child: Container(
+                          color: user.isDark ? Colors.grey[900] : Colors.white,
+                          child: SafeArea(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.01,
+                                ),
+                                buildBoard(),
+                                Expanded(
+                                  child: Container(),
+                                ),
+                                buildButtonRow(context),
+                                buildNumberPad(context)
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
               : buildLoading();
         },
       ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:sudoku/src/models/difficulty.dart';
 import 'package:sudoku/src/models/level.dart';
@@ -12,6 +11,7 @@ import 'package:sudoku/src/providers/multiplayer_provider.dart';
 import 'package:sudoku/src/providers/theme_provider.dart';
 import 'package:sudoku/src/providers/user_state_update_provider.dart';
 import 'package:sudoku/src/screens/home_screen/home_screen.dart';
+import 'package:sudoku/src/screens/multiplayer_end_screen/multiplayer_end_screen.dart';
 import 'package:wakelock/wakelock.dart';
 import 'multiplayer_game_screen_ui.dart';
 
@@ -59,25 +59,39 @@ abstract class MultiplayerGameScreenScreenState
     this.isDark = this.user.isDark;
     this.isHost = this.user.id == this.currentGame.hostId;
     this.hostName = this
-        .currentGame
-        .players[this
+                .currentGame
+                .players
+                .indexWhere((element) => element.id != this.user.id) ==
+            -1
+        ? this.user.username
+        : this
             .currentGame
-            .players
-            .indexWhere((element) => element.id != this.user.id)]
-        .username;
+            .players[this
+                .currentGame
+                .players
+                .indexWhere((element) => element.id != this.user.id)]
+            .username;
     this.partnerName = this
-        .currentGame
-        .players[this
+                .currentGame
+                .players
+                .indexWhere((element) => element.id != this.user.id) ==
+            -1
+        ? this.user.username
+        : this
             .currentGame
-            .players
-            .indexWhere((element) => element.id != this.user.id)]
-        .username;
+            .players[this
+                .currentGame
+                .players
+                .indexWhere((element) => element.id != this.user.id)]
+            .username;
     this.getTheme();
     this.startGameIfHostOnInit();
     this.loadSavedGame();
     this.startStopWatchTimer();
     this.enableWakeLock();
-    this.findAlreadyFilledCells();
+    if (!widget.isSavedGame) {
+      this.findAlreadyFilledCells();
+    }
     this.removeDuplicatePlayers();
   }
 
@@ -94,19 +108,21 @@ abstract class MultiplayerGameScreenScreenState
   }
 
   void removeDuplicatePlayers() async {
-    List<Users> tempArray = [];
-    for (int i = 0; i < this.currentGame.players.length; i++) {
-      if (i > 0) {
-        if (this.currentGame.players[i].id !=
-            this.currentGame.players[i - 1].id) {
+    if (this.currentGame.players.length > 2) {
+      List<Users> tempArray = [];
+      for (int i = 0; i < this.currentGame.players.length; i++) {
+        if (i > 0) {
+          if (this.currentGame.players[i].id !=
+              this.currentGame.players[i - 1].id) {
+            tempArray.add(this.currentGame.players[i]);
+          }
+        } else {
           tempArray.add(this.currentGame.players[i]);
         }
-      } else {
-        tempArray.add(this.currentGame.players[i]);
       }
+      this.currentGame.players = [...tempArray];
+      await this.multiplayerProvider.updateGameSettings(this.currentGame);
     }
-    this.currentGame.players = [...tempArray];
-    await this.multiplayerProvider.updateGameSettings(this.currentGame);
   }
 
   void getTheme() {
@@ -122,6 +138,7 @@ abstract class MultiplayerGameScreenScreenState
   }
 
   void processMultiplayerGameStreamData(AsyncSnapshot snapshot) {
+    // check if a player has left the game
     if (this.currentGame.players.length >
         snapshot.data.docs[0].data()['players'].length) {
       // show player left snackbar
@@ -130,7 +147,22 @@ abstract class MultiplayerGameScreenScreenState
 
     if (snapshot.data.docs.length > 0) {
       this.currentGame = MultiplayerGame.fromJson(snapshot.data.docs[0].data());
-      // check if game has been won
+      // check if board is solved
+      if (this.isPuzzleSolved()) {
+        this.currentGame.elapsedTime = this.elapsedTime;
+        if (!this.currentGame.hasFinished) {
+          this.updateUserAfterGame();
+        }
+        this.stopStopWatchTimer();
+        this.currentGame.hasFinished = true;
+      } else {
+        if (this.currentGame.elapsedTime == null) {
+          this.stopStopWatchTimer();
+          this.resetStopWatchTimer();
+          this.startStopWatchTimer();
+          this.findAlreadyFilledCells();
+        }
+      }
     }
   }
 
@@ -147,6 +179,9 @@ abstract class MultiplayerGameScreenScreenState
       }
       this.currentGame.lastPlayedOn = DateTime.now().toString();
       this.currentGame.lastPlayer = this.user.id;
+      this.currentGame.level.board = [
+        ...this.currentGame.level.solvedBoard
+      ]; // don't forget to clear this after testing
       this.multiplayerProvider.updateGameSettings(this.currentGame);
     }
   }
@@ -344,14 +379,17 @@ abstract class MultiplayerGameScreenScreenState
       this.selectedIndex = index;
     });
 
-    if (isHost) {
-      this.currentGame.hostSelectedIndex = index;
-    } else {
-      this.currentGame.participantSelectedIndex = index;
+    if (this.currentGame.isCooperative) {
+      if (isHost) {
+        this.currentGame.hostSelectedIndex = index;
+      } else {
+        this.currentGame.participantSelectedIndex = index;
+      }
+      this.currentGame.lastPlayedOn = DateTime.now().toString();
+      this.currentGame.lastPlayer = this.user.id;
+      this.currentGame.elapsedTime = this.elapsedTime;
+      this.multiplayerProvider.updateGameSettings(this.currentGame);
     }
-    this.currentGame.lastPlayedOn = DateTime.now().toString();
-    this.currentGame.lastPlayer = this.user.id;
-    this.multiplayerProvider.updateGameSettings(this.currentGame);
   }
 
   void setCellValue(int value, BuildContext context) {
@@ -365,16 +403,9 @@ abstract class MultiplayerGameScreenScreenState
           this.currentGame.level.board[this.selectedIndex] = 0;
         });
       }
-      // check if board is solved
-      if (this.isPuzzleSolved()) {
-        this.currentGame.elapsedTime = this.elapsedTime;
-        this.stopStopWatchTimer();
-        this.disableWakeLock();
-        this.showPuzzleCompleteDialog(context);
-      } else {
-        // save game state
-        this.updateUserStateDuringGame();
-      }
+
+      // save game state
+      this.updateUserStateDuringGame();
     }
   }
 
@@ -384,8 +415,6 @@ abstract class MultiplayerGameScreenScreenState
       this.currentGame.lastPlayedOn = DateTime.now().toString();
       this.currentGame.lastPlayer = this.user.id;
       this.multiplayerProvider.updateGameSettings(this.currentGame);
-    } else {
-      this.currentGame.elapsedTime = this.elapsedTime;
     }
   }
 
@@ -417,9 +446,9 @@ abstract class MultiplayerGameScreenScreenState
     }
   }
 
-  void regenerateBoard() async {
+  Future<void> regenerateBoard() async {
     Level level = await Difficulty.regenerateLevel(
-        this.currentGame.difficulty, 300, this.currentGame.preferedPattern);
+        this.currentGame.difficulty, 400, this.currentGame.preferedPattern);
 
     // reset timers
     this.stopStopWatchTimer();
@@ -427,11 +456,17 @@ abstract class MultiplayerGameScreenScreenState
     this.startStopWatchTimer();
 
     setState(() {
-      this.currentGame.level = level;
       this.selectedIndex = null;
+      this.currentGame.level = level;
+      this.currentGame.hostSelectedIndex = null;
+      this.currentGame.participantSelectedIndex = null;
+      this.currentGame.elapsedTime = null;
+      this.currentGame.hasFinished = false;
+      this.currentGame.hasStarted = true;
+      this.currentGame.lastPlayedOn = DateTime.now().toString();
     });
 
-    this.findAlreadyFilledCells();
+    await this.multiplayerProvider.updateGameSettings(this.currentGame);
   }
 
   void goToHomeScreen() {
@@ -442,89 +477,55 @@ abstract class MultiplayerGameScreenScreenState
     ));
   }
 
-  void incrementLevel() {
-    this.selectedIndex = null;
-    this.updateUserAfterGame();
-    this.regenerateBoard();
+  void goToMultiplayerEndScreen() {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (BuildContext context) {
+        return MultiplayerEndScreen();
+      },
+    ));
+  }
+
+  void replay() async {
+    await this.regenerateBoard();
     this.resetStopWatchTimer();
     this.startStopWatchTimer();
     this.enableWakeLock();
+    this.findAlreadyFilledCells();
   }
 
   void updateUserAfterGame() async {
-    // create new stat
-    this.user.stats.add(Stats(
-        isCompetitive: false,
-        isCoop: false,
-        isMultiplayer: false,
-        isSinglePlayer: false,
-        level: 300,
-        timeTaken: this.elapsedTime,
-        wonGame: true));
+    List<Stats> mpStats = this
+        .user
+        .stats
+        .where((element) => element.isCompetitive || element.isCoop)
+        .toList();
+
+    if (mpStats.length < 100) {
+      this.user.stats.add(Stats(
+          isCompetitive: this.currentGame.isCompetitive,
+          isCoop: this.currentGame.isCompetitive,
+          isMultiplayer: true,
+          isSinglePlayer: false,
+          level: 400,
+          timeTaken: this.elapsedTime,
+          wonGame: true));
+    } else {
+      mpStats.removeAt(0);
+      mpStats.add(Stats(
+          isCompetitive: this.currentGame.isCompetitive,
+          isCoop: this.currentGame.isCompetitive,
+          isMultiplayer: true,
+          isSinglePlayer: false,
+          level: 400,
+          timeTaken: this.elapsedTime,
+          wonGame: true));
+      this.user.stats = [...mpStats];
+    }
+
     // update user fields
     this.user.score += 1;
-    this.user.elapsedTime = null;
-    this.user.backupBoard = [];
-    this.user.savedBoard = [];
-    this.user.savedSolvedBoard = [];
     // update user
     await this.userStateUpdateProvider.updateUser(this.user);
-  }
-
-  showPuzzleCompleteDialog(BuildContext context) {
-    return showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: this.appTheme.themeColor,
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 1 / 3,
-                    child: Icon(
-                      LineIcons.robot,
-                      color: this.user.isDark ? Colors.grey[900] : Colors.white,
-                      size: MediaQuery.of(context).size.width * 0.55,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    child: Text('',
-                        style: GoogleFonts.lato(
-                            color: this.user.isDark
-                                ? Colors.grey[900]
-                                : Colors.white)),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: FlatButton(
-                    onPressed: () {
-                      //  this.aisaStop();
-                      Navigator.pop(context);
-                      incrementLevel();
-                    },
-                    child: Text(
-                      'proceed',
-                      textAlign: TextAlign.end,
-                      style: GoogleFonts.lato(
-                          fontWeight: FontWeight.bold,
-                          color: this.user.isDark
-                              ? Colors.grey[900]
-                              : Colors.white),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        });
   }
 
   String getInitials(String username) {
@@ -638,5 +639,63 @@ abstract class MultiplayerGameScreenScreenState
             ],
           );
         });
+  }
+
+  void setCompetitiveSetting(bool value) async {
+    if (value) {
+      setState(() {
+        this.currentGame.isCompetitive = true;
+        this.currentGame.isCooperative = false;
+      });
+      this.multiplayerProvider.updateGameSettings(this.currentGame);
+    } else {
+      setState(() {
+        this.currentGame.isCompetitive = false;
+        this.currentGame.isCooperative = true;
+      });
+      this.multiplayerProvider.updateGameSettings(this.currentGame);
+    }
+  }
+
+  Future<void> setBoardPatterns(String pattern) async {
+    switch (pattern) {
+      case 'Random':
+        setState(() {
+          this.currentGame.preferedPattern = 'Random';
+        });
+
+        break;
+      case 'spring':
+        setState(() {
+          this.currentGame.preferedPattern = 'spring';
+        });
+
+        break;
+      case 'summer':
+        setState(() {
+          this.currentGame.preferedPattern = 'summer';
+        });
+
+        break;
+      case 'fall':
+        setState(() {
+          this.currentGame.preferedPattern = 'fall';
+        });
+
+        break;
+      case 'winter':
+        setState(() {
+          this.currentGame.preferedPattern = 'winter';
+        });
+        break;
+    }
+    this.multiplayerProvider.updateGameSettings(this.currentGame);
+  }
+
+  String parseLevelTime(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+    return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
   }
 }

@@ -13,7 +13,6 @@ class Users {
   int difficultyLevel;
   int selectedTheme;
   int freePlayDifficulty;
-  double fontSize;
   bool hasCompletedIntro;
   bool enableWakelock;
   bool hasCompletedGame;
@@ -40,7 +39,6 @@ class Users {
       @required this.username,
       @required this.score,
       @required this.level,
-      @required this.fontSize,
       @required this.elapsedTime,
       @required this.difficultyLevel,
       @required this.hasCompletedIntro,
@@ -62,7 +60,6 @@ class Users {
     preferedPattern = json['preferedPattern'];
     freePlayDifficulty = json['freePlayDifficulty'];
     isDark = json['isDark'];
-    fontSize = json['fontSize'];
     hasCompletedGame = json['hasCompletedGame'];
     enableWakelock = json['enableWakelock'];
     selectedTheme = json['selectedTheme'];
@@ -110,7 +107,6 @@ class Users {
     data['preferedPattern'] = this.preferedPattern;
     data['audioEnabled'] = this.audioEnabled;
     data['enableWakelock'] = this.enableWakelock;
-    data['fontSize'] = this.fontSize;
     data['isDark'] = this.isDark;
     data['selectedTheme'] = this.selectedTheme;
     data['elapsedTime'] = this.elapsedTime;
