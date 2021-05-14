@@ -304,6 +304,7 @@ abstract class FreePlayScreenState extends State<FreePlayScreen>
 
     setState(() {
       this.level = level;
+      this.selectedIndex = null;
     });
 
     this.findAlreadyFilledCells();

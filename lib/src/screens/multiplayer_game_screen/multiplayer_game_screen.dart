@@ -35,6 +35,9 @@ abstract class MultiplayerGameScreenScreenState
   Users user;
   MultiplayerGame currentGame;
 
+  String hostName;
+  String partnerName;
+
   bool isDark;
   bool isHost;
   AppTheme appTheme;
@@ -55,6 +58,20 @@ abstract class MultiplayerGameScreenScreenState
     this.currentGame = widget.currentGame;
     this.isDark = this.user.isDark;
     this.isHost = this.user.id == this.currentGame.hostId;
+    this.hostName = this
+        .currentGame
+        .players[this
+            .currentGame
+            .players
+            .indexWhere((element) => element.id != this.user.id)]
+        .username;
+    this.partnerName = this
+        .currentGame
+        .players[this
+            .currentGame
+            .players
+            .indexWhere((element) => element.id != this.user.id)]
+        .username;
     this.getTheme();
     this.startGameIfHostOnInit();
     this.loadSavedGame();
@@ -105,9 +122,18 @@ abstract class MultiplayerGameScreenScreenState
   }
 
   void processMultiplayerGameStreamData(AsyncSnapshot snapshot) {
-    this.currentGame = MultiplayerGame.fromJson(snapshot.data.docs[0].data());
-    // check if game has been won
-    // check is player has left
+    if (this.currentGame.players.length >
+        snapshot.data.docs[0].data()['players'].length) {
+      // show player left snackbar
+      showPlayerLeftSnackbar();
+    }
+
+    if (snapshot.data.docs.length > 0) {
+      this.currentGame = MultiplayerGame.fromJson(snapshot.data.docs[0].data());
+      // check if game has been won
+      // check is player has left
+
+    }
   }
 
   void clearSelectedIndex() {
@@ -201,6 +227,19 @@ abstract class MultiplayerGameScreenScreenState
             )));
       });
     }
+  }
+
+  void showPlayerLeftSnackbar() {
+    Future.delayed(Duration(milliseconds: 500), () {
+      scaffoldKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: appTheme.themeColor,
+          content: Text(
+            '$partnerName has left the game',
+            style: GoogleFonts.lato(
+                color: this.user.isDark ? Colors.grey[900] : Colors.white),
+            textAlign: TextAlign.center,
+          )));
+    });
   }
 
   Color getCellColor(int index, int value) {
@@ -390,6 +429,7 @@ abstract class MultiplayerGameScreenScreenState
 
     setState(() {
       this.currentGame.level = level;
+      this.selectedIndex = null;
     });
 
     this.findAlreadyFilledCells();
@@ -500,5 +540,104 @@ abstract class MultiplayerGameScreenScreenState
       initials += '${names[i][0]}'.toUpperCase();
     }
     return initials;
+  }
+
+  showLeaveGameDialog(MultiplayerGame game, BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+            title: Text(
+                'leave this game with ' +
+                    game
+                        .players[game.players
+                            .indexWhere((element) => element.id != user.id)]
+                        .username +
+                    '?',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.lato(
+                    color: isDark ? Colors.white : Colors.grey[900])),
+            actions: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('oops!',
+                          textAlign: TextAlign.end,
+                          style: GoogleFonts.lato(
+                              color:
+                                  isDark ? Colors.white : Colors.grey[900]))),
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      this.multiplayerProvider.leaveGame(game, this.user);
+                      this.goToHomeScreen();
+                    },
+                    child: Text(
+                      'yes, I want to leave',
+                      textAlign: TextAlign.end,
+                      style: GoogleFonts.lato(color: appTheme.themeColor),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        });
+  }
+
+  showDeleteGameDialog(MultiplayerGame game, BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+            title: Text(
+                game.players.indexWhere((element) => element.id != user.id) ==
+                        -1
+                    ? 'end game?'
+                    : 'end this game with ' +
+                        game
+                            .players[game.players
+                                .indexWhere((element) => element.id != user.id)]
+                            .username +
+                        '?',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.lato(
+                    color: isDark ? Colors.white : Colors.grey[900])),
+            actions: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('oops!',
+                          textAlign: TextAlign.end,
+                          style: GoogleFonts.lato(
+                              color:
+                                  isDark ? Colors.white : Colors.grey[900]))),
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      this.multiplayerProvider.deleteGame(game.id);
+                      this.goToHomeScreen();
+                    },
+                    child: Text(
+                      'mmhm, end it',
+                      textAlign: TextAlign.end,
+                      style: GoogleFonts.lato(color: appTheme.themeColor),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        });
   }
 }

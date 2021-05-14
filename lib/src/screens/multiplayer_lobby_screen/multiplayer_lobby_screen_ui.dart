@@ -64,13 +64,13 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
     ));
   }
 
-  Widget buildContents() {
+  Widget buildContents(BuildContext context) {
     return Container(
-      child: isJoining ? buildJoining() : buildHosting(),
+      child: isJoining ? buildJoining(context) : buildHosting(),
     );
   }
 
-  Widget buildJoinGameForm() {
+  Widget buildJoinGameForm(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Form(
@@ -105,7 +105,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                     color: appTheme.themeColor,
                   ),
                   onPressed: () {
-                    submitAndJoinGame();
+                    submitAndJoinGame(context);
                   })
             ],
           )),
@@ -125,7 +125,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
     ));
   }
 
-  Widget buildJoining() {
+  Widget buildJoining(BuildContext context) {
     return isLoading
         ? Column(
             children: [
@@ -141,7 +141,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                buildJoinGameForm(),
+                buildJoinGameForm(context),
                 Flexible(
                   child: StreamBuilder(
                     stream: multiplayerProvider.getOngoingGames(user),
@@ -176,30 +176,54 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                           child: ListTile(
                                             onTap: () {
                                               showJoiningGameFromListDialog(
-                                                  onGoingGames[index]);
+                                                  onGoingGames[index], context);
                                             },
                                             dense: true,
                                             tileColor: appTheme.themeColor,
                                             leading: CircularProfileAvatar(
                                               onGoingGames[index]
-                                                  .players[onGoingGames[index]
-                                                      .players
-                                                      .indexWhere((element) =>
-                                                          element.id !=
-                                                          user.id)]
-                                                  .profileUrl,
+                                                          .players
+                                                          .indexWhere(
+                                                              (element) =>
+                                                                  element
+                                                                      .id !=
+                                                                  user.id) ==
+                                                      -1
+                                                  ? user.profileUrl
+                                                  : onGoingGames[index]
+                                                      .players[
+                                                          onGoingGames[index]
+                                                              .players
+                                                              .indexWhere(
+                                                                  (element) =>
+                                                                      element
+                                                                          .id !=
+                                                                      user.id)]
+                                                      .profileUrl,
                                               radius: 20,
                                               backgroundColor: isDark
                                                   ? Colors.grey[900]
                                                   : Colors.white,
                                               initialsText: Text(
                                                 getInitials(onGoingGames[index]
-                                                    .players[onGoingGames[index]
-                                                        .players
-                                                        .indexWhere((element) =>
-                                                            element.id !=
-                                                            user.id)]
-                                                    .username),
+                                                            .players
+                                                            .indexWhere(
+                                                                (element) =>
+                                                                    element
+                                                                        .id !=
+                                                                    user.id) ==
+                                                        -1
+                                                    ? user.username
+                                                    : onGoingGames[index]
+                                                        .players[onGoingGames[
+                                                                index]
+                                                            .players
+                                                            .indexWhere(
+                                                                (element) =>
+                                                                    element
+                                                                        .id !=
+                                                                    user.id)]
+                                                        .username),
                                                 style: GoogleFonts.lato(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 14,
@@ -214,25 +238,42 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                               showInitialTextAbovePicture:
                                                   false,
                                             ),
-                                            title: Text(
-                                              onGoingGames[index]
-                                                      .players[
-                                                          onGoingGames[index]
-                                                              .players
-                                                              .indexWhere(
-                                                                  (element) =>
-                                                                      element
-                                                                          .id !=
-                                                                      user.id)]
-                                                      .username +
-                                                  ' and you',
-                                              style: GoogleFonts.lato(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: isDark
-                                                      ? Colors.grey[900]
-                                                      : Colors.white),
-                                            ),
+                                            title: onGoingGames[index]
+                                                        .players
+                                                        .indexWhere((element) =>
+                                                            element.id !=
+                                                            user.id) ==
+                                                    -1
+                                                ? Text(
+                                                    'only you',
+                                                    style: GoogleFonts.lato(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: isDark
+                                                            ? Colors.grey[900]
+                                                            : Colors.white),
+                                                  )
+                                                : Text(
+                                                    onGoingGames[index]
+                                                            .players[onGoingGames[
+                                                                    index]
+                                                                .players
+                                                                .indexWhere(
+                                                                    (element) =>
+                                                                        element
+                                                                            .id !=
+                                                                        user.id)]
+                                                            .username +
+                                                        ' and you',
+                                                    style: GoogleFonts.lato(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: isDark
+                                                            ? Colors.grey[900]
+                                                            : Colors.white),
+                                                  ),
                                             subtitle: Text(
                                               formatDateTime(onGoingGames[index]
                                                   .lastPlayedOn),
@@ -251,9 +292,19 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                                             : Colors.white),
                                                     onPressed: () {
                                                       showDeleteGameDialog(
-                                                          onGoingGames[index]);
+                                                          onGoingGames[index],
+                                                          context);
                                                     })
-                                                : null,
+                                                : IconButton(
+                                                    icon: Icon(LineIcons.unlink,
+                                                        color: isDark
+                                                            ? Colors.grey[900]
+                                                            : Colors.white),
+                                                    onPressed: () {
+                                                      showLeaveGameDialog(
+                                                          onGoingGames[index],
+                                                          context);
+                                                    }),
                                           ),
                                         );
                                       })
@@ -317,7 +368,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                         if (!snapshot.hasData || snapshot.data == null) {
                           return Container();
                         }
-                        processStartingGameStreamData(snapshot, context);
+                        processStartingGameStreamData(snapshot);
                         return Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -568,7 +619,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
             child: Column(
               children: [
                 buildTopNavBar(),
-                buildContents(),
+                buildContents(context),
               ],
             ),
           ),

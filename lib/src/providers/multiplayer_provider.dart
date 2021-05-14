@@ -76,12 +76,18 @@ class MultiplayerProvider {
   }
 
   Future<MultiplayerGame> joinGame(String gameId, Users user) async {
-    firestore.collection('games').doc(gameId).update({
+    await firestore.collection('games').doc(gameId).update({
       "players": FieldValue.arrayUnion([user.toJson()])
     });
 
     return MultiplayerGame.fromJson(
         (await firestore.collection('games').doc(gameId).get()).data());
+  }
+
+  Future<void> leaveGame(MultiplayerGame game, Users user) async {
+    game.players.removeWhere((element) => element.id == user.id);
+
+    await updateGameSettings(game);
   }
 
   Future<void> deleteGame(String gameId) async {

@@ -1,4 +1,3 @@
-import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -115,13 +114,12 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
     });
   }
 
-  void processStartingGameStreamData(
-      AsyncSnapshot snapshot, BuildContext context) {
+  void processStartingGameStreamData(AsyncSnapshot snapshot) {
     this.currentGame = MultiplayerGame.fromJson(snapshot.data.docs[0].data());
-    this.hasGameStarted(currentGame, context);
+    this.hasGameStarted(currentGame);
   }
 
-  void hasGameStarted(MultiplayerGame currentGame, BuildContext context) {
+  void hasGameStarted(MultiplayerGame currentGame) {
     Future.delayed(Duration(seconds: 1), () {
       if (currentGame.players.length > 1) {
         // this.showGameStartingDialog(this.currentGame.players[this
@@ -135,61 +133,61 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
     });
   }
 
-  showGameStartingDialog(Users user) {
-    return showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: this.appTheme.themeColor,
-            title: Text('${user.username} has joined your game',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.lato(
-                    fontWeight: FontWeight.bold,
-                    color: isDark ? Colors.grey[900] : Colors.white)),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                CircularProfileAvatar(
-                  user.profileUrl,
-                  radius: MediaQuery.of(context).size.width * 0.1,
-                  backgroundColor: appTheme.themeColor,
-                  initialsText: Text(
-                    getInitials(user.username),
-                    style: GoogleFonts.lato(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
-                      color: isDark ? Colors.grey[900] : Colors.white,
-                    ),
-                  ),
-                  borderColor: Colors.transparent,
-                  elevation: 0.0,
-                  foregroundColor: Colors.transparent,
-                  cacheImage: true,
-                  showInitialTextAbovePicture: false,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 8.0, right: 8.0, top: 8.0, bottom: 8.0),
-                  child: Text(
-                    'the game will start in a few seconds',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.lato(
-                        color: isDark ? Colors.grey[900] : Colors.white),
-                  ),
-                ),
-                LinearProgressIndicator(
-                  backgroundColor: this.appTheme.themeColor,
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                      this.isDark ? Colors.grey[900] : Colors.white),
-                  minHeight: 1,
-                )
-              ],
-            ),
-          );
-        });
-  }
+  // showGameStartingDialog(Users user) {
+  //   return showDialog(
+  //       barrierDismissible: false,
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           backgroundColor: this.appTheme.themeColor,
+  //           title: Text('${user.username} has joined your game',
+  //               textAlign: TextAlign.center,
+  //               style: GoogleFonts.lato(
+  //                   fontWeight: FontWeight.bold,
+  //                   color: isDark ? Colors.grey[900] : Colors.white)),
+  //           content: Column(
+  //             mainAxisSize: MainAxisSize.min,
+  //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //             children: [
+  //               CircularProfileAvatar(
+  //                 user.profileUrl,
+  //                 radius: MediaQuery.of(context).size.width * 0.1,
+  //                 backgroundColor: appTheme.themeColor,
+  //                 initialsText: Text(
+  //                   getInitials(user.username),
+  //                   style: GoogleFonts.lato(
+  //                     fontWeight: FontWeight.bold,
+  //                     fontSize: 25,
+  //                     color: isDark ? Colors.grey[900] : Colors.white,
+  //                   ),
+  //                 ),
+  //                 borderColor: Colors.transparent,
+  //                 elevation: 0.0,
+  //                 foregroundColor: Colors.transparent,
+  //                 cacheImage: true,
+  //                 showInitialTextAbovePicture: false,
+  //               ),
+  //               Padding(
+  //                 padding: const EdgeInsets.only(
+  //                     left: 8.0, right: 8.0, top: 8.0, bottom: 8.0),
+  //                 child: Text(
+  //                   'the game will start in a few seconds',
+  //                   textAlign: TextAlign.center,
+  //                   style: GoogleFonts.lato(
+  //                       color: isDark ? Colors.grey[900] : Colors.white),
+  //                 ),
+  //               ),
+  //               LinearProgressIndicator(
+  //                 backgroundColor: this.appTheme.themeColor,
+  //                 valueColor: AlwaysStoppedAnimation<Color>(
+  //                     this.isDark ? Colors.grey[900] : Colors.white),
+  //                 minHeight: 1,
+  //               )
+  //             ],
+  //           ),
+  //         );
+  //       });
+  // }
 
   String getInitials(String username) {
     List<String> names = username.split(" ");
@@ -205,13 +203,13 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
     return initials;
   }
 
-  void submitAndJoinGame() {
+  void submitAndJoinGame(BuildContext context) {
     if (formKey.currentState.validate()) {
-      joinGameWithCode();
+      joinGameWithCode(context);
     }
   }
 
-  joinGameWithCode() async {
+  joinGameWithCode(BuildContext context) async {
     this.toggleLoading();
     if (await this.multiplayerProvider.checkIfGameExists(this.joiningGameId)) {
       this.currentGame = await this
@@ -225,7 +223,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
     }
   }
 
-  joinGameFromList(MultiplayerGame game) async {
+  joinGameFromList(MultiplayerGame game, BuildContext context) async {
     this.toggleLoading();
     if (await this.multiplayerProvider.checkIfGameExists(game.id)) {
       this.currentGame =
@@ -364,19 +362,22 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
     return Jiffy(datetime).fromNow();
   }
 
-  showJoiningGameFromListDialog(MultiplayerGame game) {
+  showJoiningGameFromListDialog(MultiplayerGame game, BuildContext context) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: isDark ? Colors.grey[900] : Colors.white,
             title: Text(
-                'rejoin this game with ' +
-                    game
-                        .players[game.players
-                            .indexWhere((element) => element.id != user.id)]
-                        .username +
-                    '?',
+                game.players.indexWhere((element) => element.id != user.id) ==
+                        -1
+                    ? 'rejoing this game?'
+                    : 'rejoin this game with ' +
+                        game
+                            .players[game.players
+                                .indexWhere((element) => element.id != user.id)]
+                            .username +
+                        '?',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.lato(
                     color: isDark ? Colors.white : Colors.grey[900])),
@@ -396,7 +397,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
                   FlatButton(
                     onPressed: () {
                       Navigator.pop(context);
-                      this.joinGameFromList(game);
+                      this.joinGameFromList(game, context);
                     },
                     child: Text(
                       'yes please',
@@ -411,19 +412,22 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
         });
   }
 
-  showDeleteGameDialog(MultiplayerGame game) {
+  showDeleteGameDialog(MultiplayerGame game, BuildContext context) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: isDark ? Colors.grey[900] : Colors.white,
             title: Text(
-                'end this game with ' +
-                    game
-                        .players[game.players
-                            .indexWhere((element) => element.id != user.id)]
-                        .username +
-                    '?',
+                game.players.indexWhere((element) => element.id != user.id) ==
+                        -1
+                    ? 'end game?'
+                    : 'end this game with ' +
+                        game
+                            .players[game.players
+                                .indexWhere((element) => element.id != user.id)]
+                            .username +
+                        '?',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.lato(
                     color: isDark ? Colors.white : Colors.grey[900])),
@@ -447,6 +451,53 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
                     },
                     child: Text(
                       'mmhm, end it',
+                      textAlign: TextAlign.end,
+                      style: GoogleFonts.lato(color: appTheme.themeColor),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        });
+  }
+
+  showLeaveGameDialog(MultiplayerGame game, BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+            title: Text(
+                'leave this game with ' +
+                    game
+                        .players[game.players
+                            .indexWhere((element) => element.id != user.id)]
+                        .username +
+                    '?',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.lato(
+                    color: isDark ? Colors.white : Colors.grey[900])),
+            actions: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('oops!',
+                          textAlign: TextAlign.end,
+                          style: GoogleFonts.lato(
+                              color:
+                                  isDark ? Colors.white : Colors.grey[900]))),
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      this.multiplayerProvider.leaveGame(game, this.user);
+                    },
+                    child: Text(
+                      'yes, I want to leave',
                       textAlign: TextAlign.end,
                       style: GoogleFonts.lato(color: appTheme.themeColor),
                     ),
