@@ -131,8 +131,6 @@ abstract class MultiplayerGameScreenScreenState
     if (snapshot.data.docs.length > 0) {
       this.currentGame = MultiplayerGame.fromJson(snapshot.data.docs[0].data());
       // check if game has been won
-      // check is player has left
-
     }
   }
 

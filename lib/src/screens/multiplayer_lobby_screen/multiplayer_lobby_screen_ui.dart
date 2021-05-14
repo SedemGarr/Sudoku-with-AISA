@@ -368,7 +368,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                         if (!snapshot.hasData || snapshot.data == null) {
                           return Container();
                         }
-                        processStartingGameStreamData(snapshot);
+                        processStartingGameStreamData(snapshot, context);
                         return Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [

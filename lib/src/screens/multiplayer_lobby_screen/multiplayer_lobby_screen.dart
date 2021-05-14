@@ -1,5 +1,6 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:sudoku/src/models/difficulty.dart';
@@ -114,80 +115,19 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
     });
   }
 
-  void processStartingGameStreamData(AsyncSnapshot snapshot) {
+  void processStartingGameStreamData(
+      AsyncSnapshot snapshot, BuildContext context) {
     this.currentGame = MultiplayerGame.fromJson(snapshot.data.docs[0].data());
-    this.hasGameStarted(currentGame);
+    this.hasGameStarted(currentGame, context);
   }
 
-  void hasGameStarted(MultiplayerGame currentGame) {
-    Future.delayed(Duration(seconds: 1), () {
-      if (currentGame.players.length > 1) {
-        // this.showGameStartingDialog(this.currentGame.players[this
-        //     .currentGame
-        //     .players
-        //     .indexWhere((user) => user.id != this.user.id)]);
-
-        // go to game screen
-        this.goToMultiplayerGameScreen();
-      }
-    });
+  void hasGameStarted(MultiplayerGame currentGame, BuildContext context) {
+    if (currentGame.players.length > 1) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        this.goToMultiplayerGameScreen(context);
+      });
+    }
   }
-
-  // showGameStartingDialog(Users user) {
-  //   return showDialog(
-  //       barrierDismissible: false,
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return AlertDialog(
-  //           backgroundColor: this.appTheme.themeColor,
-  //           title: Text('${user.username} has joined your game',
-  //               textAlign: TextAlign.center,
-  //               style: GoogleFonts.lato(
-  //                   fontWeight: FontWeight.bold,
-  //                   color: isDark ? Colors.grey[900] : Colors.white)),
-  //           content: Column(
-  //             mainAxisSize: MainAxisSize.min,
-  //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //             children: [
-  //               CircularProfileAvatar(
-  //                 user.profileUrl,
-  //                 radius: MediaQuery.of(context).size.width * 0.1,
-  //                 backgroundColor: appTheme.themeColor,
-  //                 initialsText: Text(
-  //                   getInitials(user.username),
-  //                   style: GoogleFonts.lato(
-  //                     fontWeight: FontWeight.bold,
-  //                     fontSize: 25,
-  //                     color: isDark ? Colors.grey[900] : Colors.white,
-  //                   ),
-  //                 ),
-  //                 borderColor: Colors.transparent,
-  //                 elevation: 0.0,
-  //                 foregroundColor: Colors.transparent,
-  //                 cacheImage: true,
-  //                 showInitialTextAbovePicture: false,
-  //               ),
-  //               Padding(
-  //                 padding: const EdgeInsets.only(
-  //                     left: 8.0, right: 8.0, top: 8.0, bottom: 8.0),
-  //                 child: Text(
-  //                   'the game will start in a few seconds',
-  //                   textAlign: TextAlign.center,
-  //                   style: GoogleFonts.lato(
-  //                       color: isDark ? Colors.grey[900] : Colors.white),
-  //                 ),
-  //               ),
-  //               LinearProgressIndicator(
-  //                 backgroundColor: this.appTheme.themeColor,
-  //                 valueColor: AlwaysStoppedAnimation<Color>(
-  //                     this.isDark ? Colors.grey[900] : Colors.white),
-  //                 minHeight: 1,
-  //               )
-  //             ],
-  //           ),
-  //         );
-  //       });
-  // }
 
   String getInitials(String username) {
     List<String> names = username.split(" ");
@@ -215,7 +155,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
       this.currentGame = await this
           .multiplayerProvider
           .joinGame(this.joiningGameId, this.user);
-      this.goToMultiplayerGameScreen();
+      this.goToMultiplayerGameScreen(context);
     } else {
       // game with that id does not exist
       this.toggleLoading();
@@ -228,7 +168,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
     if (await this.multiplayerProvider.checkIfGameExists(game.id)) {
       this.currentGame =
           await this.multiplayerProvider.joinGame(game.id, this.user);
-      this.goToMultiplayerGameScreen();
+      this.goToMultiplayerGameScreen(context);
     } else {
       // game with that id does not exist
       this.toggleLoading();
@@ -331,9 +271,9 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
     Wakelock.disable();
   }
 
-  void goToMultiplayerGameScreen() async {
+  void goToMultiplayerGameScreen(BuildContext contexts) async {
     disableWakeLock();
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
+    Navigator.of(contexts).pushReplacement(MaterialPageRoute(
       builder: (BuildContext context) {
         return MultiplayerGameScreenScreen(
           currentGame: this.currentGame,
