@@ -110,7 +110,6 @@ class HomeScreenView extends HomeScreenState {
                                 listOfSinglePlayerStats.length - 1]['level']
                             .toString(),
                 style: GoogleFonts.lato(
-                    fontWeight: FontWeight.bold,
                     color: isMe(id)
                         ? isDark
                             ? Colors.grey[900]
@@ -163,7 +162,44 @@ class HomeScreenView extends HomeScreenState {
                     subtitle: Text(
                       listOfFreePlayStats.length.toString(),
                       style: GoogleFonts.lato(
+                          color: isMe(id)
+                              ? isDark
+                                  ? Colors.grey[900]
+                                  : Colors.white
+                              : appTheme.themeColor),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
+        : Container();
+  }
+
+  Widget buildCoopMultiPlayerStats(List<dynamic> stats, String id) {
+    List listOfMultiPlayerStats =
+        stats.where((element) => element['isCoop']).toList();
+    return listOfMultiPlayerStats.length > 0
+        ? Container(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.05),
+              child: Column(
+                children: [
+                  ListTile(
+                    title: Text(
+                      'multiplayer co-op games played...',
+                      style: GoogleFonts.lato(
                           fontWeight: FontWeight.bold,
+                          color: isMe(id)
+                              ? isDark
+                                  ? Colors.grey[900]
+                                  : Colors.white
+                              : appTheme.themeColor),
+                    ),
+                    subtitle: Text(
+                      listOfMultiPlayerStats.length.toString(),
+                      style: GoogleFonts.lato(
                           color: isMe(id)
                               ? isDark
                                   ? Colors.grey[900]
@@ -302,6 +338,9 @@ class HomeScreenView extends HomeScreenState {
                                             leaderboard[index].stats,
                                             leaderboard[index].id),
                                         buildFreePlayStats(
+                                            leaderboard[index].stats,
+                                            leaderboard[index].id),
+                                        buildCoopMultiPlayerStats(
                                             leaderboard[index].stats,
                                             leaderboard[index].id)
                                       ],

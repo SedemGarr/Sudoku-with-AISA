@@ -698,4 +698,17 @@ abstract class MultiplayerGameScreenScreenState
     String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
     return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
   }
+
+  showCopiedSnackBar() {
+    Future.delayed(Duration(seconds: 1), () {
+      scaffoldKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: appTheme.themeColor,
+          content: Text(
+            '${this.currentGame.id} copied to clipbaord',
+            style: GoogleFonts.lato(
+                color: this.isDark ? Colors.grey[900] : Colors.white),
+            textAlign: TextAlign.start,
+          )));
+    });
+  }
 }

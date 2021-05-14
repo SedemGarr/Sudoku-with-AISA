@@ -215,6 +215,21 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
       ),
     ];
 
+    if (isHost) {
+      listOfButtonWidgets.add(Tooltip(
+        message: 'copy game id',
+        decoration: BoxDecoration(color: appTheme.themeColor),
+        child: IconButton(
+            icon: Icon(
+              LineIcons.copy,
+              color: appTheme.themeColor,
+            ),
+            onPressed: () {
+              showCopiedSnackBar();
+            }),
+      ),);
+    }
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
