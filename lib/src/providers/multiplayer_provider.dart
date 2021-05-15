@@ -27,6 +27,27 @@ class MultiplayerProvider {
         .snapshots();
   }
 
+  Future<List<MultiplayerGame>> getOngoingGamesList(Users user) async {
+    List<MultiplayerGame> games = [];
+    List<MultiplayerGame> tempGames = [];
+
+    await firestore.collection('games').get().then((value) => {
+          value.docs.forEach((mpGame) {
+            tempGames.add(MultiplayerGame.fromJson(mpGame.data()));
+            if (tempGames[tempGames.length - 1]
+                    .players
+                    .where((element) => element.id == user.id)
+                    .toList()
+                    .length >
+                0) {
+              games.add(MultiplayerGame.fromJson(mpGame.data()));
+            }
+          })
+        });
+
+    return games;
+  }
+
   Future<void> startGameOnInit(MultiplayerGame currentGame) async {
     currentGame.hasStarted = true;
 

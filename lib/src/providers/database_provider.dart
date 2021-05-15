@@ -96,6 +96,10 @@ class DatabaseProvider {
     return user;
   }
 
+  Future<void> deleteUserDocument(String id) async {
+    await firestore.collection('user-data').doc(id).delete();
+  }
+
   Future deleteProfilePhoto(Users user) async {
     if (user.profilePath != '') {
       Reference oldStorageReference;

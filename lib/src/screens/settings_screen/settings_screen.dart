@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sudoku/src/providers/authentication_provider.dart';
 import 'package:sudoku/src/providers/connectivity_provider.dart';
 import 'package:sudoku/src/providers/local_storage_provider.dart';
 import 'package:sudoku/src/providers/multiplayer_provider.dart';
@@ -65,6 +66,7 @@ abstract class SettingsScreenState extends State<SettingsScreen>
   LocalStorageProvider localStorageProvider = LocalStorageProvider();
   ConnectivityProvider connectivityProvider = ConnectivityProvider();
   MultiplayerProvider multiplayerProvider = MultiplayerProvider();
+  AuthenticationProvider authenticationProvider = AuthenticationProvider();
   UserStateUpdateProvider userStateUpdateProvider = UserStateUpdateProvider();
   DatabaseProvider databaseProvider = DatabaseProvider();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -317,7 +319,11 @@ abstract class SettingsScreenState extends State<SettingsScreen>
         });
   }
 
-  void deleteAccount() async {}
+  void deleteAccount() async {
+    this.toggleLoader();
+    await this.authenticationProvider.deleteAccount(this.user);
+    this.goToSplashScreen();
+  }
 
   void enableEditing() {
     setState(() {

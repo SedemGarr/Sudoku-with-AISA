@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sudoku/src/models/multiplayer.dart';
+import 'package:sudoku/src/models/user.dart';
 import 'package:sudoku/src/providers/database_provider.dart';
+import 'package:sudoku/src/providers/multiplayer_provider.dart';
 import 'local_storage_provider.dart';
 
 class AuthenticationProvider {
@@ -43,12 +46,40 @@ class AuthenticationProvider {
     }
   }
 
-  Future<void> deleteAccount() {
-    // delete photo in storage
-    // delete document
-    // delete auth
-    // sign out
+  Future<void> deleteAccount(Users userToDelete) async {
+    DatabaseProvider databaseProvider = DatabaseProvider();
+    MultiplayerProvider multiplayerProvider = MultiplayerProvider();
+    LocalStorageProvider localStorageProvider = LocalStorageProvider();
 
-    return null;
+    List<MultiplayerGame> mpGames;
+
+    final googleUser = await getGoogleUser();
+
+    if (googleUser != null) {
+      final googleAuth = await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+
+      final signedInUser = FirebaseAuth.instance.currentUser;
+
+      signedInUser.reauthenticateWithCredential(credential);
+
+      // delete photo in storage
+      await databaseProvider.deleteProfilePhoto(userToDelete);
+      // delete document
+      await databaseProvider.deleteUserDocument(userToDelete.id);
+
+      // delete multiplayer games
+      mpGames = await multiplayerProvider.getOngoingGamesList(userToDelete);
+      mpGames.forEach((game) async {
+        multiplayerProvider.deleteGame(game.id);
+      });
+
+      await signedInUser.delete();
+
+      // clear user locally
+      await localStorageProvider.clearUser();
+    }
   }
 }
