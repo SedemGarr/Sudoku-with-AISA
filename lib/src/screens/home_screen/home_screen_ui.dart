@@ -23,7 +23,7 @@ class HomeScreenView extends HomeScreenState {
         pauseAutoPlayOnManualNavigate: true,
         scrollDirection: Axis.horizontal,
         autoPlay: !user.hasCompletedGame,
-        autoPlayInterval: Duration(seconds: 3),
+        autoPlayInterval: Duration(seconds: 5),
         autoPlayAnimationDuration: Duration(milliseconds: 800),
         autoPlayCurve: Curves.fastOutSlowIn,
         initialPage: user.difficultyLevel,

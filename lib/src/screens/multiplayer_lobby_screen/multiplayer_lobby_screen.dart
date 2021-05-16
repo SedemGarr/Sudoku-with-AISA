@@ -293,7 +293,9 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
   void gotoFriendsScreen() {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (BuildContext context) {
-        return FriendsScreen();
+        return FriendsScreen(
+          user: this.user,
+        );
       },
     ));
   }

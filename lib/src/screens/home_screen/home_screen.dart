@@ -116,6 +116,7 @@ abstract class HomeScreenState extends State<HomeScreen>
           elapsedTime: user['elapsedTime'],
           hasCompletedGame: user['hasCompletedGame'],
           profilePath: user['profilePath'],
+          friends: user['friends'],
           hasCompletedIntro: user['hasCompletedIntro'],
           isDark: user['isDark'],
           enableWakelock: user['enableWakelock'],

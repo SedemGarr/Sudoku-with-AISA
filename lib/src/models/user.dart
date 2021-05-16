@@ -20,6 +20,7 @@ class Users {
   bool isDark;
   bool audioEnabled;
   bool hasTrainingWheels;
+  List<Users> friends;
   List<dynamic> stats;
   List<dynamic> savedBoard;
   List<dynamic> backupBoard;
@@ -39,6 +40,7 @@ class Users {
       @required this.username,
       @required this.score,
       @required this.level,
+      @required this.friends,
       @required this.elapsedTime,
       @required this.difficultyLevel,
       @required this.hasCompletedIntro,
@@ -68,6 +70,12 @@ class Users {
     hasTrainingWheels = json['hasTrainingWheels'];
     isFriendly = json['isFriendly'];
     difficultyLevel = json['difficultyLevel'];
+    if (json['friends'] != null) {
+      friends = <Users>[];
+      json['friends'].forEach((v) {
+        friends.add(new Users.fromJson(v));
+      });
+    }
     if (json['stats'] != null) {
       stats = <Stats>[];
       json['stats'].forEach((v) {
@@ -114,6 +122,9 @@ class Users {
     data['hasTrainingWheels'] = this.hasTrainingWheels;
     data['isFriendly'] = this.isFriendly;
     data['difficultyLevel'] = this.difficultyLevel;
+    if (this.friends != null) {
+      data['friends'] = this.friends.map((v) => v.toJson()).toList();
+    }
     if (this.stats != null) {
       data['stats'] = this.stats.map((v) => v.toJson()).toList();
     }

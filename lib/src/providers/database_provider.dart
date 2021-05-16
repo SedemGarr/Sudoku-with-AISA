@@ -11,6 +11,10 @@ import 'package:sudoku/src/providers/user_state_update_provider.dart';
 class DatabaseProvider {
   final firestore = FirebaseFirestore.instance;
 
+  Stream getUsers() {
+    return firestore.collection('user-data').snapshots();
+  }
+
   Future<Map> createUser(String uid, String username, String profileUrl) async {
     Users user;
 
@@ -34,6 +38,7 @@ class DatabaseProvider {
           difficultyLevel: 0,
           audioEnabled: true,
           backupBoard: [],
+          friends: [],
           profilePath: '',
           enableWakelock: true,
           hasCompletedGame: false,
