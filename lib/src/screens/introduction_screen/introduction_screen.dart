@@ -49,6 +49,12 @@ abstract class IntroductionScreenState extends State<IntroductionScreen>
     super.initState();
   }
 
+  @override
+  void dispose() {
+    this.flutterTts.stop();
+    super.dispose();
+  }
+
   void goToSinglePlayerGameScreen() {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (BuildContext context) {

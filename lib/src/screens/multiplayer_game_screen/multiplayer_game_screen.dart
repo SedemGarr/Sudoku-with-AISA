@@ -495,7 +495,7 @@ abstract class MultiplayerGameScreenScreenState
   }
 
   void updateUserAfterGame() async {
-    List<Stats> mpStats = this
+    List mpStats = this
         .user
         .stats
         .where((element) => element.isCompetitive || element.isCoop)
