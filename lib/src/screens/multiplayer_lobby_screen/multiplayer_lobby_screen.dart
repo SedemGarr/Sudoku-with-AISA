@@ -11,6 +11,7 @@ import 'package:sudoku/src/models/user.dart';
 import 'package:sudoku/src/providers/multiplayer_provider.dart';
 import 'package:sudoku/src/providers/theme_provider.dart';
 import 'package:sudoku/src/providers/user_state_update_provider.dart';
+import 'package:sudoku/src/screens/friends_screen/friends_screen.dart';
 import 'package:sudoku/src/screens/home_screen/home_screen.dart';
 import 'package:sudoku/src/screens/multiplayer_game_screen/multiplayer_game_screen.dart';
 import 'package:wakelock/wakelock.dart';
@@ -285,6 +286,14 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
           user: this.user,
           isSavedGame: this.currentGame.elapsedTime != null,
         );
+      },
+    ));
+  }
+
+  void gotoFriendsScreen() {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (BuildContext context) {
+        return FriendsScreen();
       },
     ));
   }

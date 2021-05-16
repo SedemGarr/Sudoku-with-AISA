@@ -644,6 +644,16 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
               onPressed: () {
                 goToHomeScreen();
               }),
+          actions: [
+            IconButton(
+                icon: Icon(
+                  LineIcons.userPlus,
+                  color: appTheme.themeColor,
+                ),
+                onPressed: () {
+                  gotoFriendsScreen();
+                })
+          ],
         ),
         body: Container(
           color: isDark ? Colors.grey[900] : Colors.white,

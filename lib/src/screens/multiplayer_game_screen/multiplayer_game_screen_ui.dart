@@ -767,6 +767,13 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                                   ),
                                 );
                               }),
+                          title: Icon(
+                            currentGame.isCooperative
+                                ? LineIcons.handshake
+                                : LineIcons.helpingHands,
+                            color: appTheme.themeColor,
+                          ),
+                          centerTitle: true,
                           actions: [
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
