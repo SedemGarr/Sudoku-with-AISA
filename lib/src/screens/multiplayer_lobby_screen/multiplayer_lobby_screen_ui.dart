@@ -282,29 +282,53 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                                       ? Colors.grey[900]
                                                       : Colors.white),
                                             ),
-                                            trailing: onGoingGames[index]
-                                                        .hostId ==
-                                                    user.id
-                                                ? IconButton(
-                                                    icon: Icon(LineIcons.trash,
+                                            trailing: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                IconButton(
+                                                    icon: Icon(
+                                                        onGoingGames[index]
+                                                                .isCooperative
+                                                            ? LineIcons
+                                                                .handshake
+                                                            : LineIcons
+                                                                .helpingHands,
                                                         color: isDark
                                                             ? Colors.grey[900]
                                                             : Colors.white),
-                                                    onPressed: () {
-                                                      showDeleteGameDialog(
-                                                          onGoingGames[index],
-                                                          context);
-                                                    })
-                                                : IconButton(
-                                                    icon: Icon(LineIcons.unlink,
-                                                        color: isDark
-                                                            ? Colors.grey[900]
-                                                            : Colors.white),
-                                                    onPressed: () {
-                                                      showLeaveGameDialog(
-                                                          onGoingGames[index],
-                                                          context);
-                                                    }),
+                                                    onPressed: () {}),
+                                                onGoingGames[index].hostId ==
+                                                        user.id
+                                                    ? IconButton(
+                                                        icon: Icon(
+                                                            LineIcons.trash,
+                                                            color: isDark
+                                                                ? Colors
+                                                                    .grey[900]
+                                                                : Colors.white),
+                                                        onPressed: () {
+                                                          showDeleteGameDialog(
+                                                              onGoingGames[
+                                                                  index],
+                                                              context);
+                                                        })
+                                                    : IconButton(
+                                                        icon: Icon(
+                                                            LineIcons.unlink,
+                                                            color: isDark
+                                                                ? Colors
+                                                                    .grey[900]
+                                                                : Colors.white),
+                                                        onPressed: () {
+                                                          showLeaveGameDialog(
+                                                              onGoingGames[
+                                                                  index],
+                                                              context);
+                                                        }),
+                                              ],
+                                            ),
                                           ),
                                         );
                                       })

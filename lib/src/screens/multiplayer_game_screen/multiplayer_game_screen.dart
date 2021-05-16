@@ -712,4 +712,22 @@ abstract class MultiplayerGameScreenScreenState
           )));
     });
   }
+
+  void setFreePlaydifficulty(double value) async {
+    setState(() {
+      this.currentGame.difficulty = value.toInt();
+    });
+    this.multiplayerProvider.updateGameSettings(this.currentGame);
+  }
+
+  void setFreePlaydifficultyToRandom() async {
+    setState(() {
+      if (this.currentGame.difficulty != 10) {
+        this.currentGame.difficulty = 10;
+      } else {
+        this.currentGame.difficulty = 0;
+      }
+    });
+    this.multiplayerProvider.updateGameSettings(this.currentGame);
+  }
 }
