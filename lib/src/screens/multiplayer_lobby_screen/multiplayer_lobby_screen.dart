@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:sudoku/src/models/difficulty.dart';
 import 'package:sudoku/src/models/multiplayer.dart';
 import 'package:sudoku/src/models/theme.dart';
@@ -246,7 +247,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
       scaffoldKey.currentState.showSnackBar(SnackBar(
           backgroundColor: appTheme.themeColor,
           content: Text(
-            '${this.currentGame.id} copied to clipbaord',
+            'game id copied to clipbaord',
             style: GoogleFonts.lato(
                 color: this.isDark ? Colors.grey[900] : Colors.white),
             textAlign: TextAlign.start,
@@ -304,6 +305,11 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
 
   String formatDateTime(String datetime) {
     return Jiffy(datetime).fromNow();
+  }
+
+  void share() {
+    Share.share(
+        'Hi! use this code to join to my game on Sudoku with AISA: \n\n${this.currentGame.id}');
   }
 
   showJoiningGameFromListDialog(MultiplayerGame game, BuildContext context) {

@@ -380,6 +380,14 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                             ),
                           ),
                         ),
+                        IconButton(
+                            icon: Icon(
+                              LineIcons.share,
+                              color: appTheme.themeColor,
+                            ),
+                            onPressed: () {
+                              share();
+                            })
                       ],
                     ),
                   ),

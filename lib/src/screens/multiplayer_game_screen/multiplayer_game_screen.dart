@@ -705,7 +705,7 @@ abstract class MultiplayerGameScreenScreenState
       scaffoldKey.currentState.showSnackBar(SnackBar(
           backgroundColor: appTheme.themeColor,
           content: Text(
-            '${this.currentGame.id} copied to clipbaord',
+            'game id copied to clipbaord',
             style: GoogleFonts.lato(
                 color: this.isDark ? Colors.grey[900] : Colors.white),
             textAlign: TextAlign.start,

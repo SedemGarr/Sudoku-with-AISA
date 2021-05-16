@@ -604,52 +604,55 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                         )
                       : Container(),
                   isHost
-                      ? Row(
-                          children: [
-                            Expanded(
-                              child: Slider(
-                                  label: currentGame.difficulty.toString(),
-                                  value: currentGame.difficulty == 10
-                                      ? 0.0
-                                      : currentGame.difficulty.toDouble(),
-                                  min: 0,
-                                  max: 5,
-                                  divisions: 5,
-                                  activeColor: appTheme.themeColor,
-                                  inactiveColor: appTheme.themeColor[200],
-                                  onChanged: user.freePlayDifficulty == 10
-                                      ? null
-                                      : (value) {
-                                          setFreePlaydifficulty(value);
-                                        }),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 4.0),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    'random?',
-                                    style: GoogleFonts.lato(
-                                      color: appTheme.themeColor,
-                                    ),
-                                  ),
-                                  Checkbox(
-                                    focusColor: appTheme.themeColor,
-                                    hoverColor: appTheme.themeColor,
-                                    value: currentGame.difficulty == 10,
-                                    onChanged: (value) {
-                                      setFreePlaydifficultyToRandom();
-                                    },
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Slider(
+                                    label: currentGame.difficulty.toString(),
+                                    value: currentGame.difficulty == 10
+                                        ? 0.0
+                                        : currentGame.difficulty.toDouble(),
+                                    min: 0,
+                                    max: 5,
+                                    divisions: 5,
                                     activeColor: appTheme.themeColor,
-                                    checkColor: isDark
-                                        ? Colors.grey[900]
-                                        : Colors.white,
-                                  )
-                                ],
+                                    inactiveColor: appTheme.themeColor[200],
+                                    onChanged: user.freePlayDifficulty == 10
+                                        ? null
+                                        : (value) {
+                                            setFreePlaydifficulty(value);
+                                          }),
                               ),
-                            )
-                          ],
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 4.0),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'random?',
+                                      style: GoogleFonts.lato(
+                                        color: appTheme.themeColor,
+                                      ),
+                                    ),
+                                    Checkbox(
+                                      focusColor: appTheme.themeColor,
+                                      hoverColor: appTheme.themeColor,
+                                      value: currentGame.difficulty == 10,
+                                      onChanged: (value) {
+                                        setFreePlaydifficultyToRandom();
+                                      },
+                                      activeColor: appTheme.themeColor,
+                                      checkColor: isDark
+                                          ? Colors.grey[900]
+                                          : Colors.white,
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         )
                       : Container()
                 ],
