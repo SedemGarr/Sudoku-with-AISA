@@ -236,6 +236,22 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
     }
   }
 
+  joinGameFromInvite(String gameId) async {
+    this.toggleLoading();
+    if (await this.multiplayerProvider.checkIfGameExists(gameId, this.user)) {
+      this.currentGame =
+          await this.multiplayerProvider.joinGame(gameId, this.user);
+      await multiplayerProvider.refuseInviteByGameId(gameId, true);
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        this.goToMultiplayerGameScreen(context);
+      });
+    } else {
+      // game with that id does not exist
+      this.toggleLoading();
+      this.showSomethingWrongSnackBar();
+    }
+  }
+
   void setCompetitiveSetting(bool value) async {
     if (value) {
       setState(() {
@@ -316,6 +332,19 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
           backgroundColor: appTheme.themeColor,
           content: Text(
             'a game with that id was not found',
+            style: GoogleFonts.lato(
+                color: this.isDark ? Colors.grey[900] : Colors.white),
+            textAlign: TextAlign.start,
+          )));
+    });
+  }
+
+  showSomethingWrongSnackBar() {
+    Future.delayed(Duration(seconds: 1), () {
+      scaffoldKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: appTheme.themeColor,
+          content: Text(
+            'something went wrong',
             style: GoogleFonts.lato(
                 color: this.isDark ? Colors.grey[900] : Colors.white),
             textAlign: TextAlign.start,
@@ -440,12 +469,16 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
     });
   }
 
-  void refuseInvite(Invite invite) async {
-    await this.multiplayerProvider.refuseInviteByGameId(invite.gameId);
+  void refuseInvite(Invite invite, bool accepted) async {
+    await this
+        .multiplayerProvider
+        .refuseInviteByGameId(invite.gameId, accepted);
     this.showInviteDeniedSnackBar(invite.inviter);
   }
 
-  void acceptInvite(Invite invite) async {}
+  void acceptInvite(Invite invite) async {
+    await this.joinGameFromInvite(invite.gameId);
+  }
 
   showAcceptInviteDialog(Invite invite, BuildContext context) {
     return showDialog(
@@ -514,7 +547,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
                   FlatButton(
                     onPressed: () {
                       Navigator.pop(context);
-                      this.refuseInvite(invite);
+                      this.refuseInvite(invite, false);
                     },
                     child: Text(
                       'yep. not interested',

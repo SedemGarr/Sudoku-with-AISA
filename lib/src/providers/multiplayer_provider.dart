@@ -63,11 +63,11 @@ class MultiplayerProvider {
     return doc.exists;
   }
 
-  Future<void> refuseInviteByGameId(String gameId) async {
+  Future<void> refuseInviteByGameId(String gameId, bool accepted) async {
     MultiplayerGame game = await getGame(gameId);
     await firestore.collection("invites").doc(gameId).delete();
 
-    game.invitationStatus = 0;
+    game.invitationStatus = accepted ? 1 : 0;
     updateGameSettings(game);
   }
 
@@ -180,7 +180,7 @@ class MultiplayerProvider {
     await firestore.collection('games').doc(gameId).delete();
     // delete invite as well
     if (await checkIfInviteExists(gameId)) {
-      await refuseInviteByGameId(gameId);
+      await refuseInviteByGameId(gameId, false);
     }
   }
 
