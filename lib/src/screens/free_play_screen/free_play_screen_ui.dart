@@ -218,7 +218,7 @@ class FreePlayScreenView extends FreePlayScreenState {
           elevation: 0,
           leading: IconButton(
             icon: Icon(
-              LineIcons.starAlt,
+              LineIcons.arrowLeft,
               color: appTheme.themeColor,
             ),
             onPressed: () {
@@ -226,6 +226,11 @@ class FreePlayScreenView extends FreePlayScreenState {
               goToHomeScreen();
             },
           ),
+          title: Icon(
+            LineIcons.starAlt,
+            color: appTheme.themeColor,
+          ),
+          centerTitle: true,
           actions: [
             Column(
               mainAxisAlignment: MainAxisAlignment.center,

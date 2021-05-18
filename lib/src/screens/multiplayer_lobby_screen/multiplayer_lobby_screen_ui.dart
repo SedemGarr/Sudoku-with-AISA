@@ -380,14 +380,47 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                             ),
                           ),
                         ),
-                        IconButton(
-                            icon: Icon(
-                              LineIcons.share,
-                              color: appTheme.themeColor,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: FlatButton.icon(
+                                  onPressed: () {
+                                    share();
+                                  },
+                                  icon: Icon(
+                                    LineIcons.share,
+                                    color: appTheme.themeColor,
+                                  ),
+                                  label: Text(
+                                    'share game id',
+                                    style: GoogleFonts.lato(
+                                        color: appTheme.themeColor),
+                                  )),
                             ),
-                            onPressed: () {
-                              share();
-                            })
+                            !hasInvited
+                                ? Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
+                                    child: FlatButton.icon(
+                                        onPressed: () {
+                                          showInviteFriendsDialog(context);
+                                        },
+                                        icon: Icon(
+                                          LineIcons.userPlus,
+                                          color: appTheme.themeColor,
+                                        ),
+                                        label: Text(
+                                          'invite friend',
+                                          style: GoogleFonts.lato(
+                                              color: appTheme.themeColor),
+                                        )),
+                                  )
+                                : Container()
+                          ],
+                        )
                       ],
                     ),
                   ),
@@ -649,7 +682,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                 ? Container()
                 : IconButton(
                     icon: Icon(
-                      LineIcons.userPlus,
+                      LineIcons.userFriends,
                       color: appTheme.themeColor,
                     ),
                     onPressed: () {

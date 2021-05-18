@@ -1,3 +1,4 @@
+import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -8,6 +9,7 @@ import 'package:sudoku/src/models/difficulty.dart';
 import 'package:sudoku/src/models/multiplayer.dart';
 import 'package:sudoku/src/models/theme.dart';
 import 'package:sudoku/src/models/user.dart';
+import 'package:sudoku/src/providers/database_provider.dart';
 import 'package:sudoku/src/providers/multiplayer_provider.dart';
 import 'package:sudoku/src/providers/theme_provider.dart';
 import 'package:sudoku/src/providers/user_state_update_provider.dart';
@@ -28,16 +30,21 @@ class MultiplayerLobbyScreen extends StatefulWidget {
 
 abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
     with TickerProviderStateMixin {
+  String searchTerm = '';
+
   Users user;
   bool isDark;
 
   bool isLoading = false;
   bool isHosting = false;
   bool isJoining = true;
+  bool hasInvited = false;
   String joiningGameId;
   String preferedPattern;
 
   List<MultiplayerGame> onGoingGames = [];
+  List<Users> foundUsers = [];
+  List<Users> allUsers = [];
 
   MultiplayerGame currentGame;
 
@@ -47,6 +54,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
   final formKey = GlobalKey<FormState>();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   MultiplayerProvider multiplayerProvider = MultiplayerProvider();
+  DatabaseProvider databaseProvider = DatabaseProvider();
   UserStateUpdateProvider userStateUpdateProvider = UserStateUpdateProvider();
 
   void initVariables() {
@@ -84,6 +92,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
     if (!isJoining) {
       this.multiplayerProvider.deleteGame(this.currentGame.id);
       this.currentGame = null;
+      this.hasInvited = false;
 
       setState(() {
         isJoining = !isJoining;
@@ -321,6 +330,214 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
   void share() {
     Share.share(
         'Hi! use this code to join to my game on Sudoku with AISA: \n\n${this.currentGame.id}');
+  }
+
+  void inviteFriend(Users friend) async {
+    setState(() {
+      this.hasInvited = true;
+    });
+    await this
+        .multiplayerProvider
+        .sendInvite(friend, this.user, this.currentGame.id);
+    // show snackbar
+    this.showInviteSentSnackBar(friend);
+  }
+
+  void processFindFriendsData(AsyncSnapshot snapshot) {
+    this.allUsers = [];
+    this.foundUsers = [];
+
+    snapshot.data.docs.forEach((user) {
+      this.allUsers.add(Users.fromJson(user.data()));
+    });
+
+    if (searchTerm != '') {
+      this.allUsers.forEach((user) {
+        if (user.username.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
+            user.username.toLowerCase().contains(searchTerm.toLowerCase())) {
+          if (user.id != this.user.id && user.isFriendly && isFriend(user)) {
+            this.foundUsers.add(user);
+          }
+        }
+      });
+    }
+  }
+
+  bool isFriend(Users user) {
+    return user.friends.indexWhere((user) => user.id == this.user.id) != -1;
+  }
+
+  showInviteSentSnackBar(Users friend) {
+    Future.delayed(Duration(seconds: 1), () {
+      scaffoldKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: appTheme.themeColor,
+          content: Text(
+            'an invite has been sent to ${friend.username}',
+            style: GoogleFonts.lato(
+                color: this.isDark ? Colors.grey[900] : Colors.white),
+            textAlign: TextAlign.start,
+          )));
+    });
+  }
+
+  showInviteFriendsDialog(BuildContext context) {
+    searchTerm = '';
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              scrollable: true,
+              backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+              title: Text('select a friend',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.lato(
+                      color: isDark ? Colors.white : Colors.grey[900])),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Form(
+                        key: formKey,
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: TextFormField(
+                              autofocus: true,
+                              cursorColor: appTheme.themeColor,
+                              keyboardType: TextInputType.text,
+                              style:
+                                  GoogleFonts.lato(color: appTheme.themeColor),
+                              decoration: InputDecoration(
+                                  focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: appTheme.themeColor)),
+                                  enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: appTheme.themeColor)),
+                                  hintText: 'enter a username',
+                                  hintStyle: GoogleFonts.lato(
+                                      color: appTheme.themeColor)),
+                              onChanged: (value) {
+                                setState(() {
+                                  searchTerm = value;
+                                });
+                              },
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'please enter a username';
+                                }
+                                return null;
+                              },
+                            )),
+                          ],
+                        )),
+                  ),
+                  Flexible(
+                      child: StreamBuilder(
+                    stream: this.databaseProvider.getUsers(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (!snapshot.hasData || snapshot.data == null) {
+                        return Container();
+                      }
+                      processFindFriendsData(snapshot);
+                      if (searchTerm != '' &&
+                          searchTerm != user.username &&
+                          foundUsers.length == 0) {
+                        return Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.5,
+                                child: Center(
+                                  child: Text(
+                                    'no results found for $searchTerm',
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.lato(
+                                        color: appTheme.themeColor),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      }
+                      return Container(
+                        height: MediaQuery.of(context).size.height * 0.9,
+                        width: MediaQuery.of(context).size.width,
+                        child: ListView.builder(
+                            itemCount: foundUsers.length,
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext context, int index) {
+                              return ListTile(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  inviteFriend(foundUsers[index]);
+                                },
+                                dense: true,
+                                tileColor: appTheme.themeColor,
+                                leading: CircularProfileAvatar(
+                                  foundUsers[index].profileUrl,
+                                  radius: 20,
+                                  backgroundColor:
+                                      isDark ? Colors.grey[900] : Colors.white,
+                                  initialsText: Text(
+                                    getInitials(foundUsers[index].username),
+                                    style: GoogleFonts.lato(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                      color: appTheme.themeColor,
+                                    ),
+                                  ),
+                                  borderColor: Colors.transparent,
+                                  elevation: 0.0,
+                                  foregroundColor: Colors.transparent,
+                                  cacheImage: true,
+                                  showInitialTextAbovePicture: false,
+                                ),
+                                title: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    foundUsers[index].username,
+                                    style: GoogleFonts.lato(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: isDark
+                                            ? Colors.grey[900]
+                                            : Colors.white),
+                                  ),
+                                ),
+                                // subtitle: Text(
+                                //   // check if friendly
+                                //   'you and ${foundUsers[index].username} are friends',
+                                //   style: GoogleFonts.lato(
+                                //     color: isDark
+                                //         ? Colors.grey[900]
+                                //         : Colors.white,
+                                //   ),
+                                // ),
+                                // trailing: IconButton(
+                                //   icon: Icon(
+                                //     LineIcons.userPlus,
+                                //     color: isDark
+                                //         ? Colors.grey[900]
+                                //         : Colors.white,
+                                //   ),
+                                //   onPressed: () {},
+                                // ),
+                              );
+                            }),
+                      );
+                    },
+                  ))
+                ],
+              ),
+            );
+          });
+        });
   }
 
   showJoiningGameFromListDialog(MultiplayerGame game, BuildContext context) {

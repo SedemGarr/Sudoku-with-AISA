@@ -87,9 +87,10 @@ abstract class FriendsScreenState extends State<FriendsScreen>
     if (searchTerm != '') {
       this.allUsers.forEach((user) {
         if (user.username.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
-            user.username.toLowerCase().contains(searchTerm.toLowerCase()) &&
-                user.id != this.user.id) {
-          this.foundUsers.add(user);
+            user.username.toLowerCase().contains(searchTerm.toLowerCase())) {
+          if (user.id != this.user.id) {
+            this.foundUsers.add(user);
+          }
         }
       });
     }

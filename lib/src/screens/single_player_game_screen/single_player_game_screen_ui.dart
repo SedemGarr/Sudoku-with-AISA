@@ -219,7 +219,7 @@ class SinglePlayerGameScreenView extends SinglePlayerGameScreenState {
           elevation: 0,
           leading: IconButton(
             icon: Icon(
-              game[user.difficultyLevel].icon,
+              LineIcons.arrowLeft,
               color: appTheme.themeColor,
             ),
             onPressed: () {

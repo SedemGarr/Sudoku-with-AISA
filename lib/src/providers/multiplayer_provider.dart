@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sudoku/src/models/difficulty.dart';
+import 'package:sudoku/src/models/invite.dart';
 import 'package:sudoku/src/models/multiplayer.dart';
 import 'package:sudoku/src/models/user.dart';
 
@@ -25,6 +26,30 @@ class MultiplayerProvider {
         .collection('games')
         .where('id', isEqualTo: docId)
         .snapshots();
+  }
+
+  Future<void> sendInvite(Users friend, Users user, String gameId) async {
+    var inviteRef = firestore.collection("invites");
+
+    Invite invite = Invite(
+        id: inviteRef.doc().id,
+        gameId: gameId,
+        createdOn: DateTime.now().toString(),
+        invitee: friend,
+        inviteeId: friend.id,
+        inviterId: user.id,
+        inviter: user);
+
+    await inviteRef.doc(gameId).set(invite.toJson(), SetOptions(merge: true));
+  }
+
+  Future<bool> checkIfInviteExists(String id) async {
+    var doc = await firestore.collection('invites').doc(id).get();
+    return doc.exists;
+  }
+
+  Future<void> refuseInviteByGameId(String gameId) async {
+    await firestore.collection("invites").doc(gameId).delete();
   }
 
   Future<List<MultiplayerGame>> getOngoingGamesList(Users user) async {
@@ -126,6 +151,10 @@ class MultiplayerProvider {
 
   Future<void> deleteGame(String gameId) async {
     await firestore.collection('games').doc(gameId).delete();
+    // delete invite as well
+    if (await checkIfInviteExists(gameId)) {
+      await refuseInviteByGameId(gameId);
+    }
   }
 
   Future<void> updateGameSettings(MultiplayerGame currentGame) async {
