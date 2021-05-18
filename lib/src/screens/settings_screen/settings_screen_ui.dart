@@ -544,8 +544,8 @@ class SettingsScreenView extends SettingsScreenState {
           ),
           subtitle: Text(
             isFriendly
-                ? 'you\'ll show up in searches'
-                : 'you won\'t show up in searches',
+                ? 'anyone can invite you to multiplayer games'
+                : 'only friends can invite you to multiplayer games',
             style: GoogleFonts.lato(
               color: appTheme.themeColor,
             ),

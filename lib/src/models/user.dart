@@ -20,7 +20,7 @@ class Users {
   bool isDark;
   bool audioEnabled;
   bool hasTrainingWheels;
-  List<Users> friends;
+  List<dynamic> friends;
   List<dynamic> stats;
   List<dynamic> savedBoard;
   List<dynamic> backupBoard;

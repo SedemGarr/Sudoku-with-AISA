@@ -51,7 +51,7 @@ abstract class SettingsScreenState extends State<SettingsScreen>
     'too easy? too hard?\n\nselect a difficulty level for free-play and multiplayer games. you can randomize the difficulty if you like to live on the wild side',
     'we\'re really just flexing at this point\n\ncheck out cool patterns for your sudoku puzzles',
     'shut AISA up?\n\n does what it says on the tin',
-    'introverted?\n\nturn this off if you don\'t want to appear in searches for multiplayer game invites',
+    'introverted?\n\nturn this off if you don\'t want anyone at all to invite you to multiplayer games',
     'enjoying the torture?\n\nthis will reset your single-player progress. your overall score and free-play statistics will persist though',
     '🥺\n\nwe can change, we promise',
   ];

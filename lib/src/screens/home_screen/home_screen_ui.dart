@@ -399,7 +399,7 @@ class HomeScreenView extends HomeScreenState {
             decoration: BoxDecoration(color: appTheme.themeColor),
             child: IconButton(
                 icon: Icon(
-                  LineIcons.userFriends,
+                  LineIcons.users,
                   color: appTheme.themeColor,
                 ),
                 onPressed: () {

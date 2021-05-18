@@ -59,6 +59,7 @@ abstract class HomeScreenState extends State<HomeScreen>
     this.getTheme();
     this.autoScrollToUserIndex();
     this.showGreeting();
+    this.syncUserData();
   }
 
   @override
@@ -72,6 +73,10 @@ abstract class HomeScreenState extends State<HomeScreen>
     this.getDarkMode();
     this.getTheme();
     super.didChangeDependencies();
+  }
+
+  void syncUserData() async {
+    this.user = await this.databaseProvider.getUser(this.user.id);
   }
 
   String parseLevelTime(Duration duration) {
