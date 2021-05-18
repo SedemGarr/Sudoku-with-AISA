@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sudoku/src/models/difficulty.dart';
+import 'package:sudoku/src/models/invite.dart';
 import 'package:sudoku/src/models/multiplayer.dart';
 import 'package:sudoku/src/models/theme.dart';
 import 'package:sudoku/src/models/user.dart';
@@ -39,12 +40,14 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
   bool isHosting = false;
   bool isJoining = true;
   bool hasInvited = false;
+  bool isViewingInvitations = false;
   String joiningGameId;
   String preferedPattern;
 
   List<MultiplayerGame> onGoingGames = [];
   List<Users> foundUsers = [];
   List<Users> allUsers = [];
+  List<Invite> myInvites = [];
 
   MultiplayerGame currentGame;
 
@@ -70,6 +73,12 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
     super.initState();
   }
 
+  void toggleIsViewingInvitations() {
+    setState(() {
+      this.isViewingInvitations = !isViewingInvitations;
+    });
+  }
+
   void toggleLoading() {
     setState(() {
       this.isLoading = !isLoading;
@@ -90,7 +99,9 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
 
   void join() {
     if (!isJoining) {
-      this.multiplayerProvider.deleteGame(this.currentGame.id);
+      if (!hasInvited) {
+        this.multiplayerProvider.deleteGame(this.currentGame.id);
+      }
       this.currentGame = null;
       this.hasInvited = false;
 
@@ -110,6 +121,13 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
         .then((value) => this.showCopiedSnackBar());
   }
 
+  void processInvitesStreamData(AsyncSnapshot snapshot) {
+    this.myInvites = [];
+    snapshot.data.docs.forEach((invite) {
+      myInvites.add(Invite.fromJson(invite.data()));
+    });
+  }
+
   void processOngoingGamesStreamData(AsyncSnapshot snapshot) {
     this.onGoingGames = [];
     List<MultiplayerGame> tempArray = [];
@@ -127,7 +145,21 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
   }
 
   void processStartingGameStreamData(
-      AsyncSnapshot snapshot, BuildContext context) {
+      AsyncSnapshot snapshot, BuildContext context) async {
+    if (this.currentGame.invitationStatus == 3 &&
+        snapshot.data.docs[0].data()['invitationStatus'] == 0) {
+      // show player declined snackbar
+      showPlayerDeclinedSnackbar(this.currentGame.invitee);
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        setState(() {
+          this.hasInvited = false;
+        });
+      });
+      this.currentGame.hasInvited = false;
+      this.currentGame.invitee = null;
+      this.currentGame.invitationStatus = 2;
+      await this.multiplayerProvider.updateGameSettings(this.currentGame);
+    }
     this.currentGame = MultiplayerGame.fromJson(snapshot.data.docs[0].data());
     this.hasGameStarted(currentGame, context);
   }
@@ -138,6 +170,19 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
         this.goToMultiplayerGameScreen(context);
       });
     }
+  }
+
+  void showPlayerDeclinedSnackbar(Users user) {
+    Future.delayed(Duration(seconds: 1), () {
+      scaffoldKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: appTheme.themeColor,
+          content: Text(
+            '${user.username} has declined your invitation',
+            style: GoogleFonts.lato(
+                color: this.isDark ? Colors.grey[900] : Colors.white),
+            textAlign: TextAlign.start,
+          )));
+    });
   }
 
   String getInitials(String username) {
@@ -313,7 +358,9 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
     this.toggleLoading();
     this.disableWakeLock();
     if (this.isHosting) {
-      await this.multiplayerProvider.deleteGame(this.currentGame.id);
+      if (!hasInvited) {
+        await this.multiplayerProvider.deleteGame(this.currentGame.id);
+      }
     }
 
     Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -338,7 +385,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
     });
     await this
         .multiplayerProvider
-        .sendInvite(friend, this.user, this.currentGame.id);
+        .sendInvite(friend, this.user, this.currentGame);
     // show snackbar
     this.showInviteSentSnackBar(friend);
   }
@@ -378,6 +425,108 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
             textAlign: TextAlign.start,
           )));
     });
+  }
+
+  showInviteDeniedSnackBar(Users friend) {
+    Future.delayed(Duration(seconds: 1), () {
+      scaffoldKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: appTheme.themeColor,
+          content: Text(
+            'you have declined ${friend.username}\'s invite',
+            style: GoogleFonts.lato(
+                color: this.isDark ? Colors.grey[900] : Colors.white),
+            textAlign: TextAlign.start,
+          )));
+    });
+  }
+
+  void refuseInvite(Invite invite) async {
+    await this.multiplayerProvider.refuseInviteByGameId(invite.gameId);
+    this.showInviteDeniedSnackBar(invite.inviter);
+  }
+
+  void acceptInvite(Invite invite) async {}
+
+  showAcceptInviteDialog(Invite invite, BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+            title: Text('join this game with ${invite.inviter.username}?',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.lato(
+                    color: isDark ? Colors.white : Colors.grey[900])),
+            actions: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('on second thought, nah',
+                          textAlign: TextAlign.end,
+                          style: GoogleFonts.lato(
+                              color:
+                                  isDark ? Colors.white : Colors.grey[900]))),
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      this.acceptInvite(invite);
+                    },
+                    child: Text(
+                      'let\'s go!',
+                      textAlign: TextAlign.end,
+                      style: GoogleFonts.lato(color: appTheme.themeColor),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        });
+  }
+
+  showRefuseInviteDialog(Invite invite, BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+            title: Text('refuse ${invite.inviter.username}\'s invite?',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.lato(
+                    color: isDark ? Colors.white : Colors.grey[900])),
+            actions: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('oops!',
+                          textAlign: TextAlign.end,
+                          style: GoogleFonts.lato(
+                              color:
+                                  isDark ? Colors.white : Colors.grey[900]))),
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      this.refuseInvite(invite);
+                    },
+                    child: Text(
+                      'yep. not interested',
+                      textAlign: TextAlign.end,
+                      style: GoogleFonts.lato(color: appTheme.themeColor),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        });
   }
 
   showInviteFriendsDialog(BuildContext context) {

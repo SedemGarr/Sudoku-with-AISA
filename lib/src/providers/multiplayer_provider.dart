@@ -28,19 +28,34 @@ class MultiplayerProvider {
         .snapshots();
   }
 
-  Future<void> sendInvite(Users friend, Users user, String gameId) async {
+  Stream getInvites(String id) {
+    return firestore
+        .collection('invites')
+        .where('inviteeId', isEqualTo: id)
+        .snapshots();
+  }
+
+  Future<void> sendInvite(
+      Users friend, Users user, MultiplayerGame game) async {
     var inviteRef = firestore.collection("invites");
 
     Invite invite = Invite(
         id: inviteRef.doc().id,
-        gameId: gameId,
+        gameId: game.id,
+        isCoop: game.isCooperative,
         createdOn: DateTime.now().toString(),
         invitee: friend,
         inviteeId: friend.id,
         inviterId: user.id,
         inviter: user);
 
-    await inviteRef.doc(gameId).set(invite.toJson(), SetOptions(merge: true));
+    await inviteRef.doc(game.id).set(invite.toJson(), SetOptions(merge: true));
+
+    game.hasInvited = true;
+    game.invitee = friend;
+    game.invitationStatus = 3;
+
+    await updateGameSettings(game);
   }
 
   Future<bool> checkIfInviteExists(String id) async {
@@ -49,7 +64,11 @@ class MultiplayerProvider {
   }
 
   Future<void> refuseInviteByGameId(String gameId) async {
+    MultiplayerGame game = await getGame(gameId);
     await firestore.collection("invites").doc(gameId).delete();
+
+    game.invitationStatus = 0;
+    updateGameSettings(game);
   }
 
   Future<List<MultiplayerGame>> getOngoingGamesList(Users user) async {
@@ -86,6 +105,9 @@ class MultiplayerProvider {
     var gameRef = firestore.collection("games");
 
     MultiplayerGame game = MultiplayerGame(
+        hasInvited: false,
+        invitationStatus: 2,
+        invitee: null,
         level: null,
         elapsedTime: null,
         hasFinished: false,
@@ -127,6 +149,11 @@ class MultiplayerProvider {
     } else {
       return false;
     }
+  }
+
+  Future<MultiplayerGame> getGame(String gameId) async {
+    return MultiplayerGame.fromJson(
+        (await firestore.collection('games').doc(gameId).get()).data());
   }
 
   Future<MultiplayerGame> joinGame(String gameId, Users user) async {

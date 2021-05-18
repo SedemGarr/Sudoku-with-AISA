@@ -9,9 +9,11 @@ class Invite {
   Users invitee;
   String inviterId;
   String inviteeId;
+  bool isCoop;
 
   Invite(
       {@required this.id,
+      @required this.isCoop,
       @required this.gameId,
       @required this.createdOn,
       @required this.invitee,
@@ -21,6 +23,7 @@ class Invite {
 
   Invite.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    isCoop = json['isCoop'];
     gameId = json['gameId'];
     createdOn = json['createdOn'];
     inviteeId = json['inviteeId'];
@@ -32,6 +35,7 @@ class Invite {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['isCoop'] = this.isCoop;
     data['gameId'] = this.gameId;
     data['createdOn'] = this.createdOn;
     data['inviteeId'] = this.inviteeId;

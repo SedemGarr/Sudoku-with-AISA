@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sudoku/src/models/user.dart';
-
 import 'level.dart';
 
 class MultiplayerGame {
@@ -18,6 +17,13 @@ class MultiplayerGame {
   bool hasFinished;
   bool isCompetitive;
   bool isCooperative;
+  bool hasInvited;
+  int invitationStatus;
+  // 0 - declined
+  // 1 - accepted
+  // 2 - initial
+  // 3 - pending
+  Users invitee;
   List<dynamic> players;
   Level level;
 
@@ -30,10 +36,13 @@ class MultiplayerGame {
     @required this.lastPlayedOn,
     @required this.hasStarted,
     @required this.hostId,
+    @required this.hasInvited,
     @required this.hostSelectedIndex,
     @required this.participantSelectedIndex,
     @required this.elapsedTime,
     @required this.id,
+    @required this.invitationStatus,
+    @required this.invitee,
     @required this.isCompetitive,
     @required this.isCooperative,
     @required this.players,
@@ -42,6 +51,7 @@ class MultiplayerGame {
 
   MultiplayerGame.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    hasInvited = json['hasInvited'];
     hostId = json['hostId'];
     createdOn = json['createdOn'];
     lastPlayedOn = json['lastPlayedOn'];
@@ -55,8 +65,11 @@ class MultiplayerGame {
     hasFinished = json['hasFinished'];
     isCompetitive = json['isCompetitive'];
     isCooperative = json['isCooperative'];
+    invitationStatus = json['invitationStatus'];
     level = Level.fromJson(json['level']);
-
+    if (json['invitee'] != null) {
+      invitee = Users.fromJson(json['invitee']);
+    }
     if (json['players'] != null) {
       players = <Users>[];
       json['players'].forEach((v) {
@@ -68,6 +81,8 @@ class MultiplayerGame {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['hasInvited'] = this.hasInvited;
+    data['invitationStatus'] = this.invitationStatus;
     data['hostId'] = this.hostId;
     data['createdOn'] = this.createdOn;
     data['lastPlayedOn'] = this.lastPlayedOn;
@@ -82,6 +97,10 @@ class MultiplayerGame {
     data['isCompetitive'] = this.isCompetitive;
     data['isCooperative'] = this.isCooperative;
     data['level'] = this.level.toJson();
+
+    if (this.invitee != null) {
+      data['invitee'] = this.invitee.toJson();
+    }
 
     if (this.players != null) {
       data['players'] = this.players.map((v) => v.toJson()).toList();
