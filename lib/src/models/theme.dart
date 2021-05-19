@@ -15,6 +15,6 @@ class AppTheme {
     AppTheme(themeColor: Colors.orange, partnerColor: Colors.blue),
     AppTheme(themeColor: Colors.red, partnerColor: Colors.green),
     AppTheme(themeColor: Colors.pink, partnerColor: Colors.amber),
-    AppTheme(themeColor: Colors.purple, partnerColor: Colors.amber),
+    AppTheme(themeColor: Colors.deepPurple, partnerColor: Colors.amber),
   ];
 }

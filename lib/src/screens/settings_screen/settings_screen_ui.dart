@@ -97,7 +97,7 @@ class SettingsScreenView extends SettingsScreenState {
             inactiveTrackColor: Colors.grey[300],
           ),
         ),
-        !user.hasCompletedGame
+        user.hasCompletedGame
             ? ExpansionTile(
                 leading: GestureDetector(
                   onTap: () {
@@ -231,7 +231,7 @@ class SettingsScreenView extends SettingsScreenState {
             inactiveTrackColor: Colors.grey[300],
           ),
         ),
-        !user.hasCompletedGame
+        user.hasCompletedGame
             ? ExpansionTile(
                 leading: GestureDetector(
                   onTap: () {
@@ -307,7 +307,7 @@ class SettingsScreenView extends SettingsScreenState {
                 ],
               )
             : Container(),
-        !user.hasCompletedGame
+        user.hasCompletedGame
             ? ExpansionTile(
                 leading: GestureDetector(
                   onTap: () {

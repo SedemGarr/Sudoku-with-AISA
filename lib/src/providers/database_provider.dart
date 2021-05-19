@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:sudoku/src/models/request.dart';
 import 'package:sudoku/src/models/stats.dart';
 import 'dart:io';
@@ -130,6 +132,9 @@ class DatabaseProvider {
       await localStorageProvider.setUser(user);
       return {'user': user, 'status': 'success'};
     } else {
+      // get system dark/light mode
+      var brightness = SchedulerBinding.instance.window.platformBrightness;
+
       // create user
       user = Users(
           freePlayDifficulty: 0,
@@ -147,7 +152,7 @@ class DatabaseProvider {
           enableWakelock: true,
           hasCompletedGame: false,
           selectedTheme: 6,
-          isDark: false,
+          isDark: brightness == Brightness.dark,
           elapsedTime: null,
           hasCompletedIntro: false,
           isFriendly: true,

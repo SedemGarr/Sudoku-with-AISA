@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:package_info/package_info.dart';
@@ -77,8 +78,10 @@ abstract class AuthScreenState extends State<AuthScreen>
   }
 
   Future<void> getDarkMode() async {
+    var brightness = SchedulerBinding.instance.window.platformBrightness;
     setState(() {
-      this.isDark = this.user == null ? false : this.user.isDark;
+      this.isDark =
+          this.user == null ? brightness == Brightness.dark : this.user.isDark;
     });
   }
 

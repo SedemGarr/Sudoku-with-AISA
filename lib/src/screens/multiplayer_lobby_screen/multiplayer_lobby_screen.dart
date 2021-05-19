@@ -431,8 +431,8 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
       this.allUsers.forEach((user) {
         if (user.username.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
             user.username.toLowerCase().contains(searchTerm.toLowerCase())) {
-          if (user.id != this.user.id && user.isFriendly && isFriend(user)) {
-            this.foundUsers.add(user);
+          if (user.id != this.user.id) {
+            if (user.isFriendly || isFriend(user)) this.foundUsers.add(user);
           }
         }
       });
