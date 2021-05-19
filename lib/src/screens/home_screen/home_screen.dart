@@ -8,6 +8,7 @@ import 'package:sudoku/src/models/user.dart';
 import 'package:sudoku/src/models/game.dart';
 import 'package:sudoku/src/models/difficulty.dart';
 import 'package:sudoku/src/providers/connectivity_provider.dart';
+import 'package:sudoku/src/providers/notification_provider.dart';
 import 'package:sudoku/src/screens/free_play_screen/free_play_screen.dart';
 import 'package:sudoku/src/screens/multiplayer_lobby_screen/multiplayer_lobby_screen.dart';
 import 'package:sudoku/src/screens/settings_screen/settings_screen.dart';
@@ -46,6 +47,8 @@ abstract class HomeScreenState extends State<HomeScreen>
   ThemeProvider themeProvider = ThemeProvider();
   AutoScrollController autoScrollController = AutoScrollController();
   ConnectivityProvider connectivityProvider = ConnectivityProvider();
+  PushNotificationProvider pushNotificationProvider =
+      PushNotificationProvider();
 
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -57,6 +60,7 @@ abstract class HomeScreenState extends State<HomeScreen>
     this.currentDifficulty = Difficulty.getDifficulty(user.difficultyLevel);
     this.appTheme = this.themeProvider.getCurrentAppTheme(this.user);
     this.getTheme();
+    this.initNotifications();
     this.autoScrollToUserIndex();
     this.showGreeting();
     this.syncUserData();
@@ -75,8 +79,13 @@ abstract class HomeScreenState extends State<HomeScreen>
     super.didChangeDependencies();
   }
 
+  void initNotifications() async {
+    this.pushNotificationProvider.initialiseFirebaseMessaging();
+  }
+
   void syncUserData() async {
     this.user = await this.databaseProvider.getUser(this.user.id);
+    await this.pushNotificationProvider.saveDeviceToken(this.user);
   }
 
   String parseLevelTime(Duration duration) {
@@ -117,6 +126,7 @@ abstract class HomeScreenState extends State<HomeScreen>
           preferedPattern: user['preferedPattern'],
           audioEnabled: user['audioEnabled'],
           profileUrl: user['profileUrl'],
+          tokens: user['tokens'],
           backupBoard: user['backupBoard'],
           elapsedTime: user['elapsedTime'],
           hasCompletedGame: user['hasCompletedGame'],

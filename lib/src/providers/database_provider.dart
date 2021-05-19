@@ -139,6 +139,7 @@ class DatabaseProvider {
           profileUrl: profileUrl,
           level: 0,
           difficultyLevel: 0,
+          tokens: [],
           audioEnabled: true,
           backupBoard: [],
           friends: [],
