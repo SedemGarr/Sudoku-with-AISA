@@ -177,11 +177,12 @@ class MultiplayerProvider {
   }
 
   Future<void> deleteGame(String gameId) async {
-    await firestore.collection('games').doc(gameId).delete();
     // delete invite as well
     if (await checkIfInviteExists(gameId)) {
       await refuseInviteByGameId(gameId, false);
     }
+
+    await firestore.collection('games').doc(gameId).delete();
   }
 
   Future<void> updateGameSettings(MultiplayerGame currentGame) async {

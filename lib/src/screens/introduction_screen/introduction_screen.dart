@@ -80,9 +80,11 @@ abstract class IntroductionScreenState extends State<IntroductionScreen>
 
   Future aisaSpeak() async {
     if (this.user.audioEnabled) {
-      await flutterTts.speak(AISA.introductionDialog[0] +
-          AISA.introductionDialog[1] +
-          AISA.introductionDialog[2]);
+      await flutterTts
+          .speak(AISA.introductionDialog[0] + AISA.introductionDialog[1])
+          .then((value) async {
+        await flutterTts.speak(AISA.introductionDialog[2]);
+      });
     }
   }
 
