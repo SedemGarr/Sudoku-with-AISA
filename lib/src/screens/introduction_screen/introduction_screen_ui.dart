@@ -74,7 +74,7 @@ class IntroductionScreenView extends IntroductionScreenState {
             style: GoogleFonts.lato(color: appTheme.themeColor),
           ),
           onPressed: () {
-            startGame();
+            showTermsDialog();
           },
         ),
       ),

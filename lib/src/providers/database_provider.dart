@@ -254,7 +254,7 @@ class DatabaseProvider {
     user.level = 0;
     user.hasCompletedIntro = false;
     user.stats =
-        user.stats.where((element) => !element['isSinglePlayer']).toList();
+        user.stats.where((element) => !element.isSinglePlayer).toList();
     await userStateUpdateProvider.updateUser(user);
     await multiplayerProvider.updateOngoingGames(user);
   }

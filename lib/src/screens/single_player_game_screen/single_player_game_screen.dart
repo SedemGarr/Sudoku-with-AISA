@@ -445,7 +445,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
     if (this
             .user
             .stats
-            .where((element) => element['isSinglePlayer'])
+            .where((element) => element.isSinglePlayer)
             .toList()
             .length <
         54) {
@@ -474,6 +474,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            scrollable: true,
             backgroundColor: this.appTheme.themeColor,
             content: Column(
               mainAxisSize: MainAxisSize.min,

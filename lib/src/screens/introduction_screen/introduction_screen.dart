@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sudoku/src/models/aisa.dart';
 import 'package:sudoku/src/models/difficulty.dart';
 import 'package:sudoku/src/models/theme.dart';
@@ -40,12 +41,13 @@ abstract class IntroductionScreenState extends State<IntroductionScreen>
     this.isDark = widget.isDark;
     this.appTheme = widget.appTheme;
     this.game = widget.game;
+    this.setAISASpeechRate(1.0);
   }
 
   @override
   void initState() {
     initVariables();
-    aisaSpeak();
+    aisaSpeak(AISA.introductionDialog[0] + AISA.introductionDialog[1]);
     super.initState();
   }
 
@@ -71,6 +73,7 @@ abstract class IntroductionScreenState extends State<IntroductionScreen>
 
   void startGame() async {
     this.aisaStop();
+    this.setAISASpeechRate(1.0);
     this.user.hasCompletedIntro = true;
     // save user
     await this.userStateUpdateProvider.updateUser(this.user);
@@ -78,13 +81,61 @@ abstract class IntroductionScreenState extends State<IntroductionScreen>
     goToSinglePlayerGameScreen();
   }
 
-  Future aisaSpeak() async {
+  showTermsDialog() async {
+    this.aisaStop();
+    this.setAISASpeechRate(2.5);
+    this.aisaSpeak(AISA.introductionDialog[2]);
+
+    return showDialog(
+        barrierDismissible: true,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            scrollable: true,
+            backgroundColor: this.appTheme.themeColor,
+            title: Text('terms and policies',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.lato(
+                    color: isDark ? Colors.grey[900] : Colors.white)),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    child: Text(AISA.introductionDialog[2],
+                        style: GoogleFonts.lato(
+                            color: isDark ? Colors.grey[900] : Colors.white)),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: FlatButton(
+                    onPressed: () {
+                      this.startGame();
+                    },
+                    child: Text(
+                      'proceed',
+                      textAlign: TextAlign.end,
+                      style: GoogleFonts.lato(
+                          fontWeight: FontWeight.bold,
+                          color: isDark ? Colors.grey[900] : Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  void setAISASpeechRate(double value) async {
+    await flutterTts.setSpeechRate(value);
+  }
+
+  Future aisaSpeak(String text) async {
     if (this.user.audioEnabled) {
-      await flutterTts
-          .speak(AISA.introductionDialog[0] + AISA.introductionDialog[1])
-          .then((value) async {
-        await flutterTts.speak(AISA.introductionDialog[2]);
-      });
+      await flutterTts.speak(text);
     }
   }
 

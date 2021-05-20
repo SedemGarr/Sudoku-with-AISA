@@ -337,6 +337,17 @@ abstract class SettingsScreenState extends State<SettingsScreen>
     });
   }
 
+  showAvatarchangedSnackBar(String text) {
+    scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: appTheme.themeColor,
+        content: Text(
+          'your profile picture has been $text',
+          style: GoogleFonts.lato(
+              color: this.isDark ? Colors.grey[900] : Colors.white),
+          textAlign: TextAlign.start,
+        )));
+  }
+
   showHelpSnackBar(int index) {
     scaffoldKey.currentState.showSnackBar(SnackBar(
         duration: Duration(seconds: 15),
@@ -422,6 +433,7 @@ abstract class SettingsScreenState extends State<SettingsScreen>
           this.user.profileUrl = newProfileUrl;
         });
         this.toggleLoader();
+        this.showAvatarchangedSnackBar('changed');
       } else {
         this.toggleLoader();
         print('No image selected.');
@@ -446,6 +458,7 @@ abstract class SettingsScreenState extends State<SettingsScreen>
           this.user.profileUrl = newProfileUrl;
         });
         this.toggleLoader();
+        this.showAvatarchangedSnackBar('changed');
       } else {
         this.toggleLoader();
         print('No image selected.');
@@ -463,6 +476,7 @@ abstract class SettingsScreenState extends State<SettingsScreen>
 
       await this.databaseProvider.deleteProfilePhoto(this.user);
       this.toggleLoader();
+      this.showAvatarchangedSnackBar('deleted');
     } else
       this.showNoInternetSnackBar();
   }
