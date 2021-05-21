@@ -5,7 +5,7 @@ class Board {
 
   Board.fromJson(Map<String, dynamic> json) {
     if (json['cells'] != null) {
-      cells = new List<Null>();
+      cells = [];
       json['cells'].forEach((v) {
         cells.add(v);
       });

@@ -29,7 +29,7 @@ class AuthScreenView extends AuthScreenState {
 
   Widget buildSignInButton() {
     return Container(
-      child: OutlineButton.icon(
+      child: OutlinedButton.icon(
         onPressed: () {
           signIn();
         },
@@ -37,9 +37,12 @@ class AuthScreenView extends AuthScreenState {
           FontAwesomeIcons.google,
           color: appTheme.themeColor,
         ),
-        shape: StadiumBorder(),
-        borderSide: BorderSide(color: isDark ? Colors.grey[900] : Colors.white),
-        padding: const EdgeInsets.all(10),
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all(StadiumBorder()),
+          side: MaterialStateProperty.all(
+              BorderSide(color: isDark ? Colors.grey[900] : Colors.white)),
+          padding: MaterialStateProperty.all(const EdgeInsets.all(10)),
+        ),
         label: Text(
           'sign in with google',
           style: GoogleFonts.lato(color: appTheme.themeColor, fontSize: 20),

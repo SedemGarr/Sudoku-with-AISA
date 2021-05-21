@@ -3,7 +3,7 @@ import 'package:sudoku/src/models/user.dart';
 import 'package:sudoku/src/providers/user_state_update_provider.dart';
 
 class PushNotificationProvider {
-  final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+  final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
 
   void initialiseFirebaseMessaging() async {
     // firebaseMessaging.configure(

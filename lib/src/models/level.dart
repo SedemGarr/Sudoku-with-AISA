@@ -9,19 +9,19 @@ class Level {
   Level.fromJson(Map<String, dynamic> json) {
     levelNumber = json['levelNumber'];
     if (json['board'] != null) {
-      board = new List<dynamic>();
+      board = [];
       json['board'].forEach((v) {
         board.add(v);
       });
     }
     if (json['solvedBoard'] != null) {
-      solvedBoard = new List<dynamic>();
+      solvedBoard = [];
       json['solvedBoard'].forEach((v) {
         solvedBoard.add(v);
       });
     }
     if (json['backupBoard'] != null) {
-      backupBoard = new List<dynamic>();
+      backupBoard = [];
       json['backupBoard'].forEach((v) {
         backupBoard.add(v);
       });
