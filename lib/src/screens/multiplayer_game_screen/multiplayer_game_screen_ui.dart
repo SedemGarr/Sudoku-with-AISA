@@ -322,7 +322,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                   isHost
                       ? Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: FlatButton(
+                          child: TextButton(
                             child: Text('play again',
                                 style: GoogleFonts.lato(
                                     fontSize: 16,
@@ -354,7 +354,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                   isHost
                       ? Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: FlatButton(
+                          child: TextButton(
                             child: Text('end game',
                                 style: GoogleFonts.lato(
                                     fontSize: 16,
@@ -366,7 +366,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                             },
                           ),
                         )
-                      : FlatButton(
+                      : TextButton(
                           child: Text('leave game',
                               style: GoogleFonts.lato(
                                   fontSize: 16,

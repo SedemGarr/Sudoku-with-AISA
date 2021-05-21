@@ -234,7 +234,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
               children: [
                 buildJoinGameForm(context),
                 Center(
-                  child: FlatButton(
+                  child: TextButton(
                       onPressed: () {
                         toggleIsViewingInvitations();
                       },
@@ -522,7 +522,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: FlatButton.icon(
+                              child: TextButton.icon(
                                   onPressed: () {
                                     share();
                                   },
@@ -540,7 +540,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                 ? Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 8.0),
-                                    child: FlatButton.icon(
+                                    child: TextButton.icon(
                                         onPressed: () {
                                           showInviteFriendsDialog(context);
                                         },

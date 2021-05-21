@@ -6,17 +6,17 @@ class PushNotificationProvider {
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
 
   void initialiseFirebaseMessaging() async {
-    firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print('on message: $message');
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print('on message: $message');
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print('on message: $message');
-      },
-    );
+    // firebaseMessaging.configure(
+    //   onMessage: (Map<String, dynamic> message) async {
+    //     print('on message: $message');
+    //   },
+    //   onResume: (Map<String, dynamic> message) async {
+    //     print('on message: $message');
+    //   },
+    //   onLaunch: (Map<String, dynamic> message) async {
+    //     print('on message: $message');
+    //   },
+    // );
   }
 
   saveDeviceToken(Users user) async {

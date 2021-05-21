@@ -260,7 +260,7 @@ abstract class FriendsScreenState extends State<FriendsScreen>
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  FlatButton(
+                  TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -269,7 +269,7 @@ abstract class FriendsScreenState extends State<FriendsScreen>
                           style: GoogleFonts.lato(
                               color:
                                   isDark ? Colors.white : Colors.grey[900]))),
-                  FlatButton(
+                  TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                       this.createFriendRequest(friend, this.user);
@@ -301,7 +301,7 @@ abstract class FriendsScreenState extends State<FriendsScreen>
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  FlatButton(
+                  TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -310,7 +310,7 @@ abstract class FriendsScreenState extends State<FriendsScreen>
                           style: GoogleFonts.lato(
                               color:
                                   isDark ? Colors.white : Colors.grey[900]))),
-                  FlatButton(
+                  TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                       this.acceptRequest(request, friend);
@@ -342,7 +342,7 @@ abstract class FriendsScreenState extends State<FriendsScreen>
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  FlatButton(
+                  TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -351,7 +351,7 @@ abstract class FriendsScreenState extends State<FriendsScreen>
                           style: GoogleFonts.lato(
                               color:
                                   isDark ? Colors.white : Colors.grey[900]))),
-                  FlatButton(
+                  TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                       this.denyRequest(request, friend);
@@ -383,7 +383,7 @@ abstract class FriendsScreenState extends State<FriendsScreen>
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  FlatButton(
+                  TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -392,7 +392,7 @@ abstract class FriendsScreenState extends State<FriendsScreen>
                           style: GoogleFonts.lato(
                               color:
                                   isDark ? Colors.white : Colors.grey[900]))),
-                  FlatButton(
+                  TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                       this.unFriend(friend);

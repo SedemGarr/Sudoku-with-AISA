@@ -68,7 +68,7 @@ class IntroductionScreenView extends IntroductionScreenState {
     return Container(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: FlatButton(
+        child: TextButton(
           child: Text(
             'start',
             style: GoogleFonts.lato(color: appTheme.themeColor),

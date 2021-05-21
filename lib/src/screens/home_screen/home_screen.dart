@@ -319,7 +319,7 @@ abstract class HomeScreenState extends State<HomeScreen>
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  FlatButton(
+                  TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -328,7 +328,7 @@ abstract class HomeScreenState extends State<HomeScreen>
                           style: GoogleFonts.lato(
                               color:
                                   isDark ? Colors.white : Colors.grey[900]))),
-                  FlatButton(
+                  TextButton(
                     onPressed: () {
                       this.signOut();
                     },
@@ -369,7 +369,7 @@ abstract class HomeScreenState extends State<HomeScreen>
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  FlatButton(
+                  TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -378,7 +378,7 @@ abstract class HomeScreenState extends State<HomeScreen>
                           style: GoogleFonts.lato(
                               color:
                                   isDark ? Colors.white : Colors.grey[900]))),
-                  FlatButton(
+                  TextButton(
                     onPressed: () {
                       this.exitApp();
                     },

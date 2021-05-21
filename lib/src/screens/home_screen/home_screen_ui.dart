@@ -362,8 +362,7 @@ class HomeScreenView extends HomeScreenState {
   }
 
   Widget buildExpandButton() {
-    return FlatButton(
-        splashColor: appTheme.themeColor,
+    return TextButton(
         onPressed: toggleLeaderboardExpansion,
         child: Text(
           isLeaderboardExpanded ? 'collapse' : 'expand',
@@ -424,7 +423,7 @@ class HomeScreenView extends HomeScreenState {
   }
 
   Widget buildFindMeButton() {
-    return FlatButton(
+    return TextButton(
       onPressed: () {
         findMe();
       },

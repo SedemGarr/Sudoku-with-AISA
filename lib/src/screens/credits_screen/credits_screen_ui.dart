@@ -16,8 +16,7 @@ class CreditsScreenView extends CreditsScreenState {
                 Expanded(
                   child: ListView(),
                 ),
-                FlatButton(
-                    splashColor: appTheme.themeColor,
+                TextButton(
                     onPressed: () {
                       endGame();
                     },

@@ -563,7 +563,7 @@ abstract class MultiplayerGameScreenScreenState
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  FlatButton(
+                  TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -572,7 +572,7 @@ abstract class MultiplayerGameScreenScreenState
                           style: GoogleFonts.lato(
                               color:
                                   isDark ? Colors.white : Colors.grey[900]))),
-                  FlatButton(
+                  TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                       this.multiplayerProvider.leaveGame(game, this.user);
@@ -614,7 +614,7 @@ abstract class MultiplayerGameScreenScreenState
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  FlatButton(
+                  TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -623,7 +623,7 @@ abstract class MultiplayerGameScreenScreenState
                           style: GoogleFonts.lato(
                               color:
                                   isDark ? Colors.white : Colors.grey[900]))),
-                  FlatButton(
+                  TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                       this.multiplayerProvider.deleteGame(game.id);

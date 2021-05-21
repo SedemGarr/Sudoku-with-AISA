@@ -245,7 +245,7 @@ abstract class SettingsScreenState extends State<SettingsScreen>
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  FlatButton(
+                  TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -254,7 +254,7 @@ abstract class SettingsScreenState extends State<SettingsScreen>
                           style: GoogleFonts.lato(
                               color:
                                   isDark ? Colors.white : Colors.grey[900]))),
-                  FlatButton(
+                  TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                       this.resetProgress();
@@ -292,7 +292,7 @@ abstract class SettingsScreenState extends State<SettingsScreen>
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  FlatButton(
+                  TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -301,7 +301,7 @@ abstract class SettingsScreenState extends State<SettingsScreen>
                           style: GoogleFonts.lato(
                               color:
                                   isDark ? Colors.white : Colors.grey[900]))),
-                  FlatButton(
+                  TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                       this.deleteAccount();

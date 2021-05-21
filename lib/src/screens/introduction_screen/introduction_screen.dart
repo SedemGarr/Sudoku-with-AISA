@@ -110,7 +110,7 @@ abstract class IntroductionScreenState extends State<IntroductionScreen>
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: FlatButton(
+                  child: TextButton(
                     onPressed: () {
                       this.startGame();
                     },

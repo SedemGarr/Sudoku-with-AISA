@@ -494,7 +494,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  FlatButton(
+                  TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -503,7 +503,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
                           style: GoogleFonts.lato(
                               color:
                                   isDark ? Colors.white : Colors.grey[900]))),
-                  FlatButton(
+                  TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                       this.acceptInvite(invite);
@@ -535,7 +535,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  FlatButton(
+                  TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -544,7 +544,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
                           style: GoogleFonts.lato(
                               color:
                                   isDark ? Colors.white : Colors.grey[900]))),
-                  FlatButton(
+                  TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                       this.refuseInvite(invite, false);
@@ -745,7 +745,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  FlatButton(
+                  TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -754,7 +754,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
                           style: GoogleFonts.lato(
                               color:
                                   isDark ? Colors.white : Colors.grey[900]))),
-                  FlatButton(
+                  TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                       this.joinGameFromList(game);
@@ -795,7 +795,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  FlatButton(
+                  TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -804,7 +804,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
                           style: GoogleFonts.lato(
                               color:
                                   isDark ? Colors.white : Colors.grey[900]))),
-                  FlatButton(
+                  TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                       this.multiplayerProvider.deleteGame(game.id);
@@ -842,7 +842,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  FlatButton(
+                  TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -851,7 +851,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
                           style: GoogleFonts.lato(
                               color:
                                   isDark ? Colors.white : Colors.grey[900]))),
-                  FlatButton(
+                  TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                       this.multiplayerProvider.leaveGame(game, this.user);

@@ -608,8 +608,7 @@ class SettingsScreenView extends SettingsScreenState {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: FlatButton(
-                  splashColor: appTheme.themeColor,
+              child: TextButton(
                   onPressed: () {
                     showRestartGameDialog(context);
                   },
@@ -651,8 +650,7 @@ class SettingsScreenView extends SettingsScreenState {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: FlatButton(
-                  splashColor: appTheme.themeColor,
+              child: TextButton(
                   onPressed: () {
                     showDeleteAccountDialog(context);
                   },
