@@ -157,7 +157,7 @@ abstract class FreePlayScreenState extends State<FreePlayScreen>
       stopWatchTimer.setPresetSecondTime(this.user.elapsedTime);
       // show snackbar
       Future.delayed(Duration(milliseconds: 500), () {
-        scaffoldKey.currentState.showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: appTheme.themeColor,
             content: Text(
               'a previous game was loaded',

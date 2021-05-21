@@ -174,7 +174,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
 
   void showPlayerDeclinedSnackbar(Users user) {
     Future.delayed(Duration(seconds: 1), () {
-      scaffoldKey.currentState.showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: appTheme.themeColor,
           content: Text(
             '${user.username} has declined your invitation',
@@ -315,7 +315,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
 
   showCopiedSnackBar() {
     Future.delayed(Duration(seconds: 1), () {
-      scaffoldKey.currentState.showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: appTheme.themeColor,
           content: Text(
             'game id copied to clipbaord',
@@ -328,7 +328,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
 
   showNoSuchGameSnackBar() {
     Future.delayed(Duration(seconds: 1), () {
-      scaffoldKey.currentState.showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: appTheme.themeColor,
           content: Text(
             'a game with that id was not found',
@@ -341,7 +341,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
 
   showSomethingWrongSnackBar() {
     Future.delayed(Duration(seconds: 1), () {
-      scaffoldKey.currentState.showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: appTheme.themeColor,
           content: Text(
             'something went wrong',
@@ -445,7 +445,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
 
   showInviteSentSnackBar(Users friend) {
     Future.delayed(Duration(seconds: 1), () {
-      scaffoldKey.currentState.showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: appTheme.themeColor,
           content: Text(
             'an invite has been sent to ${friend.username}',
@@ -458,7 +458,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
 
   showInviteDeniedSnackBar(Users friend) {
     Future.delayed(Duration(seconds: 1), () {
-      scaffoldKey.currentState.showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: appTheme.themeColor,
           content: Text(
             'you have declined ${friend.username}\'s invite',

@@ -251,7 +251,7 @@ abstract class MultiplayerGameScreenScreenState
       stopWatchTimer.setPresetSecondTime(this.currentGame.elapsedTime);
       // show snackbar
       Future.delayed(Duration(milliseconds: 500), () {
-        scaffoldKey.currentState.showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: appTheme.themeColor,
             content: Text(
               'continuing your previously saved game',
@@ -265,7 +265,7 @@ abstract class MultiplayerGameScreenScreenState
 
   void showPlayerLeftSnackbar() {
     Future.delayed(Duration(milliseconds: 500), () {
-      scaffoldKey.currentState.showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: appTheme.themeColor,
           content: Text(
             '$partnerName has left the game',
@@ -702,7 +702,7 @@ abstract class MultiplayerGameScreenScreenState
 
   showCopiedSnackBar() {
     Future.delayed(Duration(seconds: 1), () {
-      scaffoldKey.currentState.showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: appTheme.themeColor,
           content: Text(
             'game id copied to clipbaord',

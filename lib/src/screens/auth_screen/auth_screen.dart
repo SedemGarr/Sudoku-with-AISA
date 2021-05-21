@@ -121,7 +121,7 @@ abstract class AuthScreenState extends State<AuthScreen>
   }
 
   showErrorSnackBar() {
-    scaffoldKey.currentState.showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: appTheme.themeColor,
         content: Text(
           'oops!\n\nsomething has gone catastrophically wrong. it\'s likely your internet connection. if not it could be us but really, how likely is that? it\'s probably you. please retry',
@@ -132,7 +132,7 @@ abstract class AuthScreenState extends State<AuthScreen>
   }
 
   showNoUserSnackBar() {
-    scaffoldKey.currentState.showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: appTheme.themeColor,
         content: Text(
           'the way the is app is setup is that...\n\nwe know it\'s yet another thing to sign up for but you really do need an account to continue',

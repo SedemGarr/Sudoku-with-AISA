@@ -105,7 +105,7 @@ abstract class SettingsScreenState extends State<SettingsScreen>
     this.disableEditing();
     // show snackbar
     Future.delayed(Duration(seconds: 1), () {
-      scaffoldKey.currentState.showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: appTheme.themeColor,
           content: Text(
             'username changed',
@@ -338,7 +338,7 @@ abstract class SettingsScreenState extends State<SettingsScreen>
   }
 
   showAvatarchangedSnackBar(String text) {
-    scaffoldKey.currentState.showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: appTheme.themeColor,
         content: Text(
           'your profile picture has been $text',
@@ -349,14 +349,14 @@ abstract class SettingsScreenState extends State<SettingsScreen>
   }
 
   showHelpSnackBar(int index) {
-    scaffoldKey.currentState.showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         duration: Duration(seconds: 15),
         backgroundColor: appTheme.themeColor,
         action: SnackBarAction(
           label: 'ok',
           textColor: this.isDark ? Colors.grey[900] : Colors.white,
           onPressed: () {
-            scaffoldKey.currentState.hideCurrentSnackBar();
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
           },
         ),
         content: Text(
@@ -368,7 +368,7 @@ abstract class SettingsScreenState extends State<SettingsScreen>
   }
 
   showRestartSnackBar(int index) {
-    scaffoldKey.currentState.showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: appTheme.themeColor,
         content: Text(
           'success! you game is as fresh as a new born baby',
@@ -379,7 +379,7 @@ abstract class SettingsScreenState extends State<SettingsScreen>
   }
 
   showNoInternetSnackBar() {
-    scaffoldKey.currentState.showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: appTheme.themeColor,
         content: Text(
           'it\'s better if you\'re connected to the internet for this. trust us',

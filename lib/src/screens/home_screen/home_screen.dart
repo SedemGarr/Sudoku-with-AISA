@@ -200,7 +200,7 @@ abstract class HomeScreenState extends State<HomeScreen>
   }
 
   showNoInternetSnackBar() {
-    scaffoldKey.currentState.showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: appTheme.themeColor,
         content: Text(
           'it\'s better if you\'re connected to the internet for this. trust us',
@@ -213,7 +213,7 @@ abstract class HomeScreenState extends State<HomeScreen>
   void showGreeting() {
     if (widget.fromAuthScreen != null && widget.fromAuthScreen) {
       Future.delayed(Duration(seconds: 1), () {
-        Scaffold.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: appTheme.themeColor,
             content: Text(
               'welcome back, ' + this.user.username,

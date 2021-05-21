@@ -153,7 +153,7 @@ abstract class FriendsScreenState extends State<FriendsScreen>
 
   showUnfriendedSnackBar(Users friend) {
     Future.delayed(Duration(seconds: 1), () {
-      scaffoldKey.currentState.showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: appTheme.themeColor,
           content: Text(
             'you and ${friend.username} are no longer friends',
@@ -166,7 +166,7 @@ abstract class FriendsScreenState extends State<FriendsScreen>
 
   showRequestAlreadySentToUSerSnackBar(Users friend) {
     Future.delayed(Duration(seconds: 1), () {
-      scaffoldKey.currentState.showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: appTheme.themeColor,
           content: Text(
             '${friend.username} has already sent you a request',
@@ -179,7 +179,7 @@ abstract class FriendsScreenState extends State<FriendsScreen>
 
   showRequestAcceptedSnackBar(Users friend) {
     Future.delayed(Duration(seconds: 1), () {
-      scaffoldKey.currentState.showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: appTheme.themeColor,
           content: Text(
             'you and ${friend.username} are now friends',
@@ -192,7 +192,7 @@ abstract class FriendsScreenState extends State<FriendsScreen>
 
   showRequestDeniedSnackBar(Users friend) {
     Future.delayed(Duration(seconds: 1), () {
-      scaffoldKey.currentState.showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: appTheme.themeColor,
           content: Text(
             '${friend.username}\'s request denied',
@@ -205,7 +205,7 @@ abstract class FriendsScreenState extends State<FriendsScreen>
 
   showRequestSentSnackBar(Users friend) {
     Future.delayed(Duration(seconds: 1), () {
-      scaffoldKey.currentState.showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: appTheme.themeColor,
           content: Text(
             'a friend request has been sent to ${friend.username}',
