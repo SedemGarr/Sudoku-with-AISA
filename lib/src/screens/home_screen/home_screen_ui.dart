@@ -290,8 +290,11 @@ class HomeScreenView extends HomeScreenState {
                                             : appTheme.themeColor),
                                   ),
                                   subtitle: Text(
-                                    leaderboard[index].score.toString() +
-                                        ' points',
+                                    leaderboard[index].score == 1
+                                        ? leaderboard[index].score.toString() +
+                                            ' point'
+                                        : leaderboard[index].score.toString() +
+                                            ' points',
                                     style: GoogleFonts.lato(
                                         fontWeight: FontWeight.bold,
                                         color: isMe(leaderboard[index].id)
