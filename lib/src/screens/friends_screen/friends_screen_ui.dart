@@ -129,70 +129,74 @@ class FriendsScreenView extends FriendsScreenState {
               : ListView.builder(
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                        dense: true,
-                        tileColor: appTheme.themeColor,
-                        leading: CircularProfileAvatar(
-                          myRequests[index].requester.profileUrl,
-                          radius: 20,
-                          backgroundColor:
-                              isDark ? Colors.grey[900] : Colors.white,
-                          initialsText: Text(
-                            getInitials(myRequests[index].requester.username),
+                    return Container(
+                      color: appTheme.themeColor,
+                      child: ListTile(
+                          dense: true,
+                          leading: CircularProfileAvatar(
+                            myRequests[index].requester.profileUrl,
+                            radius: 20,
+                            backgroundColor:
+                                isDark ? Colors.grey[900] : Colors.white,
+                            initialsText: Text(
+                              getInitials(myRequests[index].requester.username),
+                              style: GoogleFonts.lato(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                                color: appTheme.themeColor,
+                              ),
+                            ),
+                            borderColor: Colors.transparent,
+                            elevation: 0.0,
+                            foregroundColor: Colors.transparent,
+                            cacheImage: true,
+                            showInitialTextAbovePicture: false,
+                          ),
+                          title: Text(
+                            myRequests[index].requester.username,
                             style: GoogleFonts.lato(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                              color: appTheme.themeColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color:
+                                    isDark ? Colors.grey[900] : Colors.white),
+                          ),
+                          subtitle: Text(
+                            '${myRequests[index].requester.username} wants to be friends',
+                            style: GoogleFonts.lato(
+                              color: isDark ? Colors.grey[900] : Colors.white,
                             ),
                           ),
-                          borderColor: Colors.transparent,
-                          elevation: 0.0,
-                          foregroundColor: Colors.transparent,
-                          cacheImage: true,
-                          showInitialTextAbovePicture: false,
-                        ),
-                        title: Text(
-                          myRequests[index].requester.username,
-                          style: GoogleFonts.lato(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: isDark ? Colors.grey[900] : Colors.white),
-                        ),
-                        subtitle: Text(
-                          '${myRequests[index].requester.username} wants to be friends',
-                          style: GoogleFonts.lato(
-                            color: isDark ? Colors.grey[900] : Colors.white,
-                          ),
-                        ),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                                icon: Icon(
-                                  LineIcons.check,
-                                  color:
-                                      isDark ? Colors.grey[900] : Colors.white,
-                                ),
-                                onPressed: () {
-                                  showAcceptRequestDialog(myRequests[index],
-                                      myRequests[index].requester, context);
-                                }),
-                            Transform.rotate(
-                              angle: -math.pi / 4,
-                              child: IconButton(
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
                                   icon: Icon(
-                                    LineIcons.plus,
+                                    LineIcons.check,
                                     color: isDark
                                         ? Colors.grey[900]
                                         : Colors.white,
                                   ),
                                   onPressed: () {
-                                    showDenyRequestDialog(myRequests[index],
+                                    showAcceptRequestDialog(myRequests[index],
                                         myRequests[index].requester, context);
                                   }),
-                            ),
-                          ],
-                        ));
+                              Transform.rotate(
+                                angle: -math.pi / 4,
+                                child: IconButton(
+                                    icon: Icon(
+                                      LineIcons.plus,
+                                      color: isDark
+                                          ? Colors.grey[900]
+                                          : Colors.white,
+                                    ),
+                                    onPressed: () {
+                                      showDenyRequestDialog(myRequests[index],
+                                          myRequests[index].requester, context);
+                                    }),
+                              ),
+                            ],
+                          )),
+                    );
                   },
                   itemCount: myRequests.length,
                 ),
@@ -244,111 +248,114 @@ class FriendsScreenView extends FriendsScreenState {
                       itemCount: foundUsers.length,
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          dense: true,
-                          tileColor: appTheme.themeColor,
-                          leading: CircularProfileAvatar(
-                            foundUsers[index].profileUrl,
-                            radius: 20,
-                            backgroundColor:
-                                isDark ? Colors.grey[900] : Colors.white,
-                            initialsText: Text(
-                              getInitials(foundUsers[index].username),
+                        return Container(
+                          color: appTheme.themeColor,
+                          child: ListTile(
+                            dense: true,
+                            leading: CircularProfileAvatar(
+                              foundUsers[index].profileUrl,
+                              radius: 20,
+                              backgroundColor:
+                                  isDark ? Colors.grey[900] : Colors.white,
+                              initialsText: Text(
+                                getInitials(foundUsers[index].username),
+                                style: GoogleFonts.lato(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: appTheme.themeColor,
+                                ),
+                              ),
+                              borderColor: Colors.transparent,
+                              elevation: 0.0,
+                              foregroundColor: Colors.transparent,
+                              cacheImage: true,
+                              showInitialTextAbovePicture: false,
+                            ),
+                            title: Text(
+                              foundUsers[index].username,
                               style: GoogleFonts.lato(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                                color: appTheme.themeColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color:
+                                      isDark ? Colors.grey[900] : Colors.white),
+                            ),
+                            subtitle: Text(
+                              hasSentUserRequestPending(foundUsers[index])
+                                  ? '${foundUsers[index].username} wants to be friends'
+                                  : hasRequestPending(foundUsers[index])
+                                      ? 'your request is pending'
+                                      : isFriend(index)
+                                          ? 'you are friends'
+                                          : 'you and ${foundUsers[index].username} are not friends',
+                              style: GoogleFonts.lato(
+                                color: isDark ? Colors.grey[900] : Colors.white,
                               ),
                             ),
-                            borderColor: Colors.transparent,
-                            elevation: 0.0,
-                            foregroundColor: Colors.transparent,
-                            cacheImage: true,
-                            showInitialTextAbovePicture: false,
-                          ),
-                          title: Text(
-                            foundUsers[index].username,
-                            style: GoogleFonts.lato(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color:
-                                    isDark ? Colors.grey[900] : Colors.white),
-                          ),
-                          subtitle: Text(
-                            hasSentUserRequestPending(foundUsers[index])
-                                ? '${foundUsers[index].username} wants to be friends'
-                                : hasRequestPending(foundUsers[index])
-                                    ? 'your request is pending'
-                                    : isFriend(index)
-                                        ? 'you are friends'
-                                        : 'you and ${foundUsers[index].username} are not friends',
-                            style: GoogleFonts.lato(
-                              color: isDark ? Colors.grey[900] : Colors.white,
-                            ),
-                          ),
-                          trailing: hasSentUserRequestPending(foundUsers[index])
-                              ? Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    IconButton(
-                                        icon: Icon(
-                                          LineIcons.check,
-                                          color: isDark
-                                              ? Colors.grey[900]
-                                              : Colors.white,
-                                        ),
-                                        onPressed: () {
-                                          showAcceptRequestDialog(
-                                              myRequests[index],
-                                              myRequests[index].requester,
-                                              context);
-                                        }),
-                                    Transform.rotate(
-                                      angle: -math.pi / 4,
-                                      child: IconButton(
+                            trailing: hasSentUserRequestPending(
+                                    foundUsers[index])
+                                ? Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      IconButton(
                                           icon: Icon(
-                                            LineIcons.plus,
+                                            LineIcons.check,
                                             color: isDark
                                                 ? Colors.grey[900]
                                                 : Colors.white,
                                           ),
                                           onPressed: () {
-                                            showDenyRequestDialog(
+                                            showAcceptRequestDialog(
                                                 myRequests[index],
                                                 myRequests[index].requester,
                                                 context);
                                           }),
-                                    ),
-                                  ],
-                                )
-                              : hasRequestPending(foundUsers[index])
-                                  ? CircularProgressIndicator(
-                                      strokeWidth: 1,
-                                      backgroundColor: appTheme.themeColor,
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                          isDark
-                                              ? Colors.grey[900]
-                                              : Colors.white),
-                                    )
-                                  : IconButton(
-                                      icon: Icon(
-                                        isFriend(index)
-                                            ? LineIcons.userFriends
-                                            : LineIcons.userPlus,
-                                        color: isDark
-                                            ? Colors.grey[900]
-                                            : Colors.white,
+                                      Transform.rotate(
+                                        angle: -math.pi / 4,
+                                        child: IconButton(
+                                            icon: Icon(
+                                              LineIcons.plus,
+                                              color: isDark
+                                                  ? Colors.grey[900]
+                                                  : Colors.white,
+                                            ),
+                                            onPressed: () {
+                                              showDenyRequestDialog(
+                                                  myRequests[index],
+                                                  myRequests[index].requester,
+                                                  context);
+                                            }),
                                       ),
-                                      onPressed: isFriend(index)
-                                          ? () {
-                                              showUnFriendDialog(
-                                                  foundUsers[index], context);
-                                            }
-                                          : () {
-                                              showSendRequestDialog(
-                                                  foundUsers[index], context);
-                                            },
-                                    ),
+                                    ],
+                                  )
+                                : hasRequestPending(foundUsers[index])
+                                    ? CircularProgressIndicator(
+                                        strokeWidth: 1,
+                                        backgroundColor: appTheme.themeColor,
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(isDark
+                                                ? Colors.grey[900]
+                                                : Colors.white),
+                                      )
+                                    : IconButton(
+                                        icon: Icon(
+                                          isFriend(index)
+                                              ? LineIcons.userFriends
+                                              : LineIcons.userPlus,
+                                          color: isDark
+                                              ? Colors.grey[900]
+                                              : Colors.white,
+                                        ),
+                                        onPressed: isFriend(index)
+                                            ? () {
+                                                showUnFriendDialog(
+                                                    foundUsers[index], context);
+                                              }
+                                            : () {
+                                                showSendRequestDialog(
+                                                    foundUsers[index], context);
+                                              },
+                                      ),
+                          ),
                         );
                       }),
                 );

@@ -306,11 +306,15 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
-                      height: MediaQuery.of(context).size.height * 1 / 3,
+                      height: isHost
+                          ? MediaQuery.of(context).size.height * 1 / 6
+                          : MediaQuery.of(context).size.height * 1 / 3,
                       child: Icon(
                         LineIcons.checkCircle,
                         color: appTheme.themeColor,
-                        size: MediaQuery.of(context).size.width * 0.55,
+                        size: isHost
+                            ? MediaQuery.of(context).size.width * 0.25
+                            : MediaQuery.of(context).size.width * 0.55,
                       ),
                     ),
                   ),
@@ -319,54 +323,65 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                       : Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: CircularProgressIndicator()),
-                  isHost
-                      ? Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextButton(
-                            child: Text('play again',
-                                style: GoogleFonts.lato(
-                                    fontSize: 16,
-                                    color: appTheme.themeColor,
-                                    fontWeight: FontWeight.bold)),
-                            onPressed: () {
-                              replay();
-                            },
-                          ),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'waiting for ${currentGame.players[currentGame.players.indexWhere((element) => element.id != user.id)].username} to restart the game',
-                            style: GoogleFonts.lato(
-                                color: appTheme.themeColor,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'or',
+                      !isHost
+                          ? 'waiting for ${currentGame.players[currentGame.players.indexWhere((element) => element.id != user.id)].username} to restart the game'
+                          : '',
                       style: GoogleFonts.lato(
                           color: appTheme.themeColor,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
                   isHost
-                      ? Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextButton(
-                            child: Text('end game',
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            isHost
+                                ? Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextButton(
+                                      child: Text('play again',
+                                          style: GoogleFonts.lato(
+                                              fontSize: 16,
+                                              color: appTheme.themeColor,
+                                              fontWeight: FontWeight.bold)),
+                                      onPressed: () {
+                                        replay();
+                                      },
+                                    ),
+                                  )
+                                : Container(),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'or',
                                 style: GoogleFonts.lato(
-                                    fontSize: 16,
                                     color: appTheme.themeColor,
-                                    fontWeight: FontWeight.bold)),
-                            onPressed: () {
-                              multiplayerProvider.deleteGame(currentGame.id);
-                              goToHomeScreen();
-                            },
-                          ),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextButton(
+                                child: Text('end game',
+                                    style: GoogleFonts.lato(
+                                        fontSize: 16,
+                                        color: appTheme.themeColor,
+                                        fontWeight: FontWeight.bold)),
+                                onPressed: () {
+                                  multiplayerProvider
+                                      .deleteGame(currentGame.id);
+                                  goToHomeScreen();
+                                },
+                              ),
+                            )
+                          ],
                         )
-                      : TextButton(
+                      : Container(),
+                  !isHost
+                      ? TextButton(
                           child: Text('leave game',
                               style: GoogleFonts.lato(
                                   fontSize: 16,
@@ -376,7 +391,8 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                             multiplayerProvider.leaveGame(currentGame, user);
                             goToHomeScreen();
                           },
-                        ),
+                        )
+                      : Container(),
                   Spacer(),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -599,54 +615,57 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                        )
-                      : Container(),
-                  isHost
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Slider(
-                                    label: currentGame.difficulty.toString(),
-                                    value: currentGame.difficulty == 10
-                                        ? 0.0
-                                        : currentGame.difficulty.toDouble(),
-                                    min: 0,
-                                    max: 5,
-                                    divisions: 5,
-                                    activeColor: appTheme.themeColor,
-                                    inactiveColor: appTheme.themeColor[200],
-                                    onChanged: user.freePlayDifficulty == 10
-                                        ? null
-                                        : (value) {
-                                            setFreePlaydifficulty(value);
-                                          }),
-                              ),
                               Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 4.0),
-                                child: Column(
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Row(
                                   children: [
-                                    Text(
-                                      'random?',
-                                      style: GoogleFonts.lato(
-                                        color: appTheme.themeColor,
-                                      ),
+                                    Expanded(
+                                      child: Slider(
+                                          label:
+                                              currentGame.difficulty.toString(),
+                                          value: currentGame.difficulty == 10
+                                              ? 0.0
+                                              : currentGame.difficulty
+                                                  .toDouble(),
+                                          min: 0,
+                                          max: 5,
+                                          divisions: 5,
+                                          activeColor: appTheme.themeColor,
+                                          inactiveColor:
+                                              appTheme.themeColor[200],
+                                          onChanged: user.freePlayDifficulty ==
+                                                  10
+                                              ? null
+                                              : (value) {
+                                                  setFreePlaydifficulty(value);
+                                                }),
                                     ),
-                                    Checkbox(
-                                      focusColor: appTheme.themeColor,
-                                      hoverColor: appTheme.themeColor,
-                                      value: currentGame.difficulty == 10,
-                                      onChanged: (value) {
-                                        setFreePlaydifficultyToRandom();
-                                      },
-                                      activeColor: appTheme.themeColor,
-                                      checkColor: isDark
-                                          ? Colors.grey[900]
-                                          : Colors.white,
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 4.0),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            'random?',
+                                            style: GoogleFonts.lato(
+                                              color: appTheme.themeColor,
+                                            ),
+                                          ),
+                                          Checkbox(
+                                            focusColor: appTheme.themeColor,
+                                            hoverColor: appTheme.themeColor,
+                                            value: currentGame.difficulty == 10,
+                                            onChanged: (value) {
+                                              setFreePlaydifficultyToRandom();
+                                            },
+                                            activeColor: appTheme.themeColor,
+                                            checkColor: isDark
+                                                ? Colors.grey[900]
+                                                : Colors.white,
+                                          )
+                                        ],
+                                      ),
                                     )
                                   ],
                                 ),
@@ -654,7 +673,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                             ],
                           ),
                         )
-                      : Container()
+                      : Container(),
                 ],
               ),
             ),
