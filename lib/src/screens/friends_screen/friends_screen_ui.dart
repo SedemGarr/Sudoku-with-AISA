@@ -2,6 +2,7 @@ import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:sudoku/src/components/loading_widget.dart';
 import 'friends_screen.dart';
 import 'dart:math' as math;
 
@@ -28,8 +29,7 @@ class FriendsScreenView extends FriendsScreenState {
                               ? Colors.grey[900]
                               : Colors.white
                           : appTheme.themeColor,
-                      fontWeight:
-                          isSearching ? FontWeight.bold : FontWeight.normal),
+                      fontWeight: isSearching ? FontWeight.bold : FontWeight.normal),
                 ),
               ),
             ),
@@ -53,9 +53,7 @@ class FriendsScreenView extends FriendsScreenState {
                               ? Colors.grey[900]
                               : Colors.white
                           : appTheme.themeColor,
-                      fontWeight: isViewingFriends
-                          ? FontWeight.bold
-                          : FontWeight.normal),
+                      fontWeight: isViewingFriends ? FontWeight.bold : FontWeight.normal),
                 ),
               ),
             ),
@@ -79,10 +77,8 @@ class FriendsScreenView extends FriendsScreenState {
                 keyboardType: TextInputType.text,
                 style: GoogleFonts.lato(color: appTheme.themeColor),
                 decoration: InputDecoration(
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: appTheme.themeColor)),
-                    enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: appTheme.themeColor)),
+                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: appTheme.themeColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: appTheme.themeColor)),
                     hintText: 'enter a username',
                     hintStyle: GoogleFonts.lato(color: appTheme.themeColor)),
                 onChanged: (value) {
@@ -116,10 +112,7 @@ class FriendsScreenView extends FriendsScreenState {
           child: myRequests.length == 0
               ? Container(
                   child: Padding(
-                  padding: EdgeInsets.only(
-                      left: 8.0,
-                      right: 8.0,
-                      top: MediaQuery.of(context).size.height * 1 / 4),
+                  padding: EdgeInsets.only(left: 8.0, right: 8.0, top: MediaQuery.of(context).size.height * 1 / 4),
                   child: Text(
                     'no requests',
                     textAlign: TextAlign.center,
@@ -136,8 +129,7 @@ class FriendsScreenView extends FriendsScreenState {
                           leading: CircularProfileAvatar(
                             myRequests[index].requester.profileUrl,
                             radius: 20,
-                            backgroundColor:
-                                isDark ? Colors.grey[900] : Colors.white,
+                            backgroundColor: isDark ? Colors.grey[900] : Colors.white,
                             initialsText: Text(
                               getInitials(myRequests[index].requester.username),
                               style: GoogleFonts.lato(
@@ -154,11 +146,7 @@ class FriendsScreenView extends FriendsScreenState {
                           ),
                           title: Text(
                             myRequests[index].requester.username,
-                            style: GoogleFonts.lato(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color:
-                                    isDark ? Colors.grey[900] : Colors.white),
+                            style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.bold, color: isDark ? Colors.grey[900] : Colors.white),
                           ),
                           subtitle: Text(
                             '${myRequests[index].requester.username} wants to be friends',
@@ -172,26 +160,20 @@ class FriendsScreenView extends FriendsScreenState {
                               IconButton(
                                   icon: Icon(
                                     LineIcons.check,
-                                    color: isDark
-                                        ? Colors.grey[900]
-                                        : Colors.white,
+                                    color: isDark ? Colors.grey[900] : Colors.white,
                                   ),
                                   onPressed: () {
-                                    showAcceptRequestDialog(myRequests[index],
-                                        myRequests[index].requester, context);
+                                    showAcceptRequestDialog(myRequests[index], myRequests[index].requester, context);
                                   }),
                               Transform.rotate(
                                 angle: -math.pi / 4,
                                 child: IconButton(
                                     icon: Icon(
                                       LineIcons.plus,
-                                      color: isDark
-                                          ? Colors.grey[900]
-                                          : Colors.white,
+                                      color: isDark ? Colors.grey[900] : Colors.white,
                                     ),
                                     onPressed: () {
-                                      showDenyRequestDialog(myRequests[index],
-                                          myRequests[index].requester, context);
+                                      showDenyRequestDialog(myRequests[index], myRequests[index].requester, context);
                                     }),
                               ),
                             ],
@@ -221,18 +203,13 @@ class FriendsScreenView extends FriendsScreenState {
                   return Container();
                 }
                 processFindUserData(snapshot);
-                if (searchTerm != '' &&
-                    searchTerm != user.username &&
-                    foundUsers.length == 0) {
+                if (searchTerm != '' && searchTerm != user.username && foundUsers.length == 0) {
                   return Container(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(
-                              left: 8.0,
-                              right: 8.0,
-                              top: MediaQuery.of(context).size.height * 1 / 4),
+                          padding: EdgeInsets.only(left: 8.0, right: 8.0, top: MediaQuery.of(context).size.height * 1 / 4),
                           child: Text(
                             'no results found for $searchTerm',
                             textAlign: TextAlign.center,
@@ -255,8 +232,7 @@ class FriendsScreenView extends FriendsScreenState {
                             leading: CircularProfileAvatar(
                               foundUsers[index].profileUrl,
                               radius: 20,
-                              backgroundColor:
-                                  isDark ? Colors.grey[900] : Colors.white,
+                              backgroundColor: isDark ? Colors.grey[900] : Colors.white,
                               initialsText: Text(
                                 getInitials(foundUsers[index].username),
                                 style: GoogleFonts.lato(
@@ -273,11 +249,7 @@ class FriendsScreenView extends FriendsScreenState {
                             ),
                             title: Text(
                               foundUsers[index].username,
-                              style: GoogleFonts.lato(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color:
-                                      isDark ? Colors.grey[900] : Colors.white),
+                              style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.bold, color: isDark ? Colors.grey[900] : Colors.white),
                             ),
                             subtitle: Text(
                               hasSentUserRequestPending(foundUsers[index])
@@ -291,38 +263,27 @@ class FriendsScreenView extends FriendsScreenState {
                                 color: isDark ? Colors.grey[900] : Colors.white,
                               ),
                             ),
-                            trailing: hasSentUserRequestPending(
-                                    foundUsers[index])
+                            trailing: hasSentUserRequestPending(foundUsers[index])
                                 ? Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       IconButton(
                                           icon: Icon(
                                             LineIcons.check,
-                                            color: isDark
-                                                ? Colors.grey[900]
-                                                : Colors.white,
+                                            color: isDark ? Colors.grey[900] : Colors.white,
                                           ),
                                           onPressed: () {
-                                            showAcceptRequestDialog(
-                                                myRequests[index],
-                                                myRequests[index].requester,
-                                                context);
+                                            showAcceptRequestDialog(myRequests[index], myRequests[index].requester, context);
                                           }),
                                       Transform.rotate(
                                         angle: -math.pi / 4,
                                         child: IconButton(
                                             icon: Icon(
                                               LineIcons.plus,
-                                              color: isDark
-                                                  ? Colors.grey[900]
-                                                  : Colors.white,
+                                              color: isDark ? Colors.grey[900] : Colors.white,
                                             ),
                                             onPressed: () {
-                                              showDenyRequestDialog(
-                                                  myRequests[index],
-                                                  myRequests[index].requester,
-                                                  context);
+                                              showDenyRequestDialog(myRequests[index], myRequests[index].requester, context);
                                             }),
                                       ),
                                     ],
@@ -331,28 +292,19 @@ class FriendsScreenView extends FriendsScreenState {
                                     ? CircularProgressIndicator(
                                         strokeWidth: 1,
                                         backgroundColor: appTheme.themeColor,
-                                        valueColor:
-                                            AlwaysStoppedAnimation<Color>(isDark
-                                                ? Colors.grey[900]
-                                                : Colors.white),
+                                        valueColor: AlwaysStoppedAnimation<Color>(isDark ? Colors.grey[900] : Colors.white),
                                       )
                                     : IconButton(
                                         icon: Icon(
-                                          isFriend(index)
-                                              ? LineIcons.userFriends
-                                              : LineIcons.userPlus,
-                                          color: isDark
-                                              ? Colors.grey[900]
-                                              : Colors.white,
+                                          isFriend(index) ? LineIcons.userFriends : LineIcons.userPlus,
+                                          color: isDark ? Colors.grey[900] : Colors.white,
                                         ),
                                         onPressed: isFriend(index)
                                             ? () {
-                                                showUnFriendDialog(
-                                                    foundUsers[index], context);
+                                                showUnFriendDialog(foundUsers[index], context);
                                               }
                                             : () {
-                                                showSendRequestDialog(
-                                                    foundUsers[index], context);
+                                                showSendRequestDialog(foundUsers[index], context);
                                               },
                                       ),
                           ),
@@ -376,7 +328,15 @@ class FriendsScreenView extends FriendsScreenState {
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             processRequestsData(snapshot);
             if (!snapshot.hasData || snapshot.data == null) {
-              return Container();
+              return Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                color: isDark ? Colors.grey[900] : Colors.white,
+                child: LoadingWidget(
+                  appTheme: appTheme,
+                  isDark: isDark,
+                ),
+              );
             }
             return Scaffold(
               key: scaffoldKey,

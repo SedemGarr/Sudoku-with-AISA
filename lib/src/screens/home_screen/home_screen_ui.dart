@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
+import 'package:sudoku/src/components/loading_widget.dart';
 import 'package:sudoku/src/components/title_widget.dart';
 import 'home_screen.dart';
 import 'dart:math' as math;
@@ -51,9 +52,7 @@ class HomeScreenView extends HomeScreenState {
                         children: [
                           Icon(
                             i.icon,
-                            color: isUnlocked(user.difficultyLevel, i.id)
-                                ? i.theme.themeColor
-                                : Colors.grey,
+                            color: isUnlocked(user.difficultyLevel, i.id) ? i.theme.themeColor : Colors.grey,
                             size: constraint.biggest.height * 0.65,
                           ),
                           Text(
@@ -62,12 +61,7 @@ class HomeScreenView extends HomeScreenState {
                                     ? 'complete'
                                     : i.difficultyName
                                 : 'locked',
-                            style: GoogleFonts.lato(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: isUnlocked(user.difficultyLevel, i.id)
-                                    ? i.theme.themeColor
-                                    : Colors.grey),
+                            style: GoogleFonts.lato(fontSize: 16.0, fontWeight: FontWeight.bold, color: isUnlocked(user.difficultyLevel, i.id) ? i.theme.themeColor : Colors.grey),
                           ),
                         ],
                       )),
@@ -81,19 +75,15 @@ class HomeScreenView extends HomeScreenState {
   }
 
   Widget buildSinglePlayerStats(List<dynamic> stats, String id) {
-    List listOfSinglePlayerStats =
-        stats.where((element) => element['isSinglePlayer'] == true).toList();
+    List listOfSinglePlayerStats = stats.where((element) => element['isSinglePlayer'] == true).toList();
     return Container(
       child: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * 0.05),
+        padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
         child: Column(
           children: [
             ListTile(
               title: Text(
-                listOfSinglePlayerStats.length >= 54
-                    ? 'game completed'
-                    : 'has completed...',
+                listOfSinglePlayerStats.length >= 54 ? 'game completed' : 'has completed...',
                 style: GoogleFonts.lato(
                     fontWeight: FontWeight.bold,
                     color: isMe(id)
@@ -103,12 +93,7 @@ class HomeScreenView extends HomeScreenState {
                         : appTheme.themeColor),
               ),
               subtitle: Text(
-                listOfSinglePlayerStats.length == 0
-                    ? 'hasn\'t finished a level yet!'
-                    : 'level ' +
-                        listOfSinglePlayerStats[
-                                listOfSinglePlayerStats.length - 1]['level']
-                            .toString(),
+                listOfSinglePlayerStats.length == 0 ? 'hasn\'t finished a level yet!' : 'level ' + listOfSinglePlayerStats[listOfSinglePlayerStats.length - 1]['level'].toString(),
                 style: GoogleFonts.lato(
                     color: isMe(id)
                         ? isDark
@@ -119,10 +104,7 @@ class HomeScreenView extends HomeScreenState {
               trailing: listOfSinglePlayerStats.length == 0
                   ? null
                   : Text(
-                      parseLevelTime(Duration(
-                          seconds: listOfSinglePlayerStats[
-                                  listOfSinglePlayerStats.length - 1]
-                              ['timeTaken'])),
+                      parseLevelTime(Duration(seconds: listOfSinglePlayerStats[listOfSinglePlayerStats.length - 1]['timeTaken'])),
                       style: GoogleFonts.lato(
                           fontWeight: FontWeight.bold,
                           color: isMe(id)
@@ -139,13 +121,11 @@ class HomeScreenView extends HomeScreenState {
   }
 
   Widget buildFreePlayStats(List<dynamic> stats, String id) {
-    List listOfFreePlayStats =
-        stats.where((element) => element['level'] == 300).toList();
+    List listOfFreePlayStats = stats.where((element) => element['level'] == 300).toList();
     return listOfFreePlayStats.length > 0
         ? Container(
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.05),
+              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
               child: Column(
                 children: [
                   ListTile(
@@ -177,13 +157,11 @@ class HomeScreenView extends HomeScreenState {
   }
 
   Widget buildCoopMultiPlayerStats(List<dynamic> stats, String id) {
-    List listOfMultiPlayerStats =
-        stats.where((element) => element['isCoop']).toList();
+    List listOfMultiPlayerStats = stats.where((element) => element['isCoop']).toList();
     return listOfMultiPlayerStats.length > 0
         ? Container(
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.05),
+              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
               child: Column(
                 children: [
                   ListTile(
@@ -222,7 +200,13 @@ class HomeScreenView extends HomeScreenState {
           stream: databaseProvider.getLeaderboard(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData || snapshot.data == null) {
-              return Container();
+              return Container(
+                color: isDark ? Colors.grey[900] : Colors.white,
+                child: LoadingWidget(
+                  appTheme: appTheme,
+                  isDark: isDark,
+                ),
+              );
             }
             processLeaderboardStreamData(snapshot);
             return Container(
@@ -237,9 +221,7 @@ class HomeScreenView extends HomeScreenState {
                             index: index,
                             child: Card(
                                 elevation: 0,
-                                color: isMe(leaderboard[index].id)
-                                    ? appTheme.themeColor
-                                    : Colors.transparent,
+                                color: isMe(leaderboard[index].id) ? appTheme.themeColor : Colors.transparent,
                                 child: ExpansionTile(
                                   key: GlobalKey(),
                                   onExpansionChanged: (value) {
@@ -254,15 +236,13 @@ class HomeScreenView extends HomeScreenState {
                                       child: CircularProfileAvatar(
                                         leaderboard[index].profileUrl,
                                         radius: 20,
-                                        backgroundColor:
-                                            isMe(leaderboard[index].id)
-                                                ? isDark
-                                                    ? Colors.grey[900]
-                                                    : Colors.white
-                                                : appTheme.themeColor,
+                                        backgroundColor: isMe(leaderboard[index].id)
+                                            ? isDark
+                                                ? Colors.grey[900]
+                                                : Colors.white
+                                            : appTheme.themeColor,
                                         initialsText: Text(
-                                          getInitials(
-                                              leaderboard[index].username),
+                                          getInitials(leaderboard[index].username),
                                           style: GoogleFonts.lato(
                                             fontWeight: FontWeight.bold,
                                             color: isMe(leaderboard[index].id)
@@ -290,11 +270,7 @@ class HomeScreenView extends HomeScreenState {
                                             : appTheme.themeColor),
                                   ),
                                   subtitle: Text(
-                                    leaderboard[index].score == 1
-                                        ? leaderboard[index].score.toString() +
-                                            ' point'
-                                        : leaderboard[index].score.toString() +
-                                            ' points',
+                                    leaderboard[index].score == 1 ? leaderboard[index].score.toString() + ' point' : leaderboard[index].score.toString() + ' points',
                                     style: GoogleFonts.lato(
                                         fontWeight: FontWeight.bold,
                                         color: isMe(leaderboard[index].id)
@@ -308,17 +284,14 @@ class HomeScreenView extends HomeScreenState {
                                     children: [
                                       isFirst(index)
                                           ? Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 8.0),
+                                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                               child: Icon(
                                                 LineIcons.crown,
-                                                color:
-                                                    isMe(leaderboard[index].id)
-                                                        ? isDark
-                                                            ? Colors.grey[900]
-                                                            : Colors.white
-                                                        : appTheme.themeColor,
+                                                color: isMe(leaderboard[index].id)
+                                                    ? isDark
+                                                        ? Colors.grey[900]
+                                                        : Colors.white
+                                                    : appTheme.themeColor,
                                               ),
                                             )
                                           : Container(),
@@ -337,15 +310,9 @@ class HomeScreenView extends HomeScreenState {
                                   children: [
                                     Column(
                                       children: [
-                                        buildSinglePlayerStats(
-                                            leaderboard[index].stats,
-                                            leaderboard[index].id),
-                                        buildFreePlayStats(
-                                            leaderboard[index].stats,
-                                            leaderboard[index].id),
-                                        buildCoopMultiPlayerStats(
-                                            leaderboard[index].stats,
-                                            leaderboard[index].id)
+                                        buildSinglePlayerStats(leaderboard[index].stats, leaderboard[index].id),
+                                        buildFreePlayStats(leaderboard[index].stats, leaderboard[index].id),
+                                        buildCoopMultiPlayerStats(leaderboard[index].stats, leaderboard[index].id)
                                       ],
                                     )
                                   ],
@@ -369,8 +336,7 @@ class HomeScreenView extends HomeScreenState {
         onPressed: toggleLeaderboardExpansion,
         child: Text(
           isLeaderboardExpanded ? 'collapse' : 'expand',
-          style: GoogleFonts.lato(
-              fontWeight: FontWeight.bold, color: appTheme.themeColor),
+          style: GoogleFonts.lato(fontWeight: FontWeight.bold, color: appTheme.themeColor),
         ));
   }
 
@@ -432,8 +398,7 @@ class HomeScreenView extends HomeScreenState {
       },
       child: Text(
         'find me',
-        style: GoogleFonts.lato(
-            fontWeight: FontWeight.bold, color: appTheme.themeColor),
+        style: GoogleFonts.lato(fontWeight: FontWeight.bold, color: appTheme.themeColor),
       ),
     );
   }

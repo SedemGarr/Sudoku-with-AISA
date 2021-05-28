@@ -29,8 +29,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                               ? Colors.grey[900]
                               : Colors.white
                           : appTheme.themeColor,
-                      fontWeight:
-                          isJoining ? FontWeight.bold : FontWeight.normal),
+                      fontWeight: isJoining ? FontWeight.bold : FontWeight.normal),
                 ),
               ),
             ),
@@ -54,8 +53,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                               ? Colors.grey[900]
                               : Colors.white
                           : appTheme.themeColor,
-                      fontWeight:
-                          isHosting ? FontWeight.bold : FontWeight.normal),
+                      fontWeight: isHosting ? FontWeight.bold : FontWeight.normal),
                 ),
               ),
             ),
@@ -84,10 +82,8 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                 keyboardType: TextInputType.text,
                 style: GoogleFonts.lato(color: appTheme.themeColor),
                 decoration: InputDecoration(
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: appTheme.themeColor)),
-                    enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: appTheme.themeColor)),
+                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: appTheme.themeColor)),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: appTheme.themeColor)),
                     hintText: 'enter a game id',
                     hintStyle: GoogleFonts.lato(color: appTheme.themeColor)),
                 onChanged: (value) {
@@ -174,19 +170,13 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                       text: TextSpan(children: [
                         TextSpan(
                           text: myInvites[index].inviter.username,
-                          style: GoogleFonts.lato(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: isDark ? Colors.grey[900] : Colors.white),
+                          style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.bold, color: isDark ? Colors.grey[900] : Colors.white),
                         ),
                       ]),
                     ),
                     subtitle: Text(
-                      myInvites[index].isCoop
-                          ? 'is inviting you to join their cooperative game'
-                          : 'is inviting you to join their competitive game',
-                      style: GoogleFonts.lato(
-                          color: isDark ? Colors.grey[900] : Colors.white),
+                      myInvites[index].isCoop ? 'is inviting you to join their cooperative game' : 'is inviting you to join their competitive game',
+                      style: GoogleFonts.lato(color: isDark ? Colors.grey[900] : Colors.white),
                     ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -207,8 +197,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                 color: isDark ? Colors.grey[900] : Colors.white,
                               ),
                               onPressed: () {
-                                showRefuseInviteDialog(
-                                    myInvites[index], context);
+                                showRefuseInviteDialog(myInvites[index], context);
                               }),
                         ),
                       ],
@@ -225,8 +214,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
         ? Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.25),
+                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.25),
                 child: LoadingWidget(appTheme: appTheme, isDark: user.isDark),
               ),
             ],
@@ -243,12 +231,8 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                         toggleIsViewingInvitations();
                       },
                       child: Text(
-                        isViewingInvitations
-                            ? 'see your ongoing games'
-                            : 'see your invitations(${myInvites.length})',
-                        style: GoogleFonts.lato(
-                            color: appTheme.themeColor,
-                            fontWeight: FontWeight.bold),
+                        isViewingInvitations ? 'see your ongoing games' : 'see your invitations(${myInvites.length})',
+                        style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                       )),
                 ),
                 isViewingInvitations
@@ -271,199 +255,75 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                         : ListView.builder(
                                             shrinkWrap: true,
                                             itemCount: onGoingGames.length,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
+                                            itemBuilder: (BuildContext context, int index) {
                                               return Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
+                                                padding: const EdgeInsets.all(8.0),
                                                 child: Container(
                                                   color: appTheme.themeColor,
                                                   child: ListTile(
                                                     onTap: () {
-                                                      showJoiningGameFromListDialog(
-                                                          onGoingGames[index],
-                                                          context);
+                                                      showJoiningGameFromListDialog(onGoingGames[index], context);
                                                     },
                                                     dense: true,
-                                                    tileColor:
-                                                        appTheme.themeColor,
-                                                    leading:
-                                                        CircularProfileAvatar(
-                                                      onGoingGames[index]
-                                                                  .players
-                                                                  .indexWhere((element) =>
-                                                                      element
-                                                                          .id !=
-                                                                      user
-                                                                          .id) ==
-                                                              -1
+                                                    tileColor: appTheme.themeColor,
+                                                    leading: CircularProfileAvatar(
+                                                      onGoingGames[index].players.indexWhere((element) => element.id != user.id) == -1
                                                           ? user.profileUrl
-                                                          : onGoingGames[index]
-                                                              .players[onGoingGames[
-                                                                      index]
-                                                                  .players
-                                                                  .indexWhere((element) =>
-                                                                      element
-                                                                          .id !=
-                                                                      user.id)]
-                                                              .profileUrl,
+                                                          : onGoingGames[index].players[onGoingGames[index].players.indexWhere((element) => element.id != user.id)].profileUrl,
                                                       radius: 20,
-                                                      backgroundColor: isDark
-                                                          ? Colors.grey[900]
-                                                          : Colors.white,
+                                                      backgroundColor: isDark ? Colors.grey[900] : Colors.white,
                                                       initialsText: Text(
-                                                        getInitials(onGoingGames[
-                                                                        index]
-                                                                    .players
-                                                                    .indexWhere((element) =>
-                                                                        element
-                                                                            .id !=
-                                                                        user
-                                                                            .id) ==
-                                                                -1
+                                                        getInitials(onGoingGames[index].players.indexWhere((element) => element.id != user.id) == -1
                                                             ? user.username
-                                                            : onGoingGames[
-                                                                    index]
-                                                                .players[onGoingGames[
-                                                                        index]
-                                                                    .players
-                                                                    .indexWhere((element) =>
-                                                                        element
-                                                                            .id !=
-                                                                        user.id)]
-                                                                .username),
+                                                            : onGoingGames[index].players[onGoingGames[index].players.indexWhere((element) => element.id != user.id)].username),
                                                         style: GoogleFonts.lato(
-                                                          fontWeight:
-                                                              FontWeight.bold,
+                                                          fontWeight: FontWeight.bold,
                                                           fontSize: 14,
-                                                          color: appTheme
-                                                              .themeColor,
+                                                          color: appTheme.themeColor,
                                                         ),
                                                       ),
-                                                      borderColor:
-                                                          Colors.transparent,
+                                                      borderColor: Colors.transparent,
                                                       elevation: 0.0,
-                                                      foregroundColor:
-                                                          Colors.transparent,
+                                                      foregroundColor: Colors.transparent,
                                                       cacheImage: true,
-                                                      showInitialTextAbovePicture:
-                                                          false,
+                                                      showInitialTextAbovePicture: false,
                                                     ),
-                                                    title: onGoingGames[index]
-                                                                .players
-                                                                .indexWhere(
-                                                                    (element) =>
-                                                                        element
-                                                                            .id !=
-                                                                        user.id) ==
-                                                            -1
+                                                    title: onGoingGames[index].players.indexWhere((element) => element.id != user.id) == -1
                                                         ? Text(
-                                                            onGoingGames[index]
-                                                                        .hasInvited &&
-                                                                    onGoingGames[index]
-                                                                            .invitationStatus ==
-                                                                        3
+                                                            onGoingGames[index].hasInvited && onGoingGames[index].invitationStatus == 3
                                                                 ? 'waiting for ${onGoingGames[index].invitee.username}'
-                                                                : onGoingGames[index]
-                                                                            .hasInvited &&
-                                                                        onGoingGames[index].invitationStatus ==
-                                                                            0
+                                                                : onGoingGames[index].hasInvited && onGoingGames[index].invitationStatus == 0
                                                                     ? '${onGoingGames[index].invitee.username} declined your invitation'
                                                                     : 'only you',
-                                                            style: GoogleFonts.lato(
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: isDark
-                                                                    ? Colors.grey[
-                                                                        900]
-                                                                    : Colors
-                                                                        .white),
+                                                            style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.bold, color: isDark ? Colors.grey[900] : Colors.white),
                                                           )
                                                         : Text(
-                                                            onGoingGames[index]
-                                                                    .players[onGoingGames[
-                                                                            index]
-                                                                        .players
-                                                                        .indexWhere((element) =>
-                                                                            element.id !=
-                                                                            user.id)]
-                                                                    .username +
+                                                            onGoingGames[index].players[onGoingGames[index].players.indexWhere((element) => element.id != user.id)].username +
                                                                 ' and you',
-                                                            style: GoogleFonts.lato(
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: isDark
-                                                                    ? Colors.grey[
-                                                                        900]
-                                                                    : Colors
-                                                                        .white),
+                                                            style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.bold, color: isDark ? Colors.grey[900] : Colors.white),
                                                           ),
                                                     subtitle: Text(
-                                                      formatDateTime(
-                                                          onGoingGames[index]
-                                                              .lastPlayedOn),
-                                                      style: GoogleFonts.lato(
-                                                          color: isDark
-                                                              ? Colors.grey[900]
-                                                              : Colors.white),
+                                                      formatDateTime(onGoingGames[index].lastPlayedOn),
+                                                      style: GoogleFonts.lato(color: isDark ? Colors.grey[900] : Colors.white),
                                                     ),
                                                     trailing: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.end,
+                                                      mainAxisSize: MainAxisSize.min,
+                                                      mainAxisAlignment: MainAxisAlignment.end,
                                                       children: [
                                                         IconButton(
-                                                            icon: Icon(
-                                                                onGoingGames[
-                                                                            index]
-                                                                        .isCooperative
-                                                                    ? LineIcons
-                                                                        .handshake
-                                                                    : LineIcons
-                                                                        .helpingHands,
-                                                                color: isDark
-                                                                    ? Colors.grey[
-                                                                        900]
-                                                                    : Colors
-                                                                        .white),
+                                                            icon: Icon(onGoingGames[index].isCooperative ? LineIcons.handshake : LineIcons.helpingHands,
+                                                                color: isDark ? Colors.grey[900] : Colors.white),
                                                             onPressed: () {}),
-                                                        onGoingGames[index]
-                                                                    .hostId ==
-                                                                user.id
+                                                        onGoingGames[index].hostId == user.id
                                                             ? IconButton(
-                                                                icon: Icon(
-                                                                    LineIcons
-                                                                        .trash,
-                                                                    color: isDark
-                                                                        ? Colors.grey[
-                                                                            900]
-                                                                        : Colors
-                                                                            .white),
+                                                                icon: Icon(LineIcons.trash, color: isDark ? Colors.grey[900] : Colors.white),
                                                                 onPressed: () {
-                                                                  showDeleteGameDialog(
-                                                                      onGoingGames[
-                                                                          index],
-                                                                      context);
+                                                                  showDeleteGameDialog(onGoingGames[index], context);
                                                                 })
                                                             : IconButton(
-                                                                icon: Icon(
-                                                                    LineIcons
-                                                                        .unlink,
-                                                                    color: isDark
-                                                                        ? Colors.grey[
-                                                                            900]
-                                                                        : Colors
-                                                                            .white),
+                                                                icon: Icon(LineIcons.unlink, color: isDark ? Colors.grey[900] : Colors.white),
                                                                 onPressed: () {
-                                                                  showLeaveGameDialog(
-                                                                      onGoingGames[
-                                                                          index],
-                                                                      context);
+                                                                  showLeaveGameDialog(onGoingGames[index], context);
                                                                 }),
                                                       ],
                                                     ),
@@ -487,8 +347,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
     return Container(
       child: isLoading
           ? Padding(
-              padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.25),
+              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.25),
               child: LoadingWidget(appTheme: appTheme, isDark: user.isDark),
             )
           : Column(
@@ -503,10 +362,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                           padding: const EdgeInsets.all(8.0),
                           child: SelectableText(
                             currentGame.id,
-                            style: GoogleFonts.lato(
-                                color: appTheme.themeColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 25),
+                            style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold, fontSize: 25),
                           ),
                         ),
                         Padding(
@@ -523,8 +379,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
                               child: TextButton.icon(
                                   onPressed: () {
                                     share();
@@ -535,14 +390,12 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                   ),
                                   label: Text(
                                     'share game id',
-                                    style: GoogleFonts.lato(
-                                        color: appTheme.themeColor),
+                                    style: GoogleFonts.lato(color: appTheme.themeColor),
                                   )),
                             ),
                             !hasInvited
                                 ? Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0),
+                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                     child: TextButton.icon(
                                         onPressed: () {
                                           showInviteFriendsDialog(context);
@@ -553,8 +406,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                         ),
                                         label: Text(
                                           'invite friend',
-                                          style: GoogleFonts.lato(
-                                              color: appTheme.themeColor),
+                                          style: GoogleFonts.lato(color: appTheme.themeColor),
                                         )),
                                   )
                                 : Container()
@@ -566,8 +418,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                 ),
                 Flexible(
                   child: StreamBuilder(
-                      stream:
-                          multiplayerProvider.getStartingGame(currentGame.id),
+                      stream: multiplayerProvider.getStartingGame(currentGame.id),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         if (!snapshot.hasData || snapshot.data == null) {
                           return Container();
@@ -577,13 +428,10 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
                               child: LinearProgressIndicator(
-                                backgroundColor:
-                                    isDark ? Colors.grey[900] : Colors.white,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                    appTheme.themeColor),
+                                backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+                                valueColor: AlwaysStoppedAnimation<Color>(appTheme.themeColor),
                                 minHeight: 1,
                               ),
                             ),
@@ -591,26 +439,20 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
                                 'game options',
-                                style: GoogleFonts.lato(
-                                    color: appTheme.themeColor,
-                                    fontWeight: FontWeight.bold),
+                                style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Text(
                                     'cooperative',
                                     style: GoogleFonts.lato(
                                         color: appTheme.themeColor,
-                                        fontSize:
-                                            currentGame.isCooperative ? 16 : 14,
-                                        fontWeight: currentGame.isCooperative
-                                            ? FontWeight.bold
-                                            : FontWeight.normal),
+                                        fontSize: currentGame.isCooperative ? 16 : 14,
+                                        fontWeight: currentGame.isCooperative ? FontWeight.bold : FontWeight.normal),
                                   ),
                                   Switch(
                                     value: currentGame.isCompetitive,
@@ -620,18 +462,14 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                     activeTrackColor: appTheme.themeColor[300],
                                     activeColor: appTheme.themeColor,
                                     inactiveThumbColor: appTheme.themeColor,
-                                    inactiveTrackColor:
-                                        appTheme.themeColor[300],
+                                    inactiveTrackColor: appTheme.themeColor[300],
                                   ),
                                   Text(
                                     'competitive',
                                     style: GoogleFonts.lato(
                                         color: appTheme.themeColor,
-                                        fontSize:
-                                            currentGame.isCompetitive ? 16 : 14,
-                                        fontWeight: currentGame.isCompetitive
-                                            ? FontWeight.bold
-                                            : FontWeight.normal),
+                                        fontSize: currentGame.isCompetitive ? 16 : 14,
+                                        fontWeight: currentGame.isCompetitive ? FontWeight.bold : FontWeight.normal),
                                   ),
                                 ],
                               ),
@@ -641,21 +479,14 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                               child: Wrap(
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10.0),
+                                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
                                     child: ChoiceChip(
                                       avatar: Icon(
                                         LineIcons.dice,
-                                        color: isDark
-                                            ? Colors.grey[900]
-                                            : Colors.white,
+                                        color: isDark ? Colors.grey[900] : Colors.white,
                                       ),
                                       label: Text('random'),
-                                      labelStyle: GoogleFonts.lato(
-                                          color: isDark
-                                              ? Colors.grey[900]
-                                              : Colors.white,
-                                          fontWeight: FontWeight.bold),
+                                      labelStyle: GoogleFonts.lato(color: isDark ? Colors.grey[900] : Colors.white, fontWeight: FontWeight.bold),
                                       backgroundColor: appTheme.themeColor,
                                       selected: preferedPattern == 'Random',
                                       selectedColor: appTheme.themeColor[900],
@@ -669,21 +500,14 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10.0),
+                                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
                                     child: ChoiceChip(
                                       avatar: Icon(
                                         LineIcons.seedling,
-                                        color: isDark
-                                            ? Colors.grey[900]
-                                            : Colors.white,
+                                        color: isDark ? Colors.grey[900] : Colors.white,
                                       ),
                                       label: Text('spring'),
-                                      labelStyle: GoogleFonts.lato(
-                                          color: isDark
-                                              ? Colors.grey[900]
-                                              : Colors.white,
-                                          fontWeight: FontWeight.bold),
+                                      labelStyle: GoogleFonts.lato(color: isDark ? Colors.grey[900] : Colors.white, fontWeight: FontWeight.bold),
                                       backgroundColor: appTheme.themeColor,
                                       selected: preferedPattern == 'spring',
                                       selectedColor: appTheme.themeColor[900],
@@ -697,21 +521,14 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10.0),
+                                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
                                     child: ChoiceChip(
                                       avatar: Icon(
                                         LineIcons.sunAlt,
-                                        color: isDark
-                                            ? Colors.grey[900]
-                                            : Colors.white,
+                                        color: isDark ? Colors.grey[900] : Colors.white,
                                       ),
                                       label: Text('summer'),
-                                      labelStyle: GoogleFonts.lato(
-                                          color: isDark
-                                              ? Colors.grey[900]
-                                              : Colors.white,
-                                          fontWeight: FontWeight.bold),
+                                      labelStyle: GoogleFonts.lato(color: isDark ? Colors.grey[900] : Colors.white, fontWeight: FontWeight.bold),
                                       backgroundColor: appTheme.themeColor,
                                       selected: preferedPattern == 'summer',
                                       selectedColor: appTheme.themeColor[900],
@@ -725,21 +542,14 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10.0),
+                                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
                                     child: ChoiceChip(
                                       avatar: Icon(
                                         LineIcons.leaf,
-                                        color: isDark
-                                            ? Colors.grey[900]
-                                            : Colors.white,
+                                        color: isDark ? Colors.grey[900] : Colors.white,
                                       ),
                                       label: Text('fall'),
-                                      labelStyle: GoogleFonts.lato(
-                                          color: isDark
-                                              ? Colors.grey[900]
-                                              : Colors.white,
-                                          fontWeight: FontWeight.bold),
+                                      labelStyle: GoogleFonts.lato(color: isDark ? Colors.grey[900] : Colors.white, fontWeight: FontWeight.bold),
                                       backgroundColor: appTheme.themeColor,
                                       selected: preferedPattern == 'fall',
                                       selectedColor: appTheme.themeColor[900],
@@ -753,21 +563,14 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10.0),
+                                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
                                     child: ChoiceChip(
                                       avatar: Icon(
                                         LineIcons.snowflake,
-                                        color: isDark
-                                            ? Colors.grey[900]
-                                            : Colors.white,
+                                        color: isDark ? Colors.grey[900] : Colors.white,
                                       ),
                                       label: Text('winter'),
-                                      labelStyle: GoogleFonts.lato(
-                                          color: isDark
-                                              ? Colors.grey[900]
-                                              : Colors.white,
-                                          fontWeight: FontWeight.bold),
+                                      labelStyle: GoogleFonts.lato(color: isDark ? Colors.grey[900] : Colors.white, fontWeight: FontWeight.bold),
                                       backgroundColor: appTheme.themeColor,
                                       selected: preferedPattern == 'winter',
                                       selectedColor: appTheme.themeColor[900],
@@ -800,7 +603,15 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
           stream: multiplayerProvider.getInvites(user.id),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData || snapshot.data == null) {
-              return Container();
+              return Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                color: isDark ? Colors.grey[900] : Colors.white,
+                child: LoadingWidget(
+                  appTheme: appTheme,
+                  isDark: isDark,
+                ),
+              );
             }
             processInvitesStreamData(snapshot);
             return Scaffold(
