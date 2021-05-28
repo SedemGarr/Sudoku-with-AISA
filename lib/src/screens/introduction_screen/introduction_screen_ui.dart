@@ -20,8 +20,7 @@ class IntroductionScreenView extends IntroductionScreenState {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     'Hi!',
-                    style: GoogleFonts.lato(
-                        color: appTheme.themeColor, fontSize: 30),
+                    style: GoogleFonts.lato(color: appTheme.themeColor, fontSize: 30),
                   ),
                 ),
               ),
@@ -39,22 +38,6 @@ class IntroductionScreenView extends IntroductionScreenState {
                   AISA.introductionDialog[1],
                   style: GoogleFonts.lato(color: appTheme.themeColor),
                 ),
-              ),
-              Divider(
-                color: appTheme.themeColor,
-              ),
-              Center(
-                child: Text(
-                  AISA.introductionDialog[2],
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.lato(
-                      color: appTheme.themeColor,
-                      fontWeight: FontWeight.w100,
-                      fontSize: 13),
-                ),
-              ),
-              Divider(
-                color: appTheme.themeColor,
               ),
               buildContinueButton()
             ],

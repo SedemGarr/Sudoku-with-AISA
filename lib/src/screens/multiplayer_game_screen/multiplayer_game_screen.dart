@@ -501,32 +501,32 @@ abstract class MultiplayerGameScreenScreenState
         .where((element) => element.isCompetitive || element.isCoop)
         .toList();
 
-    if (mpStats.length < 100) {
-      this.user.stats.add(Stats(
-          isCompetitive: this.currentGame.isCompetitive,
-          isCoop: this.currentGame.isCooperative,
-          isMultiplayer: true,
-          isSinglePlayer: false,
-          level: 400,
-          timeTaken: this.elapsedTime,
-          wonGame: true));
-    } else {
-      mpStats.removeAt(0);
-      mpStats.add(Stats(
-          isCompetitive: this.currentGame.isCompetitive,
-          isCoop: this.currentGame.isCooperative,
-          isMultiplayer: true,
-          isSinglePlayer: false,
-          level: 400,
-          timeTaken: this.elapsedTime,
-          wonGame: true));
-      this.user.stats = [...mpStats];
-    }
+    Stats newStats = Stats(
+        isCompetitive: this.currentGame.isCompetitive,
+        isCoop: this.currentGame.isCooperative,
+        isMultiplayer: true,
+        gameId: this.currentGame.id,
+        isSinglePlayer: false,
+        level: 400,
+        timeTaken: this.elapsedTime,
+        wonGame: true);
 
-    // update user fields
-    this.user.score += 1;
-    // update user
-    await this.userStateUpdateProvider.updateUser(this.user);
+    if (mpStats.length <= 1 || newStats != mpStats[mpStats.length - 1]) {
+      if (mpStats.length < 100) {
+        this.user.stats.add(newStats);
+        print('heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy 1');
+      } else if (mpStats.length == 100) {
+        print('heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy 2');
+        mpStats.removeAt(0);
+        mpStats.add(newStats);
+        this.user.stats = [...mpStats];
+      }
+
+      // update user fields
+      this.user.score += 1;
+      // update user
+      await this.userStateUpdateProvider.updateUser(this.user);
+    }
   }
 
   String getInitials(String username) {

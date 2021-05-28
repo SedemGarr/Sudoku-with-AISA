@@ -335,6 +335,7 @@ abstract class FreePlayScreenState extends State<FreePlayScreen>
       this.user.stats.add(Stats(
           isCompetitive: false,
           isCoop: false,
+          gameId: '300',
           isMultiplayer: false,
           isSinglePlayer: false,
           level: 300,
@@ -345,6 +346,7 @@ abstract class FreePlayScreenState extends State<FreePlayScreen>
       fpStats.add(Stats(
           isCompetitive: false,
           isCoop: false,
+        gameId: '300',
           isMultiplayer: false,
           isSinglePlayer: false,
           level: 300,

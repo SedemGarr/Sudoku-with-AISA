@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sudoku/src/components/choice_dialog.dart';
 import 'package:sudoku/src/providers/authentication_provider.dart';
 import 'package:sudoku/src/providers/connectivity_provider.dart';
 import 'package:sudoku/src/providers/local_storage_provider.dart';
@@ -19,15 +20,13 @@ class SettingsScreen extends StatefulWidget {
   final AppTheme appTheme;
   final Users user;
 
-  SettingsScreen(
-      {@required this.isDark, @required this.appTheme, @required this.user});
+  SettingsScreen({@required this.isDark, @required this.appTheme, @required this.user});
 
   @override
   SettingsScreenView createState() => SettingsScreenView();
 }
 
-abstract class SettingsScreenState extends State<SettingsScreen>
-    with TickerProviderStateMixin {
+abstract class SettingsScreenState extends State<SettingsScreen> with TickerProviderStateMixin {
   String temporaryUsername;
   String preferedPattern;
 
@@ -109,8 +108,7 @@ abstract class SettingsScreenState extends State<SettingsScreen>
           backgroundColor: appTheme.themeColor,
           content: Text(
             'username changed',
-            style: GoogleFonts.lato(
-                color: this.isDark ? Colors.grey[900] : Colors.white),
+            style: GoogleFonts.lato(color: this.isDark ? Colors.grey[900] : Colors.white),
             textAlign: TextAlign.center,
           )));
     });
@@ -186,8 +184,7 @@ abstract class SettingsScreenState extends State<SettingsScreen>
     setState(() {
       this.appTheme = theme;
     });
-    this.user.selectedTheme = AppTheme.themes
-        .indexWhere((element) => element.themeColor == theme.themeColor);
+    this.user.selectedTheme = AppTheme.themes.indexWhere((element) => element.themeColor == theme.themeColor);
     this.userStateUpdateProvider.updateUser(this.user);
   }
 
@@ -232,44 +229,52 @@ abstract class SettingsScreenState extends State<SettingsScreen>
   }
 
   showRestartGameDialog(BuildContext context) {
-    return showDialog(
+    return showChoiceDialog(
         context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: isDark ? Colors.grey[900] : Colors.white,
-            title: Text('are you sure?',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.lato(
-                    color: isDark ? Colors.white : Colors.grey[900])),
-            actions: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text('oops!',
-                          textAlign: TextAlign.end,
-                          style: GoogleFonts.lato(
-                              color:
-                                  isDark ? Colors.white : Colors.grey[900]))),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      this.resetProgress();
-                    },
-                    child: Text(
-                      'yep, I love the pain',
-                      textAlign: TextAlign.end,
-                      style: GoogleFonts.lato(color: appTheme.themeColor),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          );
+        title: 'are you sure?',
+        contentMessage: '',
+        yesMessage: 'yep, I love the pain',
+        noMessage: 'oops!',
+        isDark: this.isDark,
+        appTheme: appTheme,
+        onYes: () {
+          this.resetProgress();
+        },
+        onNo: () {
+          Navigator.pop(context);
         });
+
+    // return showDialog(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return AlertDialog(
+    //         backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+    //         title: Text('are you sure?', textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
+    //         actions: [
+    //           Column(
+    //             crossAxisAlignment: CrossAxisAlignment.end,
+    //             children: [
+    //               TextButton(
+    //                   onPressed: () {
+    //                     Navigator.pop(context);
+    //                   },
+    //                   child: Text('oops!', textAlign: TextAlign.end, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900]))),
+    //               TextButton(
+    //                 onPressed: () {
+    //                   Navigator.pop(context);
+    //                   this.resetProgress();
+    //                 },
+    //                 child: Text(
+    //                   'yep, I love the pain',
+    //                   textAlign: TextAlign.end,
+    //                   style: GoogleFonts.lato(color: appTheme.themeColor),
+    //                 ),
+    //               ),
+    //             ],
+    //           ),
+    //         ],
+    //       );
+    //     });
   }
 
   void resetProgress() async {
@@ -279,44 +284,52 @@ abstract class SettingsScreenState extends State<SettingsScreen>
   }
 
   showDeleteAccountDialog(BuildContext context) {
-    return showDialog(
+    return showChoiceDialog(
         context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: isDark ? Colors.grey[900] : Colors.white,
-            title: Text('are you sure?',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.lato(
-                    color: isDark ? Colors.white : Colors.grey[900])),
-            actions: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text('oops!',
-                          textAlign: TextAlign.end,
-                          style: GoogleFonts.lato(
-                              color:
-                                  isDark ? Colors.white : Colors.grey[900]))),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      this.deleteAccount();
-                    },
-                    child: Text(
-                      'my mind is made up',
-                      textAlign: TextAlign.end,
-                      style: GoogleFonts.lato(color: appTheme.themeColor),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          );
+        title: 'are you sure?',
+        contentMessage: '',
+        yesMessage: 'my mind is made up',
+        noMessage: 'oops!',
+        isDark: this.isDark,
+        appTheme: appTheme,
+        onYes: () {
+          this.deleteAccount();
+        },
+        onNo: () {
+          Navigator.pop(context);
         });
+
+    // return showDialog(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return AlertDialog(
+    //         backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+    //         title: Text('are you sure?', textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
+    //         actions: [
+    //           Column(
+    //             crossAxisAlignment: CrossAxisAlignment.end,
+    //             children: [
+    //               TextButton(
+    //                   onPressed: () {
+    //                     Navigator.pop(context);
+    //                   },
+    //                   child: Text('oops!', textAlign: TextAlign.end, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900]))),
+    //               TextButton(
+    //                 onPressed: () {
+    //                   Navigator.pop(context);
+    //                   this.deleteAccount();
+    //                 },
+    //                 child: Text(
+    //                   'my mind is made up',
+    //                   textAlign: TextAlign.end,
+    //                   style: GoogleFonts.lato(color: appTheme.themeColor),
+    //                 ),
+    //               ),
+    //             ],
+    //           ),
+    //         ],
+    //       );
+    //     });
   }
 
   void deleteAccount() async {
@@ -342,8 +355,7 @@ abstract class SettingsScreenState extends State<SettingsScreen>
         backgroundColor: appTheme.themeColor,
         content: Text(
           'your profile picture has been $text',
-          style: GoogleFonts.lato(
-              color: this.isDark ? Colors.grey[900] : Colors.white),
+          style: GoogleFonts.lato(color: this.isDark ? Colors.grey[900] : Colors.white),
           textAlign: TextAlign.start,
         )));
   }
@@ -361,8 +373,7 @@ abstract class SettingsScreenState extends State<SettingsScreen>
         ),
         content: Text(
           helpDialogs[index],
-          style: GoogleFonts.lato(
-              color: this.isDark ? Colors.grey[900] : Colors.white),
+          style: GoogleFonts.lato(color: this.isDark ? Colors.grey[900] : Colors.white),
           textAlign: TextAlign.start,
         )));
   }
@@ -372,8 +383,7 @@ abstract class SettingsScreenState extends State<SettingsScreen>
         backgroundColor: appTheme.themeColor,
         content: Text(
           'success! you game is as fresh as a new born baby',
-          style: GoogleFonts.lato(
-              color: this.isDark ? Colors.grey[900] : Colors.white),
+          style: GoogleFonts.lato(color: this.isDark ? Colors.grey[900] : Colors.white),
           textAlign: TextAlign.start,
         )));
   }
@@ -383,8 +393,7 @@ abstract class SettingsScreenState extends State<SettingsScreen>
         backgroundColor: appTheme.themeColor,
         content: Text(
           'it\'s better if you\'re connected to the internet for this. trust us',
-          style: GoogleFonts.lato(
-              color: this.isDark ? Colors.grey[900] : Colors.white),
+          style: GoogleFonts.lato(color: this.isDark ? Colors.grey[900] : Colors.white),
           textAlign: TextAlign.start,
         )));
   }
@@ -424,10 +433,7 @@ abstract class SettingsScreenState extends State<SettingsScreen>
 
       if (pickedFile != null) {
         this.image = File(pickedFile.path);
-        String newProfileUrl = (await this
-                .databaseProvider
-                .updateProfilePhoto(this.user, this.image))
-            .profileUrl;
+        String newProfileUrl = (await this.databaseProvider.updateProfilePhoto(this.user, this.image)).profileUrl;
 
         setState(() {
           this.user.profileUrl = newProfileUrl;
@@ -449,10 +455,7 @@ abstract class SettingsScreenState extends State<SettingsScreen>
 
       if (pickedFile != null) {
         this.image = File(pickedFile.path);
-        String newProfileUrl = (await this
-                .databaseProvider
-                .updateProfilePhoto(this.user, this.image))
-            .profileUrl;
+        String newProfileUrl = (await this.databaseProvider.updateProfilePhoto(this.user, this.image)).profileUrl;
 
         setState(() {
           this.user.profileUrl = newProfileUrl;

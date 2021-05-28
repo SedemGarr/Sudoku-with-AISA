@@ -425,6 +425,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
         isCoop: false,
         isMultiplayer: false,
         isSinglePlayer: true,
+        gameId: '54',
         level: 54,
         timeTaken: this.elapsedTime,
         wonGame: true));
@@ -453,8 +454,13 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
           isCompetitive: false,
           isCoop: false,
           isMultiplayer: false,
+          gameId: this.getAdjustedLevel(this.user.level) == 100
+              ? '54'
+              : (this.getAdjustedLevel(this.user.level) - 1).toString(),
           isSinglePlayer: true,
-          level: this.getAdjustedLevel(this.user.level) - 1,
+          level: this.getAdjustedLevel(this.user.level) == 100
+              ? 54
+              : this.getAdjustedLevel(this.user.level) - 1,
           timeTaken: this.elapsedTime,
           wonGame: true));
     }

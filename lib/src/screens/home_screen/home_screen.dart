@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
+import 'package:sudoku/src/components/choice_dialog.dart';
 import 'package:sudoku/src/models/level.dart';
 import 'package:sudoku/src/models/theme.dart';
 import 'package:sudoku/src/models/user.dart';
@@ -31,8 +32,7 @@ class HomeScreen extends StatefulWidget {
   HomeScreenView createState() => HomeScreenView();
 }
 
-abstract class HomeScreenState extends State<HomeScreen>
-    with TickerProviderStateMixin {
+abstract class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   bool isDark = false;
   bool isLeaderboardExpanded = false;
 
@@ -47,8 +47,7 @@ abstract class HomeScreenState extends State<HomeScreen>
   ThemeProvider themeProvider = ThemeProvider();
   AutoScrollController autoScrollController = AutoScrollController();
   ConnectivityProvider connectivityProvider = ConnectivityProvider();
-  PushNotificationProvider pushNotificationProvider =
-      PushNotificationProvider();
+  PushNotificationProvider pushNotificationProvider = PushNotificationProvider();
 
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -169,18 +168,14 @@ abstract class HomeScreenState extends State<HomeScreen>
 
   void findMe() {
     if (this.leaderboard.indexWhere((user) => user.id == this.user.id) != -1) {
-      this.autoScrollController.scrollToIndex(
-          this.leaderboard.indexWhere((user) => user.id == this.user.id),
-          preferPosition: AutoScrollPosition.begin);
+      this.autoScrollController.scrollToIndex(this.leaderboard.indexWhere((user) => user.id == this.user.id), preferPosition: AutoScrollPosition.begin);
     }
   }
 
   void autoScrollToUserIndex() {
     if (this.leaderboard.indexWhere((user) => user.id == this.user.id) != -1) {
       Future.delayed(Duration(seconds: 2), () {
-        this.autoScrollController.scrollToIndex(
-            this.leaderboard.indexWhere((user) => user.id == this.user.id),
-            preferPosition: AutoScrollPosition.begin);
+        this.autoScrollController.scrollToIndex(this.leaderboard.indexWhere((user) => user.id == this.user.id), preferPosition: AutoScrollPosition.begin);
       });
     }
   }
@@ -204,8 +199,7 @@ abstract class HomeScreenState extends State<HomeScreen>
         backgroundColor: appTheme.themeColor,
         content: Text(
           'it\'s better if you\'re connected to the internet for this. trust us',
-          style: GoogleFonts.lato(
-              color: this.isDark ? Colors.grey[900] : Colors.white),
+          style: GoogleFonts.lato(color: this.isDark ? Colors.grey[900] : Colors.white),
           textAlign: TextAlign.start,
         )));
   }
@@ -217,8 +211,7 @@ abstract class HomeScreenState extends State<HomeScreen>
             backgroundColor: appTheme.themeColor,
             content: Text(
               'welcome back, ' + this.user.username,
-              style: GoogleFonts.lato(
-                  color: this.isDark ? Colors.grey[900] : Colors.white),
+              style: GoogleFonts.lato(color: this.isDark ? Colors.grey[900] : Colors.white),
               textAlign: TextAlign.center,
             )));
       });
@@ -289,8 +282,7 @@ abstract class HomeScreenState extends State<HomeScreen>
   }
 
   void goToFreePlayGameScreen() async {
-    Level freePlayLevel = await Difficulty.regenerateLevel(
-        this.user.freePlayDifficulty, 300, this.user.preferedPattern);
+    Level freePlayLevel = await Difficulty.regenerateLevel(this.user.freePlayDifficulty, 300, this.user.preferedPattern);
 
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (BuildContext context) {
@@ -306,43 +298,51 @@ abstract class HomeScreenState extends State<HomeScreen>
   }
 
   showSignOutDialog(BuildContext context) {
-    return showDialog(
+    return showChoiceDialog(
         context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: isDark ? Colors.grey[900] : Colors.white,
-            title: Text('leaving so soon?',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.lato(
-                    color: isDark ? Colors.white : Colors.grey[900])),
-            actions: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text('oops!',
-                          textAlign: TextAlign.end,
-                          style: GoogleFonts.lato(
-                              color:
-                                  isDark ? Colors.white : Colors.grey[900]))),
-                  TextButton(
-                    onPressed: () {
-                      this.signOut();
-                    },
-                    child: Text(
-                      'yeah, I\'ve got to do a thing',
-                      textAlign: TextAlign.end,
-                      style: GoogleFonts.lato(color: appTheme.themeColor),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          );
+        title: 'leaving so soon?',
+        contentMessage: '',
+        yesMessage: 'yeah, I\'ve got to do a thing',
+        noMessage: 'oops!',
+        isDark: this.isDark,
+        appTheme: appTheme,
+        onYes: () {
+          this.signOut();
+        },
+        onNo: () {
+          Navigator.pop(context);
         });
+
+    // showDialog(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return AlertDialog(
+    //         backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+    //         title: Text('leaving so soon?', textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
+    //         actions: [
+    //           Column(
+    //             crossAxisAlignment: CrossAxisAlignment.end,
+    //             children: [
+    //               TextButton(
+    //                   onPressed: () {
+    //                     Navigator.pop(context);
+    //                   },
+    //                   child: Text('oops!', textAlign: TextAlign.end, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900]))),
+    //               TextButton(
+    //                 onPressed: () {
+    //                   this.signOut();
+    //                 },
+    //                 child: Text(
+    //                   'yeah, I\'ve got to do a thing',
+    //                   textAlign: TextAlign.end,
+    //                   style: GoogleFonts.lato(color: appTheme.themeColor),
+    //                 ),
+    //               ),
+    //             ],
+    //           ),
+    //         ],
+    //       );
+    //     });
   }
 
   void signOut() async {
@@ -356,43 +356,51 @@ abstract class HomeScreenState extends State<HomeScreen>
   }
 
   showExitDialog(BuildContext context) {
-    return showDialog(
+    return showChoiceDialog(
         context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: isDark ? Colors.grey[900] : Colors.white,
-            title: Text('did we do something wrong?',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.lato(
-                    color: isDark ? Colors.white : Colors.grey[900])),
-            actions: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text('sorry, it\'s that pesky back button again',
-                          textAlign: TextAlign.end,
-                          style: GoogleFonts.lato(
-                              color:
-                                  isDark ? Colors.white : Colors.grey[900]))),
-                  TextButton(
-                    onPressed: () {
-                      this.exitApp();
-                    },
-                    child: Text(
-                      'that\'s enough sudoku for today',
-                      textAlign: TextAlign.end,
-                      style: GoogleFonts.lato(color: appTheme.themeColor),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          );
+        title: 'did we do something wrong?',
+        contentMessage: '',
+        yesMessage: 'that\'s enough sudoku for today',
+        noMessage: 'sorry, it\'s that pesky back button again',
+        isDark: this.isDark,
+        appTheme: appTheme,
+        onYes: () {
+          this.exitApp();
+        },
+        onNo: () {
+          Navigator.pop(context);
         });
+
+    // showDialog(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return AlertDialog(
+    //         backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+    //         title: Text('did we do something wrong?', textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
+    //         actions: [
+    //           Column(
+    //             crossAxisAlignment: CrossAxisAlignment.end,
+    //             children: [
+    //               TextButton(
+    //                   onPressed: () {
+    //                     Navigator.pop(context);
+    //                   },
+    //                   child: Text('sorry, it\'s that pesky back button again', textAlign: TextAlign.end, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900]))),
+    //               TextButton(
+    //                 onPressed: () {
+    //                   this.exitApp();
+    //                 },
+    //                 child: Text(
+    //                   'that\'s enough sudoku for today',
+    //                   textAlign: TextAlign.end,
+    //                   style: GoogleFonts.lato(color: appTheme.themeColor),
+    //                 ),
+    //               ),
+    //             ],
+    //           ),
+    //         ],
+    //       );
+    //     });
   }
 
   void exitApp() {
