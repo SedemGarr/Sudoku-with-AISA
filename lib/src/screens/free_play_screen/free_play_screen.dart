@@ -9,6 +9,7 @@ import 'package:sudoku/src/models/difficulty.dart';
 import 'package:sudoku/src/models/level.dart';
 import 'package:sudoku/src/models/stats.dart';
 import 'package:sudoku/src/models/theme.dart';
+import 'package:sudoku/src/models/theme.dart';
 import 'package:sudoku/src/models/user.dart';
 import 'package:sudoku/src/providers/theme_provider.dart';
 import 'package:sudoku/src/providers/user_state_update_provider.dart';
@@ -23,19 +24,13 @@ class FreePlayScreen extends StatefulWidget {
   final AppTheme appTheme;
   final Level level;
 
-  FreePlayScreen(
-      {@required this.user,
-      @required this.isDark,
-      @required this.appTheme,
-      @required this.level,
-      @required this.isSavedGame});
+  FreePlayScreen({@required this.user, @required this.isDark, @required this.appTheme, @required this.level, @required this.isSavedGame});
 
   @override
   FreePlayScreenView createState() => FreePlayScreenView();
 }
 
-abstract class FreePlayScreenState extends State<FreePlayScreen>
-    with TickerProviderStateMixin {
+abstract class FreePlayScreenState extends State<FreePlayScreen> with TickerProviderStateMixin {
   int selectedIndex;
   int elapsedTime;
 
@@ -161,8 +156,7 @@ abstract class FreePlayScreenState extends State<FreePlayScreen>
             backgroundColor: appTheme.themeColor,
             content: Text(
               'a previous game was loaded',
-              style: GoogleFonts.lato(
-                  color: this.user.isDark ? Colors.grey[900] : Colors.white),
+              style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(this.user.isDark)),
               textAlign: TextAlign.center,
             )));
       });
@@ -175,12 +169,8 @@ abstract class FreePlayScreenState extends State<FreePlayScreen>
       if (!this.isCellEmpty(value)) {
         // if cell is not selected but has same value
         // as selected cell
-        if (this.level.board[this.selectedIndex] == value &&
-            this.selectedIndex != index) {
-          return Difficulty.isConflicting(
-                  this.selectedIndex, index, user.hasTrainingWheels)
-              ? this.appTheme.partnerColor
-              : this.appTheme.themeColor[100];
+        if (this.level.board[this.selectedIndex] == value && this.selectedIndex != index) {
+          return Difficulty.isConflicting(this.selectedIndex, index, user.hasTrainingWheels) ? this.appTheme.partnerColor : this.appTheme.themeColor[100];
         }
         // if cell is selected
         if (this.selectedIndex == index) {
@@ -189,9 +179,7 @@ abstract class FreePlayScreenState extends State<FreePlayScreen>
           return Colors.transparent;
         }
       }
-      return this.selectedIndex == index
-          ? this.appTheme.themeColor
-          : Colors.transparent;
+      return this.selectedIndex == index ? this.appTheme.themeColor : Colors.transparent;
     }
     return Colors.transparent;
   }
@@ -235,8 +223,7 @@ abstract class FreePlayScreenState extends State<FreePlayScreen>
         this.user.elapsedTime = this.elapsedTime;
         this.stopStopWatchTimer();
         this.disableWakeLock();
-        this.aisaSpeak(
-            AISA.freeDialog[this.generateRandomInt(0, AISA.freeDialog.length)]);
+        this.aisaSpeak(AISA.freeDialog[this.generateRandomInt(0, AISA.freeDialog.length)]);
         this.showPuzzleCompleteDialog(context);
       } else {
         // save game state
@@ -294,8 +281,7 @@ abstract class FreePlayScreenState extends State<FreePlayScreen>
   }
 
   void regenerateBoard() async {
-    Level level = await Difficulty.regenerateLevel(
-        this.user.freePlayDifficulty, 300, this.user.preferedPattern);
+    Level level = await Difficulty.regenerateLevel(this.user.freePlayDifficulty, 300, this.user.preferedPattern);
 
     // reset timers
     this.stopStopWatchTimer();
@@ -328,30 +314,16 @@ abstract class FreePlayScreenState extends State<FreePlayScreen>
   }
 
   void updateUserAfterGame() async {
-    List<Stats> fpStats =
-        this.user.stats.where((element) => element.level == 300).toList();
+    List<Stats> fpStats = this.user.stats.where((element) => element.level == 300).toList();
 
     if (fpStats.length < 100) {
-      this.user.stats.add(Stats(
-          isCompetitive: false,
-          isCoop: false,
-          gameId: '300',
-          isMultiplayer: false,
-          isSinglePlayer: false,
-          level: 300,
-          timeTaken: this.elapsedTime,
-          wonGame: true));
+      this
+          .user
+          .stats
+          .add(Stats(isCompetitive: false, isCoop: false, gameId: '300', isMultiplayer: false, isSinglePlayer: false, level: 300, timeTaken: this.elapsedTime, wonGame: true));
     } else {
       fpStats.removeAt(0);
-      fpStats.add(Stats(
-          isCompetitive: false,
-          isCoop: false,
-        gameId: '300',
-          isMultiplayer: false,
-          isSinglePlayer: false,
-          level: 300,
-          timeTaken: this.elapsedTime,
-          wonGame: true));
+      fpStats.add(Stats(isCompetitive: false, isCoop: false, gameId: '300', isMultiplayer: false, isSinglePlayer: false, level: 300, timeTaken: this.elapsedTime, wonGame: true));
       this.user.stats = [...fpStats];
     }
 
@@ -381,7 +353,7 @@ abstract class FreePlayScreenState extends State<FreePlayScreen>
                     height: MediaQuery.of(context).size.height * 1 / 3,
                     child: Icon(
                       LineIcons.robot,
-                      color: this.user.isDark ? Colors.grey[900] : Colors.white,
+                      color: AppTheme.getLightOrDarkModeTheme(this.user.isDark),
                       size: MediaQuery.of(context).size.width * 0.55,
                     ),
                   ),
@@ -389,13 +361,8 @@ abstract class FreePlayScreenState extends State<FreePlayScreen>
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    child: Text(
-                        AISA.freeDialog[
-                            this.generateRandomInt(0, AISA.freeDialog.length)],
-                        style: GoogleFonts.lato(
-                            color: this.user.isDark
-                                ? Colors.grey[900]
-                                : Colors.white)),
+                    child: Text(AISA.freeDialog[this.generateRandomInt(0, AISA.freeDialog.length)],
+                        style: GoogleFonts.lato(color: this.user.isDark ? Colors.grey[900] : Colors.white)),
                   ),
                 ),
                 Padding(
@@ -409,11 +376,7 @@ abstract class FreePlayScreenState extends State<FreePlayScreen>
                     child: Text(
                       'proceed',
                       textAlign: TextAlign.end,
-                      style: GoogleFonts.lato(
-                          fontWeight: FontWeight.bold,
-                          color: this.user.isDark
-                              ? Colors.grey[900]
-                              : Colors.white),
+                      style: GoogleFonts.lato(fontWeight: FontWeight.bold, color: this.user.isDark ? Colors.grey[900] : Colors.white),
                     ),
                   ),
                 ),

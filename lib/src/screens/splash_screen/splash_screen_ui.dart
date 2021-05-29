@@ -1,13 +1,13 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sudoku/src/models/theme.dart';
 import 'splash_screen.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreenView extends SplashScreenState {
   Widget buildSplashScreenAnimation() {
     return Container(
-      decoration:
-          BoxDecoration(color: isDark ? Colors.grey[900] : Colors.white),
+      decoration: BoxDecoration(color: AppTheme.getLightOrDarkModeTheme(isDark)),
       child: Center(
         child: DefaultTextStyle(
           style: GoogleFonts.caveat(
@@ -41,7 +41,7 @@ class SplashScreenView extends SplashScreenState {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        body: hasLoaded ? buildSplashScreenAnimation() : Container(),
+        body: buildSplashScreenAnimation(),
       ),
     );
   }

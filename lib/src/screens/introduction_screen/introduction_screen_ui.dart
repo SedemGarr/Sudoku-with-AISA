@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sudoku/src/models/aisa.dart';
+import 'package:sudoku/src/models/theme.dart';
 import 'introduction_screen.dart';
 
 class IntroductionScreenView extends IntroductionScreenState {
@@ -70,7 +71,7 @@ class IntroductionScreenView extends IntroductionScreenState {
       onWillPop: () async => false,
       child: Scaffold(
         body: Container(
-          color: widget.isDark ? Colors.grey[900] : Colors.white,
+          color: AppTheme.getLightOrDarkModeTheme(widget.isDark),
           child: SafeArea(
             child: Column(
               children: [

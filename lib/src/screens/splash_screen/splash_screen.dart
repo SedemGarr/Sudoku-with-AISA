@@ -11,38 +11,23 @@ class SplashScreen extends StatefulWidget {
   SplashScreenView createState() => SplashScreenView();
 }
 
-abstract class SplashScreenState extends State<SplashScreen>
-    with TickerProviderStateMixin {
-  bool isDark = false;
-  bool hasLoaded = false;
+abstract class SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin {
   Users user;
-  AppTheme appTheme;
+  bool isDark = false;
+  AppTheme appTheme = AppTheme.themes[0];
   LocalStorageProvider localStorageProvider = LocalStorageProvider();
   ThemeProvider themeProvider = ThemeProvider();
 
   void initVariables() async {
     await this.getUser();
-    await this.getDarkMode();
+    this.getDarkMode();
     this.getTheme();
-    this.delayLoading();
   }
 
   @override
   void initState() {
-    super.initState();
     initVariables();
-  }
-
-  void delayLoading() {
-    Future.delayed(Duration(milliseconds: 500), () {
-      this.setState(() {
-        this.hasLoaded = true;
-      });
-    });
-  }
-
-  Future<void> load() async {
-    navigateToAuthScreen(this.user);
+    super.initState();
   }
 
   Future<void> getUser() async {
@@ -58,10 +43,14 @@ abstract class SplashScreenState extends State<SplashScreen>
     });
   }
 
-  Future<void> getDarkMode() async {
+  void getDarkMode() {
     setState(() {
       this.isDark = this.user == null ? false : this.user.isDark;
     });
+  }
+
+  Future<void> load() async {
+    navigateToAuthScreen(this.user);
   }
 
   void navigateToAuthScreen(Users user) {

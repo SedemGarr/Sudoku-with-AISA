@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sudoku/src/models/theme.dart';
 import 'credits_screen.dart';
 
 class CreditsScreenView extends CreditsScreenState {
@@ -9,7 +10,7 @@ class CreditsScreenView extends CreditsScreenState {
       onWillPop: () async => false,
       child: Scaffold(
         body: Container(
-          color: isDark ? Colors.grey[900] : Colors.white,
+          color: AppTheme.getLightOrDarkModeTheme(isDark),
           child: SafeArea(
             child: Column(
               children: [
@@ -22,9 +23,7 @@ class CreditsScreenView extends CreditsScreenState {
                     },
                     child: Text(
                       'home',
-                      style: GoogleFonts.lato(
-                          fontWeight: FontWeight.bold,
-                          color: appTheme.themeColor),
+                      style: GoogleFonts.lato(fontWeight: FontWeight.bold, color: appTheme.themeColor),
                     ))
               ],
             ),

@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sudoku/src/components/choice_dialog.dart';
 import 'package:sudoku/src/models/request.dart';
 import 'package:sudoku/src/models/theme.dart';
+import 'package:sudoku/src/models/theme.dart';
 import 'package:sudoku/src/models/user.dart';
 import 'package:sudoku/src/providers/database_provider.dart';
 import 'package:sudoku/src/providers/theme_provider.dart';
@@ -146,7 +147,7 @@ abstract class FriendsScreenState extends State<FriendsScreen> with TickerProvid
           backgroundColor: appTheme.themeColor,
           content: Text(
             'you and ${friend.username} are no longer friends',
-            style: GoogleFonts.lato(color: this.isDark ? Colors.grey[900] : Colors.white),
+            style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
             textAlign: TextAlign.start,
           )));
     });
@@ -158,7 +159,7 @@ abstract class FriendsScreenState extends State<FriendsScreen> with TickerProvid
           backgroundColor: appTheme.themeColor,
           content: Text(
             '${friend.username} has already sent you a request',
-            style: GoogleFonts.lato(color: this.isDark ? Colors.grey[900] : Colors.white),
+            style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
             textAlign: TextAlign.start,
           )));
     });
@@ -170,7 +171,7 @@ abstract class FriendsScreenState extends State<FriendsScreen> with TickerProvid
           backgroundColor: appTheme.themeColor,
           content: Text(
             'you and ${friend.username} are now friends',
-            style: GoogleFonts.lato(color: this.isDark ? Colors.grey[900] : Colors.white),
+            style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
             textAlign: TextAlign.start,
           )));
     });
@@ -182,7 +183,7 @@ abstract class FriendsScreenState extends State<FriendsScreen> with TickerProvid
           backgroundColor: appTheme.themeColor,
           content: Text(
             '${friend.username}\'s request denied',
-            style: GoogleFonts.lato(color: this.isDark ? Colors.grey[900] : Colors.white),
+            style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
             textAlign: TextAlign.start,
           )));
     });
@@ -194,7 +195,7 @@ abstract class FriendsScreenState extends State<FriendsScreen> with TickerProvid
           backgroundColor: appTheme.themeColor,
           content: Text(
             'a friend request has been sent to ${friend.username}',
-            style: GoogleFonts.lato(color: this.isDark ? Colors.grey[900] : Colors.white),
+            style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
             textAlign: TextAlign.start,
           )));
     });
@@ -247,7 +248,7 @@ abstract class FriendsScreenState extends State<FriendsScreen> with TickerProvid
     //     context: context,
     //     builder: (BuildContext context) {
     //       return AlertDialog(
-    //         backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+    //         backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
     //         title: Text('send ${friend.username} a friend request?', textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
     //         actions: [
     //           Column(
@@ -297,7 +298,7 @@ abstract class FriendsScreenState extends State<FriendsScreen> with TickerProvid
     //     context: context,
     //     builder: (BuildContext context) {
     //       return AlertDialog(
-    //         backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+    //         backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
     //         title: Text('accept ${friend.username}\'s friend request?', textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
     //         actions: [
     //           Column(
@@ -347,7 +348,7 @@ abstract class FriendsScreenState extends State<FriendsScreen> with TickerProvid
     //     context: context,
     //     builder: (BuildContext context) {
     //       return AlertDialog(
-    //         backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+    //         backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
     //         title: Text('deny ${friend.username}\'s friend request?', textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
     //         actions: [
     //           Column(
@@ -397,7 +398,7 @@ abstract class FriendsScreenState extends State<FriendsScreen> with TickerProvid
     //     context: context,
     //     builder: (BuildContext context) {
     //       return AlertDialog(
-    //         backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+    //         backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
     //         title: Text('had enough of ${friend.username}?', textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
     //         actions: [
     //           Column(

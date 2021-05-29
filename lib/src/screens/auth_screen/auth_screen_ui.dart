@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sudoku/src/components/aisa_avatar.dart';
 import 'package:sudoku/src/components/loading_widget.dart';
 import 'package:sudoku/src/components/title_widget.dart';
+import 'package:sudoku/src/models/theme.dart';
 import 'package:sudoku/src/screens/home_screen/home_screen.dart';
 import 'auth_screen.dart';
 
@@ -19,8 +20,7 @@ class AuthScreenView extends AuthScreenState {
           ),
           Text(
             'copyright © ${DateTime.now().year} half-full games. all rights reserved',
-            style: GoogleFonts.lato(
-                color: appTheme.themeColor, fontWeight: FontWeight.bold),
+            style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
           ),
         ],
       ),
@@ -39,8 +39,7 @@ class AuthScreenView extends AuthScreenState {
         ),
         style: ButtonStyle(
           shape: MaterialStateProperty.all(StadiumBorder()),
-          side: MaterialStateProperty.all(
-              BorderSide(color: isDark ? Colors.grey[900] : Colors.white)),
+          side: MaterialStateProperty.all(BorderSide(color: AppTheme.getLightOrDarkModeTheme(isDark))),
           padding: MaterialStateProperty.all(const EdgeInsets.all(10)),
         ),
         label: Text(
@@ -54,8 +53,7 @@ class AuthScreenView extends AuthScreenState {
   Widget buildSignInView() {
     return Container(
       width: MediaQuery.of(context).size.width,
-      decoration:
-          BoxDecoration(color: isDark ? Colors.grey[900] : Colors.white),
+      decoration: BoxDecoration(color: AppTheme.getLightOrDarkModeTheme(isDark)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -64,14 +62,11 @@ class AuthScreenView extends AuthScreenState {
             color: appTheme.themeColor,
           ),
           Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * 1 / 7),
+            padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 1 / 7),
             child: AISAAvatar(color: appTheme.themeColor),
           ),
           Spacer(),
-          isLoading
-              ? LoadingWidget(appTheme: appTheme, isDark: isDark)
-              : buildSignInButton(),
+          isLoading ? LoadingWidget(appTheme: appTheme, isDark: isDark) : buildSignInButton(),
           Spacer(),
           buildCopyrightText()
         ],

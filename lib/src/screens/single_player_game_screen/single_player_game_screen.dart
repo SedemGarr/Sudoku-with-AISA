@@ -23,19 +23,13 @@ class SinglePlayerGameScreen extends StatefulWidget {
   final AppTheme appTheme;
   final List<Difficulty> game;
 
-  SinglePlayerGameScreen(
-      {@required this.user,
-      @required this.isDark,
-      @required this.appTheme,
-      @required this.game,
-      @required this.isSavedGame});
+  SinglePlayerGameScreen({@required this.user, @required this.isDark, @required this.appTheme, @required this.game, @required this.isSavedGame});
 
   @override
   SinglePlayerGameScreenView createState() => SinglePlayerGameScreenView();
 }
 
-abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
-    with TickerProviderStateMixin {
+abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen> with TickerProviderStateMixin {
   int selectedIndex;
   int elapsedTime;
 
@@ -78,19 +72,8 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
 
   void findAlreadyFilledCells() {
     this.filledCells = [];
-    for (int i = 0;
-        i <
-            this
-                .game[this.user.difficultyLevel]
-                .levels[this.user.level]
-                .board
-                .length;
-        i++) {
-      if (this
-              .game[this.user.difficultyLevel]
-              .levels[this.user.level]
-              .board[i] !=
-          0) {
+    for (int i = 0; i < this.game[this.user.difficultyLevel].levels[this.user.level].board.length; i++) {
+      if (this.game[this.user.difficultyLevel].levels[this.user.level].board[i] != 0) {
         this.filledCells.add(i);
       }
     }
@@ -164,13 +147,9 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
 
   void loadSavedGame() {
     if (widget.isSavedGame) {
-      this.game[this.user.difficultyLevel].levels[this.user.level].board = [
-        ...this.user.savedBoard
-      ];
-      this.game[this.user.difficultyLevel].levels[this.user.level].solvedBoard =
-          [...this.user.savedSolvedBoard];
-      this.game[this.user.difficultyLevel].levels[this.user.level].backupBoard =
-          [...this.user.backupBoard];
+      this.game[this.user.difficultyLevel].levels[this.user.level].board = [...this.user.savedBoard];
+      this.game[this.user.difficultyLevel].levels[this.user.level].solvedBoard = [...this.user.savedSolvedBoard];
+      this.game[this.user.difficultyLevel].levels[this.user.level].backupBoard = [...this.user.backupBoard];
       // set time
       stopWatchTimer.setPresetSecondTime(this.user.elapsedTime);
       // show snackbar
@@ -179,8 +158,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
             backgroundColor: appTheme.themeColor,
             content: Text(
               'a previous game was loaded',
-              style: GoogleFonts.lato(
-                  color: this.isDark ? Colors.grey[900] : Colors.white),
+              style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
               textAlign: TextAlign.center,
             )));
       });
@@ -193,16 +171,8 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
       if (!this.isCellEmpty(value)) {
         // if cell is not selected but has same value
         // as selected cell
-        if (this
-                    .game[this.user.difficultyLevel]
-                    .levels[this.user.level]
-                    .board[this.selectedIndex] ==
-                value &&
-            this.selectedIndex != index) {
-          return Difficulty.isConflicting(
-                  this.selectedIndex, index, user.hasTrainingWheels)
-              ? this.appTheme.partnerColor
-              : this.appTheme.themeColor[100];
+        if (this.game[this.user.difficultyLevel].levels[this.user.level].board[this.selectedIndex] == value && this.selectedIndex != index) {
+          return Difficulty.isConflicting(this.selectedIndex, index, user.hasTrainingWheels) ? this.appTheme.partnerColor : this.appTheme.themeColor[100];
         }
         // if cell is selected
         if (this.selectedIndex == index) {
@@ -211,9 +181,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
           return Colors.transparent;
         }
       }
-      return this.selectedIndex == index
-          ? this.appTheme.themeColor
-          : Colors.transparent;
+      return this.selectedIndex == index ? this.appTheme.themeColor : Colors.transparent;
     }
     return Colors.transparent;
   }
@@ -242,23 +210,13 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
 
   void setCellValue(int value, BuildContext context) {
     if (this.selectedIndex != null) {
-      if (this
-              .game[this.user.difficultyLevel]
-              .levels[this.user.level]
-              .board[this.selectedIndex] !=
-          value) {
+      if (this.game[this.user.difficultyLevel].levels[this.user.level].board[this.selectedIndex] != value) {
         setState(() {
-          this
-              .game[this.user.difficultyLevel]
-              .levels[this.user.level]
-              .board[this.selectedIndex] = value;
+          this.game[this.user.difficultyLevel].levels[this.user.level].board[this.selectedIndex] = value;
         });
       } else {
         setState(() {
-          this
-              .game[this.user.difficultyLevel]
-              .levels[this.user.level]
-              .board[this.selectedIndex] = 0;
+          this.game[this.user.difficultyLevel].levels[this.user.level].board[this.selectedIndex] = 0;
         });
       }
 
@@ -267,10 +225,8 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
         this.user.elapsedTime = this.elapsedTime;
         this.stopStopWatchTimer();
         this.disableWakeLock();
-        this.aisaSpeak(
-            AISA.gameDialog[this.getAdjustedLevel(this.user.level) - 1]);
-        this.showPuzzleCompleteDialog(
-            context, this.user.difficultyLevel, this.user.level);
+        this.aisaSpeak(AISA.gameDialog[this.getAdjustedLevel(this.user.level) - 1]);
+        this.showPuzzleCompleteDialog(context, this.user.difficultyLevel, this.user.level);
       } else {
         // save game state
         this.updateUserStateDuringGame();
@@ -279,21 +235,9 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
   }
 
   void updateUserStateDuringGame() async {
-    this.user.savedBoard = [
-      ...this.game[this.user.difficultyLevel].levels[this.user.level].board
-    ];
-    this.user.savedSolvedBoard = [
-      ...this
-          .game[this.user.difficultyLevel]
-          .levels[this.user.level]
-          .solvedBoard
-    ];
-    this.user.backupBoard = [
-      ...this
-          .game[this.user.difficultyLevel]
-          .levels[this.user.level]
-          .backupBoard
-    ];
+    this.user.savedBoard = [...this.game[this.user.difficultyLevel].levels[this.user.level].board];
+    this.user.savedSolvedBoard = [...this.game[this.user.difficultyLevel].levels[this.user.level].solvedBoard];
+    this.user.backupBoard = [...this.game[this.user.difficultyLevel].levels[this.user.level].backupBoard];
 
     this.user.elapsedTime = this.elapsedTime;
     await this.userStateUpdateProvider.updateUser(this.user);
@@ -305,11 +249,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
 
     // check if puzzle is completed
     for (int i = 0; i < 81; i++) {
-      if (this
-              .game[this.user.difficultyLevel]
-              .levels[this.user.level]
-              .board[i] ==
-          0) {
+      if (this.game[this.user.difficultyLevel].levels[this.user.level].board[i] == 0) {
         isPuzzleComplete = false;
       }
     }
@@ -317,14 +257,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
     // if it is completed, check if it correct
     if (isPuzzleComplete) {
       for (int i = 0; i < 81; i++) {
-        if (this
-                .game[this.user.difficultyLevel]
-                .levels[this.user.level]
-                .board[i] !=
-            this
-                .game[this.user.difficultyLevel]
-                .levels[this.user.level]
-                .solvedBoard[i]) {
+        if (this.game[this.user.difficultyLevel].levels[this.user.level].board[i] != this.game[this.user.difficultyLevel].levels[this.user.level].solvedBoard[i]) {
           isPuzzleCorrect = false;
         }
       }
@@ -345,18 +278,12 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
 
   void revertBoard() {
     setState(() {
-      this.game[this.user.difficultyLevel].levels[this.user.level].board = [
-        ...this
-            .game[this.user.difficultyLevel]
-            .levels[this.user.level]
-            .backupBoard
-      ];
+      this.game[this.user.difficultyLevel].levels[this.user.level].board = [...this.game[this.user.difficultyLevel].levels[this.user.level].backupBoard];
     });
   }
 
   void regenerateBoard(int difficultyLevel, int levelNumber) async {
-    Level level = await Difficulty.regenerateLevel(
-        difficultyLevel, levelNumber, 'Random');
+    Level level = await Difficulty.regenerateLevel(difficultyLevel, levelNumber, 'Random');
 
     // reset timers
     this.stopStopWatchTimer();
@@ -420,15 +347,10 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
 
   void updateUserAfterFinalGame() async {
     // create new stat
-    this.user.stats.add(Stats(
-        isCompetitive: false,
-        isCoop: false,
-        isMultiplayer: false,
-        isSinglePlayer: true,
-        gameId: '54',
-        level: 54,
-        timeTaken: this.elapsedTime,
-        wonGame: true));
+    this
+        .user
+        .stats
+        .add(Stats(isCompetitive: false, isCoop: false, isMultiplayer: false, isSinglePlayer: true, gameId: '54', level: 54, timeTaken: this.elapsedTime, wonGame: true));
     // update user fields
     this.user.hasCompletedGame = true;
     this.user.level = 0;
@@ -443,24 +365,14 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
 
   void updateUserAfterGame() async {
     // create new stat
-    if (this
-            .user
-            .stats
-            .where((element) => element.isSinglePlayer)
-            .toList()
-            .length <
-        54) {
+    if (this.user.stats.where((element) => element.isSinglePlayer).toList().length < 54) {
       this.user.stats.add(Stats(
           isCompetitive: false,
           isCoop: false,
           isMultiplayer: false,
-          gameId: this.getAdjustedLevel(this.user.level) == 100
-              ? '54'
-              : (this.getAdjustedLevel(this.user.level) - 1).toString(),
+          gameId: this.getAdjustedLevel(this.user.level) == 100 ? '54' : (this.getAdjustedLevel(this.user.level) - 1).toString(),
           isSinglePlayer: true,
-          level: this.getAdjustedLevel(this.user.level) == 100
-              ? 54
-              : this.getAdjustedLevel(this.user.level) - 1,
+          level: this.getAdjustedLevel(this.user.level) == 100 ? 54 : this.getAdjustedLevel(this.user.level) - 1,
           timeTaken: this.elapsedTime,
           wonGame: true));
     }
@@ -473,8 +385,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
     await this.userStateUpdateProvider.updateUser(this.user);
   }
 
-  showPuzzleCompleteDialog(
-      BuildContext context, int difficultyLevel, int level) {
+  showPuzzleCompleteDialog(BuildContext context, int difficultyLevel, int level) {
     return showDialog(
         barrierDismissible: false,
         context: context,
@@ -491,7 +402,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
                     height: MediaQuery.of(context).size.height * 1 / 3,
                     child: Icon(
                       LineIcons.robot,
-                      color: isDark ? Colors.grey[900] : Colors.white,
+                      color: AppTheme.getLightOrDarkModeTheme(isDark),
                       size: MediaQuery.of(context).size.width * 0.55,
                     ),
                   ),
@@ -499,11 +410,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    child: Text(
-                        AISA.gameDialog[
-                            this.getAdjustedLevel(this.user.level) - 1],
-                        style: GoogleFonts.lato(
-                            color: isDark ? Colors.grey[900] : Colors.white)),
+                    child: Text(AISA.gameDialog[this.getAdjustedLevel(this.user.level) - 1], style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark))),
                   ),
                 ),
                 Padding(
@@ -517,9 +424,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
                     child: Text(
                       'proceed',
                       textAlign: TextAlign.end,
-                      style: GoogleFonts.lato(
-                          fontWeight: FontWeight.bold,
-                          color: isDark ? Colors.grey[900] : Colors.white),
+                      style: GoogleFonts.lato(fontWeight: FontWeight.bold, color: AppTheme.getLightOrDarkModeTheme(isDark)),
                     ),
                   ),
                 ),

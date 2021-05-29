@@ -15,18 +15,13 @@ class IntroductionScreen extends StatefulWidget {
   final AppTheme appTheme;
   final List<Difficulty> game;
 
-  IntroductionScreen(
-      {@required this.user,
-      @required this.isDark,
-      @required this.appTheme,
-      @required this.game});
+  IntroductionScreen({@required this.user, @required this.isDark, @required this.appTheme, @required this.game});
 
   @override
   IntroductionScreenView createState() => IntroductionScreenView();
 }
 
-abstract class IntroductionScreenState extends State<IntroductionScreen>
-    with TickerProviderStateMixin {
+abstract class IntroductionScreenState extends State<IntroductionScreen> with TickerProviderStateMixin {
   Users user;
   bool isDark;
   AppTheme appTheme;
@@ -93,19 +88,14 @@ abstract class IntroductionScreenState extends State<IntroductionScreen>
           return AlertDialog(
             scrollable: true,
             backgroundColor: this.appTheme.themeColor,
-            title: Text('terms and policies',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.lato(
-                    color: isDark ? Colors.grey[900] : Colors.white)),
+            title: Text('terms and policies', textAlign: TextAlign.center, style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark))),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    child: Text(AISA.introductionDialog[2],
-                        style: GoogleFonts.lato(
-                            color: isDark ? Colors.grey[900] : Colors.white)),
+                    child: Text(AISA.introductionDialog[2], style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark))),
                   ),
                 ),
                 Padding(
@@ -117,9 +107,7 @@ abstract class IntroductionScreenState extends State<IntroductionScreen>
                     child: Text(
                       'proceed',
                       textAlign: TextAlign.end,
-                      style: GoogleFonts.lato(
-                          fontWeight: FontWeight.bold,
-                          color: isDark ? Colors.grey[900] : Colors.white),
+                      style: GoogleFonts.lato(fontWeight: FontWeight.bold, color: AppTheme.getLightOrDarkModeTheme(isDark)),
                     ),
                   ),
                 ),

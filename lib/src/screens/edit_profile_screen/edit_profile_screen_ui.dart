@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:sudoku/src/models/theme.dart';
 import 'edit_profile_screen.dart';
 
 class EditProfileScreenView extends EditProfileScreenState {
@@ -10,7 +11,7 @@ class EditProfileScreenView extends EditProfileScreenState {
       onWillPop: () async => false,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+          backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
           elevation: 0,
           title: Text(
             'edit your profile',
@@ -29,7 +30,7 @@ class EditProfileScreenView extends EditProfileScreenState {
               }),
         ),
         body: Container(
-          color: isDark ? Colors.grey[900] : Colors.white,
+          color: AppTheme.getLightOrDarkModeTheme(isDark),
           child: SafeArea(
             child: Column(
               children: [],

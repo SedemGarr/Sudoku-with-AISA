@@ -5,6 +5,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:sudoku/src/components/loading_widget.dart';
 import 'package:sudoku/src/components/title_widget.dart';
+import 'package:sudoku/src/models/theme.dart';
 import 'home_screen.dart';
 import 'dart:math' as math;
 import 'package:carousel_slider/carousel_slider.dart';
@@ -201,7 +202,7 @@ class HomeScreenView extends HomeScreenState {
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData || snapshot.data == null) {
               return Container(
-                color: isDark ? Colors.grey[900] : Colors.white,
+                color: AppTheme.getLightOrDarkModeTheme(isDark),
                 child: LoadingWidget(
                   appTheme: appTheme,
                   isDark: isDark,
@@ -413,7 +414,7 @@ class HomeScreenView extends HomeScreenState {
       child: Scaffold(
         key: scaffoldKey,
         body: Container(
-          color: isDark ? Colors.grey[900] : Colors.white,
+          color: AppTheme.getLightOrDarkModeTheme(isDark),
           child: SafeArea(
             child: Column(
               children: [

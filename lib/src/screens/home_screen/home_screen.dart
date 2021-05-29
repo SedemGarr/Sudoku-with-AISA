@@ -5,6 +5,7 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:sudoku/src/components/choice_dialog.dart';
 import 'package:sudoku/src/models/level.dart';
 import 'package:sudoku/src/models/theme.dart';
+import 'package:sudoku/src/models/theme.dart';
 import 'package:sudoku/src/models/user.dart';
 import 'package:sudoku/src/models/game.dart';
 import 'package:sudoku/src/models/difficulty.dart';
@@ -199,7 +200,7 @@ abstract class HomeScreenState extends State<HomeScreen> with TickerProviderStat
         backgroundColor: appTheme.themeColor,
         content: Text(
           'it\'s better if you\'re connected to the internet for this. trust us',
-          style: GoogleFonts.lato(color: this.isDark ? Colors.grey[900] : Colors.white),
+          style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
           textAlign: TextAlign.start,
         )));
   }
@@ -211,7 +212,7 @@ abstract class HomeScreenState extends State<HomeScreen> with TickerProviderStat
             backgroundColor: appTheme.themeColor,
             content: Text(
               'welcome back, ' + this.user.username,
-              style: GoogleFonts.lato(color: this.isDark ? Colors.grey[900] : Colors.white),
+              style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
               textAlign: TextAlign.center,
             )));
       });
@@ -317,7 +318,7 @@ abstract class HomeScreenState extends State<HomeScreen> with TickerProviderStat
     //     context: context,
     //     builder: (BuildContext context) {
     //       return AlertDialog(
-    //         backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+    //         backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
     //         title: Text('leaving so soon?', textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
     //         actions: [
     //           Column(
@@ -375,7 +376,7 @@ abstract class HomeScreenState extends State<HomeScreen> with TickerProviderStat
     //     context: context,
     //     builder: (BuildContext context) {
     //       return AlertDialog(
-    //         backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+    //         backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
     //         title: Text('did we do something wrong?', textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
     //         actions: [
     //           Column(

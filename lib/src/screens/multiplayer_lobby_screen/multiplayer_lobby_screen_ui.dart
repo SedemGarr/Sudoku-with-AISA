@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:sudoku/src/components/loading_widget.dart';
+import 'package:sudoku/src/models/theme.dart';
 import 'multiplayer_lobby_screen.dart';
 import 'dart:math' as math;
 
@@ -151,7 +152,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                     leading: CircularProfileAvatar(
                       myInvites[index].inviter.profileUrl,
                       radius: 20,
-                      backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+                      backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
                       initialsText: Text(
                         getInitials(myInvites[index].inviter.username),
                         style: GoogleFonts.lato(
@@ -170,13 +171,13 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                       text: TextSpan(children: [
                         TextSpan(
                           text: myInvites[index].inviter.username,
-                          style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.bold, color: isDark ? Colors.grey[900] : Colors.white),
+                          style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.getLightOrDarkModeTheme(isDark)),
                         ),
                       ]),
                     ),
                     subtitle: Text(
                       myInvites[index].isCoop ? 'is inviting you to join their cooperative game' : 'is inviting you to join their competitive game',
-                      style: GoogleFonts.lato(color: isDark ? Colors.grey[900] : Colors.white),
+                      style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
                     ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -184,7 +185,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                         IconButton(
                             icon: Icon(
                               LineIcons.check,
-                              color: isDark ? Colors.grey[900] : Colors.white,
+                              color: AppTheme.getLightOrDarkModeTheme(isDark),
                             ),
                             onPressed: () {
                               showAcceptInviteDialog(myInvites[index], context);
@@ -194,7 +195,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                           child: IconButton(
                               icon: Icon(
                                 LineIcons.plus,
-                                color: isDark ? Colors.grey[900] : Colors.white,
+                                color: AppTheme.getLightOrDarkModeTheme(isDark),
                               ),
                               onPressed: () {
                                 showRefuseInviteDialog(myInvites[index], context);
@@ -271,7 +272,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                                           ? user.profileUrl
                                                           : onGoingGames[index].players[onGoingGames[index].players.indexWhere((element) => element.id != user.id)].profileUrl,
                                                       radius: 20,
-                                                      backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+                                                      backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
                                                       initialsText: Text(
                                                         getInitials(onGoingGames[index].players.indexWhere((element) => element.id != user.id) == -1
                                                             ? user.username
@@ -295,16 +296,16 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                                                 : onGoingGames[index].hasInvited && onGoingGames[index].invitationStatus == 0
                                                                     ? '${onGoingGames[index].invitee.username} declined your invitation'
                                                                     : 'only you',
-                                                            style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.bold, color: isDark ? Colors.grey[900] : Colors.white),
+                                                            style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.getLightOrDarkModeTheme(isDark)),
                                                           )
                                                         : Text(
                                                             onGoingGames[index].players[onGoingGames[index].players.indexWhere((element) => element.id != user.id)].username +
                                                                 ' and you',
-                                                            style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.bold, color: isDark ? Colors.grey[900] : Colors.white),
+                                                            style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.getLightOrDarkModeTheme(isDark)),
                                                           ),
                                                     subtitle: Text(
                                                       formatDateTime(onGoingGames[index].lastPlayedOn),
-                                                      style: GoogleFonts.lato(color: isDark ? Colors.grey[900] : Colors.white),
+                                                      style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
                                                     ),
                                                     trailing: Row(
                                                       mainAxisSize: MainAxisSize.min,
@@ -312,16 +313,16 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                                       children: [
                                                         IconButton(
                                                             icon: Icon(onGoingGames[index].isCooperative ? LineIcons.handshake : LineIcons.helpingHands,
-                                                                color: isDark ? Colors.grey[900] : Colors.white),
+                                                                color: AppTheme.getLightOrDarkModeTheme(isDark)),
                                                             onPressed: () {}),
                                                         onGoingGames[index].hostId == user.id
                                                             ? IconButton(
-                                                                icon: Icon(LineIcons.trash, color: isDark ? Colors.grey[900] : Colors.white),
+                                                                icon: Icon(LineIcons.trash, color: AppTheme.getLightOrDarkModeTheme(isDark)),
                                                                 onPressed: () {
                                                                   showDeleteGameDialog(onGoingGames[index], context);
                                                                 })
                                                             : IconButton(
-                                                                icon: Icon(LineIcons.unlink, color: isDark ? Colors.grey[900] : Colors.white),
+                                                                icon: Icon(LineIcons.unlink, color: AppTheme.getLightOrDarkModeTheme(isDark)),
                                                                 onPressed: () {
                                                                   showLeaveGameDialog(onGoingGames[index], context);
                                                                 }),
@@ -430,7 +431,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 8.0),
                               child: LinearProgressIndicator(
-                                backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+                                backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
                                 valueColor: AlwaysStoppedAnimation<Color>(appTheme.themeColor),
                                 minHeight: 1,
                               ),
@@ -483,10 +484,10 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                     child: ChoiceChip(
                                       avatar: Icon(
                                         LineIcons.dice,
-                                        color: isDark ? Colors.grey[900] : Colors.white,
+                                        color: AppTheme.getLightOrDarkModeTheme(isDark),
                                       ),
                                       label: Text('random'),
-                                      labelStyle: GoogleFonts.lato(color: isDark ? Colors.grey[900] : Colors.white, fontWeight: FontWeight.bold),
+                                      labelStyle: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark), fontWeight: FontWeight.bold),
                                       backgroundColor: appTheme.themeColor,
                                       selected: preferedPattern == 'Random',
                                       selectedColor: appTheme.themeColor[900],
@@ -504,10 +505,10 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                     child: ChoiceChip(
                                       avatar: Icon(
                                         LineIcons.seedling,
-                                        color: isDark ? Colors.grey[900] : Colors.white,
+                                        color: AppTheme.getLightOrDarkModeTheme(isDark),
                                       ),
                                       label: Text('spring'),
-                                      labelStyle: GoogleFonts.lato(color: isDark ? Colors.grey[900] : Colors.white, fontWeight: FontWeight.bold),
+                                      labelStyle: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark), fontWeight: FontWeight.bold),
                                       backgroundColor: appTheme.themeColor,
                                       selected: preferedPattern == 'spring',
                                       selectedColor: appTheme.themeColor[900],
@@ -525,10 +526,10 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                     child: ChoiceChip(
                                       avatar: Icon(
                                         LineIcons.sunAlt,
-                                        color: isDark ? Colors.grey[900] : Colors.white,
+                                        color: AppTheme.getLightOrDarkModeTheme(isDark),
                                       ),
                                       label: Text('summer'),
-                                      labelStyle: GoogleFonts.lato(color: isDark ? Colors.grey[900] : Colors.white, fontWeight: FontWeight.bold),
+                                      labelStyle: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark), fontWeight: FontWeight.bold),
                                       backgroundColor: appTheme.themeColor,
                                       selected: preferedPattern == 'summer',
                                       selectedColor: appTheme.themeColor[900],
@@ -546,10 +547,10 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                     child: ChoiceChip(
                                       avatar: Icon(
                                         LineIcons.leaf,
-                                        color: isDark ? Colors.grey[900] : Colors.white,
+                                        color: AppTheme.getLightOrDarkModeTheme(isDark),
                                       ),
                                       label: Text('fall'),
-                                      labelStyle: GoogleFonts.lato(color: isDark ? Colors.grey[900] : Colors.white, fontWeight: FontWeight.bold),
+                                      labelStyle: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark), fontWeight: FontWeight.bold),
                                       backgroundColor: appTheme.themeColor,
                                       selected: preferedPattern == 'fall',
                                       selectedColor: appTheme.themeColor[900],
@@ -567,10 +568,10 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                     child: ChoiceChip(
                                       avatar: Icon(
                                         LineIcons.snowflake,
-                                        color: isDark ? Colors.grey[900] : Colors.white,
+                                        color: AppTheme.getLightOrDarkModeTheme(isDark),
                                       ),
                                       label: Text('winter'),
-                                      labelStyle: GoogleFonts.lato(color: isDark ? Colors.grey[900] : Colors.white, fontWeight: FontWeight.bold),
+                                      labelStyle: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark), fontWeight: FontWeight.bold),
                                       backgroundColor: appTheme.themeColor,
                                       selected: preferedPattern == 'winter',
                                       selectedColor: appTheme.themeColor[900],
@@ -606,7 +607,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
               return Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
-                color: isDark ? Colors.grey[900] : Colors.white,
+                color: AppTheme.getLightOrDarkModeTheme(isDark),
                 child: LoadingWidget(
                   appTheme: appTheme,
                   isDark: isDark,
@@ -617,7 +618,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
             return Scaffold(
               key: scaffoldKey,
               appBar: AppBar(
-                backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+                backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
                 elevation: 0,
                 title: Text(
                   'multiplayer',
@@ -648,7 +649,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                 ],
               ),
               body: Container(
-                color: isDark ? Colors.grey[900] : Colors.white,
+                color: AppTheme.getLightOrDarkModeTheme(isDark),
                 child: SafeArea(
                   child: Column(
                     children: [

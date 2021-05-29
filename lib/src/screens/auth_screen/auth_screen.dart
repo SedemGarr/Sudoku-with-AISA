@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:package_info/package_info.dart';
 import 'package:sudoku/src/models/theme.dart';
+import 'package:sudoku/src/models/theme.dart';
 import 'package:sudoku/src/models/user.dart';
 import 'package:sudoku/src/providers/authentication_provider.dart';
 import 'package:sudoku/src/providers/database_provider.dart';
@@ -21,8 +22,7 @@ class AuthScreen extends StatefulWidget {
   AuthScreenView createState() => AuthScreenView();
 }
 
-abstract class AuthScreenState extends State<AuthScreen>
-    with TickerProviderStateMixin {
+abstract class AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
   bool isLoading = false;
   bool isDark = false;
   bool isFormValid = false;
@@ -80,8 +80,7 @@ abstract class AuthScreenState extends State<AuthScreen>
   Future<void> getDarkMode() async {
     var brightness = SchedulerBinding.instance.window.platformBrightness;
     setState(() {
-      this.isDark =
-          this.user == null ? brightness == Brightness.dark : this.user.isDark;
+      this.isDark = this.user == null ? brightness == Brightness.dark : this.user.isDark;
     });
   }
 
@@ -92,8 +91,7 @@ abstract class AuthScreenState extends State<AuthScreen>
   }
 
   void signIn() async {
-    GoogleSignInAccount googleUser =
-        await this.authenticationProvider.getGoogleUser();
+    GoogleSignInAccount googleUser = await this.authenticationProvider.getGoogleUser();
 
     if (googleUser != null) {
       this.toggleLoader();
@@ -125,8 +123,7 @@ abstract class AuthScreenState extends State<AuthScreen>
         backgroundColor: appTheme.themeColor,
         content: Text(
           'oops!\n\nsomething has gone catastrophically wrong. it\'s likely your internet connection. if not it could be us but really, how likely is that? it\'s probably you. please retry',
-          style: GoogleFonts.lato(
-              color: this.isDark ? Colors.grey[900] : Colors.white),
+          style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
           textAlign: TextAlign.start,
         )));
   }
@@ -136,8 +133,7 @@ abstract class AuthScreenState extends State<AuthScreen>
         backgroundColor: appTheme.themeColor,
         content: Text(
           'the way the is app is setup is that...\n\nwe know it\'s yet another thing to sign up for but you really do need an account to continue',
-          style: GoogleFonts.lato(
-              color: this.isDark ? Colors.grey[900] : Colors.white),
+          style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
           textAlign: TextAlign.start,
         )));
   }

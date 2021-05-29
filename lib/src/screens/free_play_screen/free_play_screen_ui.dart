@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
+import 'package:sudoku/src/models/theme.dart';
 import 'free_play_screen.dart';
 
 class FreePlayScreenView extends FreePlayScreenState {
@@ -19,8 +20,7 @@ class FreePlayScreenView extends FreePlayScreenState {
               ),
               itemBuilder: (BuildContext context, int index) {
                 return Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: appTheme.themeColor)),
+                  decoration: BoxDecoration(border: Border.all(color: appTheme.themeColor)),
                 );
               }),
           // eliminate outside border
@@ -35,7 +35,7 @@ class FreePlayScreenView extends FreePlayScreenState {
                   decoration: BoxDecoration(
                       border: Border.all(
                     width: 2,
-                    color: user.isDark ? Colors.grey[900] : Colors.white,
+                    color: AppTheme.getLightOrDarkModeTheme(user.isDark),
                   )),
                 );
               }),
@@ -60,9 +60,7 @@ class FreePlayScreenView extends FreePlayScreenState {
                     child: Center(
                       child: Text(
                         isCellEmpty(value) ? '-' : value.toString(),
-                        style: GoogleFonts.lato(
-                            color: getCellTextColor(index, value),
-                            fontWeight: FontWeight.bold),
+                        style: GoogleFonts.lato(color: getCellTextColor(index, value), fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
@@ -89,33 +87,23 @@ class FreePlayScreenView extends FreePlayScreenState {
                   children: [
                     Text(
                       StopWatchTimer.getDisplayTimeHours(snap.data),
-                      style: GoogleFonts.lato(
-                          color: appTheme.themeColor,
-                          fontWeight: FontWeight.bold),
+                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       ":",
-                      style: GoogleFonts.lato(
-                          color: appTheme.themeColor,
-                          fontWeight: FontWeight.bold),
+                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       StopWatchTimer.getDisplayTimeMinute(snap.data),
-                      style: GoogleFonts.lato(
-                          color: appTheme.themeColor,
-                          fontWeight: FontWeight.bold),
+                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       ":",
-                      style: GoogleFonts.lato(
-                          color: appTheme.themeColor,
-                          fontWeight: FontWeight.bold),
+                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       StopWatchTimer.getDisplayTimeSecond(snap.data),
-                      style: GoogleFonts.lato(
-                          color: appTheme.themeColor,
-                          fontWeight: FontWeight.bold),
+                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -189,9 +177,7 @@ class FreePlayScreenView extends FreePlayScreenState {
           child: IconButton(
             icon: Text(
               i.toString(),
-              style: GoogleFonts.lato(
-                  color: user.isDark ? Colors.black : Colors.white,
-                  fontWeight: FontWeight.bold),
+              style: GoogleFonts.lato(color: user.isDark ? Colors.black : Colors.white, fontWeight: FontWeight.bold),
             ),
             onPressed: () {
               setCellValue(i, context);
@@ -201,9 +187,7 @@ class FreePlayScreenView extends FreePlayScreenState {
       ));
     }
     return Container(
-      child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: numberPadWidgets),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: numberPadWidgets),
     );
   }
 
@@ -214,7 +198,7 @@ class FreePlayScreenView extends FreePlayScreenState {
       child: Scaffold(
         key: scaffoldKey,
         appBar: AppBar(
-          backgroundColor: user.isDark ? Colors.grey[900] : Colors.white,
+          backgroundColor: AppTheme.getLightOrDarkModeTheme(user.isDark),
           elevation: 0,
           leading: IconButton(
             icon: Icon(
@@ -245,7 +229,7 @@ class FreePlayScreenView extends FreePlayScreenState {
             clearSelectedIndex();
           },
           child: Container(
-            color: user.isDark ? Colors.grey[900] : Colors.white,
+            color: AppTheme.getLightOrDarkModeTheme(user.isDark),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,

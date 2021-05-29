@@ -108,7 +108,7 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
           backgroundColor: appTheme.themeColor,
           content: Text(
             'username changed',
-            style: GoogleFonts.lato(color: this.isDark ? Colors.grey[900] : Colors.white),
+            style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
             textAlign: TextAlign.center,
           )));
     });
@@ -248,7 +248,7 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
     //     context: context,
     //     builder: (BuildContext context) {
     //       return AlertDialog(
-    //         backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+    //         backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
     //         title: Text('are you sure?', textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
     //         actions: [
     //           Column(
@@ -303,7 +303,7 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
     //     context: context,
     //     builder: (BuildContext context) {
     //       return AlertDialog(
-    //         backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+    //         backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
     //         title: Text('are you sure?', textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
     //         actions: [
     //           Column(
@@ -355,7 +355,7 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
         backgroundColor: appTheme.themeColor,
         content: Text(
           'your profile picture has been $text',
-          style: GoogleFonts.lato(color: this.isDark ? Colors.grey[900] : Colors.white),
+          style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
           textAlign: TextAlign.start,
         )));
   }
@@ -366,14 +366,14 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
         backgroundColor: appTheme.themeColor,
         action: SnackBarAction(
           label: 'ok',
-          textColor: this.isDark ? Colors.grey[900] : Colors.white,
+          textColor: AppTheme.getLightOrDarkModeTheme(isDark),
           onPressed: () {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
           },
         ),
         content: Text(
           helpDialogs[index],
-          style: GoogleFonts.lato(color: this.isDark ? Colors.grey[900] : Colors.white),
+          style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
           textAlign: TextAlign.start,
         )));
   }
@@ -383,7 +383,7 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
         backgroundColor: appTheme.themeColor,
         content: Text(
           'success! you game is as fresh as a new born baby',
-          style: GoogleFonts.lato(color: this.isDark ? Colors.grey[900] : Colors.white),
+          style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
           textAlign: TextAlign.start,
         )));
   }
@@ -393,7 +393,7 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
         backgroundColor: appTheme.themeColor,
         content: Text(
           'it\'s better if you\'re connected to the internet for this. trust us',
-          style: GoogleFonts.lato(color: this.isDark ? Colors.grey[900] : Colors.white),
+          style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
           textAlign: TextAlign.start,
         )));
   }

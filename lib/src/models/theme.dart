@@ -17,4 +17,8 @@ class AppTheme {
     AppTheme(themeColor: Colors.pink, partnerColor: Colors.amber),
     AppTheme(themeColor: Colors.deepPurple, partnerColor: Colors.amber),
   ];
+
+  static getLightOrDarkModeTheme(bool isDark) {
+    return isDark ? Colors.grey[900] : Colors.white;
+  }
 }

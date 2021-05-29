@@ -20,18 +20,13 @@ class MultiplayerGameScreenScreen extends StatefulWidget {
   final MultiplayerGame currentGame;
   final bool isSavedGame;
 
-  MultiplayerGameScreenScreen(
-      {@required this.user,
-      @required this.currentGame,
-      @required this.isSavedGame});
+  MultiplayerGameScreenScreen({@required this.user, @required this.currentGame, @required this.isSavedGame});
 
   @override
-  MultiplayerGameScreenScreenView createState() =>
-      MultiplayerGameScreenScreenView();
+  MultiplayerGameScreenScreenView createState() => MultiplayerGameScreenScreenView();
 }
 
-abstract class MultiplayerGameScreenScreenState
-    extends State<MultiplayerGameScreenScreen> with TickerProviderStateMixin {
+abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScreenScreen> with TickerProviderStateMixin {
   Users user;
   MultiplayerGame currentGame;
 
@@ -58,32 +53,12 @@ abstract class MultiplayerGameScreenScreenState
     this.currentGame = widget.currentGame;
     this.isDark = this.user.isDark;
     this.isHost = this.user.id == this.currentGame.hostId;
-    this.hostName = this
-                .currentGame
-                .players
-                .indexWhere((element) => element.id != this.user.id) ==
-            -1
+    this.hostName = this.currentGame.players.indexWhere((element) => element.id != this.user.id) == -1
         ? this.user.username
-        : this
-            .currentGame
-            .players[this
-                .currentGame
-                .players
-                .indexWhere((element) => element.id != this.user.id)]
-            .username;
-    this.partnerName = this
-                .currentGame
-                .players
-                .indexWhere((element) => element.id != this.user.id) ==
-            -1
+        : this.currentGame.players[this.currentGame.players.indexWhere((element) => element.id != this.user.id)].username;
+    this.partnerName = this.currentGame.players.indexWhere((element) => element.id != this.user.id) == -1
         ? this.user.username
-        : this
-            .currentGame
-            .players[this
-                .currentGame
-                .players
-                .indexWhere((element) => element.id != this.user.id)]
-            .username;
+        : this.currentGame.players[this.currentGame.players.indexWhere((element) => element.id != this.user.id)].username;
     this.getTheme();
     this.startGameIfHostOnInit();
     this.loadSavedGame();
@@ -112,8 +87,7 @@ abstract class MultiplayerGameScreenScreenState
       List<Users> tempArray = [];
       for (int i = 0; i < this.currentGame.players.length; i++) {
         if (i > 0) {
-          if (this.currentGame.players[i].id !=
-              this.currentGame.players[i - 1].id) {
+          if (this.currentGame.players[i].id != this.currentGame.players[i - 1].id) {
             tempArray.add(this.currentGame.players[i]);
           }
         } else {
@@ -139,8 +113,7 @@ abstract class MultiplayerGameScreenScreenState
 
   void processMultiplayerGameStreamData(AsyncSnapshot snapshot) {
     // check if a player has left the game
-    if (this.currentGame.players.length >
-        snapshot.data.docs[0].data()['players'].length) {
+    if (this.currentGame.players.length > snapshot.data.docs[0].data()['players'].length) {
       // show player left snackbar
       showPlayerLeftSnackbar();
     }
@@ -179,9 +152,7 @@ abstract class MultiplayerGameScreenScreenState
       }
       this.currentGame.lastPlayedOn = DateTime.now().toString();
       this.currentGame.lastPlayer = this.user.id;
-      this.currentGame.level.board = [
-        ...this.currentGame.level.solvedBoard
-      ]; // don't forget to clear this after testing
+      this.currentGame.level.board = [...this.currentGame.level.solvedBoard]; // don't forget to clear this after testing
       this.multiplayerProvider.updateGameSettings(this.currentGame);
     }
   }
@@ -255,8 +226,7 @@ abstract class MultiplayerGameScreenScreenState
             backgroundColor: appTheme.themeColor,
             content: Text(
               'continuing your previously saved game',
-              style: GoogleFonts.lato(
-                  color: this.user.isDark ? Colors.grey[900] : Colors.white),
+              style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(this.user.isDark)),
               textAlign: TextAlign.center,
             )));
       });
@@ -269,8 +239,7 @@ abstract class MultiplayerGameScreenScreenState
           backgroundColor: appTheme.themeColor,
           content: Text(
             '$partnerName has left the game',
-            style: GoogleFonts.lato(
-                color: this.user.isDark ? Colors.grey[900] : Colors.white),
+            style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(this.user.isDark)),
             textAlign: TextAlign.center,
           )));
     });
@@ -282,12 +251,8 @@ abstract class MultiplayerGameScreenScreenState
       if (!this.isCellEmpty(value)) {
         // if cell is not selected but has same value
         // as selected cell
-        if (this.currentGame.level.board[this.selectedIndex] == value &&
-            this.selectedIndex != index) {
-          return Difficulty.isConflicting(
-                  this.selectedIndex, index, user.hasTrainingWheels)
-              ? this.appTheme.partnerColor
-              : this.appTheme.themeColor[100];
+        if (this.currentGame.level.board[this.selectedIndex] == value && this.selectedIndex != index) {
+          return Difficulty.isConflicting(this.selectedIndex, index, user.hasTrainingWheels) ? this.appTheme.partnerColor : this.appTheme.themeColor[100];
         }
         // if cell is selected
         if (this.selectedIndex == index) {
@@ -296,9 +261,7 @@ abstract class MultiplayerGameScreenScreenState
           return Colors.transparent;
         }
       }
-      return this.selectedIndex == index
-          ? this.appTheme.themeColor
-          : Colors.transparent;
+      return this.selectedIndex == index ? this.appTheme.themeColor : Colors.transparent;
     }
     return Colors.transparent;
   }
@@ -317,15 +280,12 @@ abstract class MultiplayerGameScreenScreenState
     } else {
       if (this.selectedIndex != null) {
         return isSelectedByOther(index)
-            ? Difficulty.isConflicting(
-                    this.selectedIndex, index, this.user.hasTrainingWheels)
+            ? Difficulty.isConflicting(this.selectedIndex, index, this.user.hasTrainingWheels)
                 ? this.appTheme.themeColor
                 : this.appTheme.partnerColor
             : this.appTheme.themeColor;
       } else {
-        return isSelectedByOther(index)
-            ? this.appTheme.partnerColor
-            : this.appTheme.themeColor;
+        return isSelectedByOther(index) ? this.appTheme.partnerColor : this.appTheme.themeColor;
       }
     }
   }
@@ -348,25 +308,17 @@ abstract class MultiplayerGameScreenScreenState
 
   FontStyle getCellFontStyle(index) {
     if (this.isHost) {
-      return this.currentGame.participantSelectedIndex == index
-          ? FontStyle.italic
-          : FontStyle.normal;
+      return this.currentGame.participantSelectedIndex == index ? FontStyle.italic : FontStyle.normal;
     } else {
-      return this.currentGame.hostSelectedIndex == index
-          ? FontStyle.italic
-          : FontStyle.normal;
+      return this.currentGame.hostSelectedIndex == index ? FontStyle.italic : FontStyle.normal;
     }
   }
 
   FontWeight getCellFontWeight(index) {
     if (this.isHost) {
-      return this.currentGame.participantSelectedIndex == index
-          ? FontWeight.bold
-          : FontWeight.bold;
+      return this.currentGame.participantSelectedIndex == index ? FontWeight.bold : FontWeight.bold;
     } else {
-      return this.currentGame.hostSelectedIndex == index
-          ? FontWeight.bold
-          : FontWeight.bold;
+      return this.currentGame.hostSelectedIndex == index ? FontWeight.bold : FontWeight.bold;
     }
   }
 
@@ -432,8 +384,7 @@ abstract class MultiplayerGameScreenScreenState
     // if it is completed, check if it correct
     if (isPuzzleComplete) {
       for (int i = 0; i < 81; i++) {
-        if (this.currentGame.level.board[i] !=
-            this.currentGame.level.solvedBoard[i]) {
+        if (this.currentGame.level.board[i] != this.currentGame.level.solvedBoard[i]) {
           isPuzzleCorrect = false;
         }
       }
@@ -447,8 +398,7 @@ abstract class MultiplayerGameScreenScreenState
   }
 
   Future<void> regenerateBoard() async {
-    Level level = await Difficulty.regenerateLevel(
-        this.currentGame.difficulty, 400, this.currentGame.preferedPattern);
+    Level level = await Difficulty.regenerateLevel(this.currentGame.difficulty, 400, this.currentGame.preferedPattern);
 
     // reset timers
     this.stopStopWatchTimer();
@@ -495,11 +445,7 @@ abstract class MultiplayerGameScreenScreenState
   }
 
   void updateUserAfterGame() async {
-    List mpStats = this
-        .user
-        .stats
-        .where((element) => element.isCompetitive || element.isCoop)
-        .toList();
+    List mpStats = this.user.stats.where((element) => element.isCompetitive || element.isCoop).toList();
 
     Stats newStats = Stats(
         isCompetitive: this.currentGame.isCompetitive,
@@ -548,17 +494,9 @@ abstract class MultiplayerGameScreenScreenState
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            backgroundColor: isDark ? Colors.grey[900] : Colors.white,
-            title: Text(
-                'leave this game with ' +
-                    game
-                        .players[game.players
-                            .indexWhere((element) => element.id != user.id)]
-                        .username +
-                    '?',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.lato(
-                    color: isDark ? Colors.white : Colors.grey[900])),
+            backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
+            title: Text('leave this game with ' + game.players[game.players.indexWhere((element) => element.id != user.id)].username + '?',
+                textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
             actions: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -567,11 +505,7 @@ abstract class MultiplayerGameScreenScreenState
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text('oops!',
-                          textAlign: TextAlign.end,
-                          style: GoogleFonts.lato(
-                              color:
-                                  isDark ? Colors.white : Colors.grey[900]))),
+                      child: Text('oops!', textAlign: TextAlign.end, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900]))),
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
@@ -596,20 +530,13 @@ abstract class MultiplayerGameScreenScreenState
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+            backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
             title: Text(
-                game.players.indexWhere((element) => element.id != user.id) ==
-                        -1
+                game.players.indexWhere((element) => element.id != user.id) == -1
                     ? 'end game?'
-                    : 'end this game with ' +
-                        game
-                            .players[game.players
-                                .indexWhere((element) => element.id != user.id)]
-                            .username +
-                        '?',
+                    : 'end this game with ' + game.players[game.players.indexWhere((element) => element.id != user.id)].username + '?',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.lato(
-                    color: isDark ? Colors.white : Colors.grey[900])),
+                style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
             actions: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -618,11 +545,7 @@ abstract class MultiplayerGameScreenScreenState
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text('oops!',
-                          textAlign: TextAlign.end,
-                          style: GoogleFonts.lato(
-                              color:
-                                  isDark ? Colors.white : Colors.grey[900]))),
+                      child: Text('oops!', textAlign: TextAlign.end, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900]))),
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
@@ -706,8 +629,7 @@ abstract class MultiplayerGameScreenScreenState
           backgroundColor: appTheme.themeColor,
           content: Text(
             'game id copied to clipbaord',
-            style: GoogleFonts.lato(
-                color: this.isDark ? Colors.grey[900] : Colors.white),
+            style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
             textAlign: TextAlign.start,
           )));
     });

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sudoku/src/models/theme.dart';
+import 'package:sudoku/src/models/theme.dart';
 
 class LoadingWidget extends StatefulWidget {
   final bool isDark;
@@ -22,9 +23,8 @@ class _LoadingWidgetState extends State<LoadingWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircularProgressIndicator(
-              backgroundColor: widget.isDark ? Colors.grey[900] : Colors.white,
-              valueColor:
-                  AlwaysStoppedAnimation<Color>(widget.appTheme.themeColor),
+              backgroundColor: AppTheme.getLightOrDarkModeTheme(widget.isDark),
+              valueColor: AlwaysStoppedAnimation<Color>(widget.appTheme.themeColor),
             ),
           ],
         ),

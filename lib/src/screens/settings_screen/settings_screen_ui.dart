@@ -50,10 +50,7 @@ class SettingsScreenView extends SettingsScreenState {
       children: [
         Text(
           'appearance',
-          style: GoogleFonts.lato(
-              fontSize: 16,
-              color: appTheme.themeColor,
-              fontWeight: FontWeight.bold),
+          style: GoogleFonts.lato(fontSize: 16, color: appTheme.themeColor, fontWeight: FontWeight.bold),
         ),
         ListTile(
           leading: GestureDetector(
@@ -115,8 +112,7 @@ class SettingsScreenView extends SettingsScreenState {
                 ),
                 title: Text(
                   'select theme',
-                  style: GoogleFonts.lato(
-                      color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                 ),
                 subtitle: Text(
                   'select a theme for the entire app',
@@ -142,10 +138,7 @@ class SettingsScreenView extends SettingsScreenState {
       children: [
         Text(
           'gameplay',
-          style: GoogleFonts.lato(
-              fontSize: 16,
-              color: appTheme.themeColor,
-              fontWeight: FontWeight.bold),
+          style: GoogleFonts.lato(fontSize: 16, color: appTheme.themeColor, fontWeight: FontWeight.bold),
         ),
         ListTile(
           leading: GestureDetector(
@@ -164,13 +157,10 @@ class SettingsScreenView extends SettingsScreenState {
           ),
           title: Text(
             'obvious error assistance',
-            style: GoogleFonts.lato(
-                color: appTheme.themeColor, fontWeight: FontWeight.bold),
+            style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
           ),
           subtitle: Text(
-            hasTrainingWheels
-                ? 'obvious errors aren\'t highlighted'
-                : 'obvious errors are highlighted',
+            hasTrainingWheels ? 'obvious errors aren\'t highlighted' : 'obvious errors are highlighted',
             style: GoogleFonts.lato(
               color: appTheme.themeColor,
             ),
@@ -206,13 +196,10 @@ class SettingsScreenView extends SettingsScreenState {
           ),
           title: Text(
             'screen timeout',
-            style: GoogleFonts.lato(
-                color: appTheme.themeColor, fontWeight: FontWeight.bold),
+            style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
           ),
           subtitle: Text(
-            enableWakelock
-                ? 'screen will lock after a period of inactivity'
-                : 'screen will not lock after a period of inactivity',
+            enableWakelock ? 'screen will lock after a period of inactivity' : 'screen will not lock after a period of inactivity',
             style: GoogleFonts.lato(
               color: appTheme.themeColor,
             ),
@@ -249,8 +236,7 @@ class SettingsScreenView extends SettingsScreenState {
                 ),
                 title: Text(
                   'difficulty level',
-                  style: GoogleFonts.lato(
-                      color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                 ),
                 subtitle: Text(
                   'for free-play and multiplayer',
@@ -264,9 +250,7 @@ class SettingsScreenView extends SettingsScreenState {
                       Expanded(
                         child: Slider(
                             label: freePlayDifficulty.toString(),
-                            value: freePlayDifficulty == 10
-                                ? 0.0
-                                : freePlayDifficulty.toDouble(),
+                            value: freePlayDifficulty == 10 ? 0.0 : freePlayDifficulty.toDouble(),
                             min: 0,
                             max: 5,
                             divisions: 5,
@@ -296,8 +280,7 @@ class SettingsScreenView extends SettingsScreenState {
                                 setFreePlaydifficultyToRandom();
                               },
                               activeColor: appTheme.themeColor,
-                              checkColor:
-                                  isDark ? Colors.grey[900] : Colors.white,
+                              checkColor: AppTheme.getLightOrDarkModeTheme(isDark),
                             )
                           ],
                         ),
@@ -325,8 +308,7 @@ class SettingsScreenView extends SettingsScreenState {
                 ),
                 title: Text(
                   'board patterns',
-                  style: GoogleFonts.lato(
-                      color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                 ),
                 subtitle: Text(
                   'select a cell arrangment pattern',
@@ -344,12 +326,10 @@ class SettingsScreenView extends SettingsScreenState {
                           child: ChoiceChip(
                             avatar: Icon(
                               LineIcons.dice,
-                              color: isDark ? Colors.grey[900] : Colors.white,
+                              color: AppTheme.getLightOrDarkModeTheme(isDark),
                             ),
                             label: Text('random'),
-                            labelStyle: GoogleFonts.lato(
-                                color: isDark ? Colors.grey[900] : Colors.white,
-                                fontWeight: FontWeight.bold),
+                            labelStyle: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark), fontWeight: FontWeight.bold),
                             backgroundColor: appTheme.themeColor,
                             selected: preferedPattern == 'Random',
                             selectedColor: appTheme.themeColor[900],
@@ -365,12 +345,10 @@ class SettingsScreenView extends SettingsScreenState {
                           child: ChoiceChip(
                             avatar: Icon(
                               LineIcons.seedling,
-                              color: isDark ? Colors.grey[900] : Colors.white,
+                              color: AppTheme.getLightOrDarkModeTheme(isDark),
                             ),
                             label: Text('spring'),
-                            labelStyle: GoogleFonts.lato(
-                                color: isDark ? Colors.grey[900] : Colors.white,
-                                fontWeight: FontWeight.bold),
+                            labelStyle: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark), fontWeight: FontWeight.bold),
                             backgroundColor: appTheme.themeColor,
                             selected: preferedPattern == 'spring',
                             selectedColor: appTheme.themeColor[900],
@@ -386,12 +364,10 @@ class SettingsScreenView extends SettingsScreenState {
                           child: ChoiceChip(
                             avatar: Icon(
                               LineIcons.sunAlt,
-                              color: isDark ? Colors.grey[900] : Colors.white,
+                              color: AppTheme.getLightOrDarkModeTheme(isDark),
                             ),
                             label: Text('summer'),
-                            labelStyle: GoogleFonts.lato(
-                                color: isDark ? Colors.grey[900] : Colors.white,
-                                fontWeight: FontWeight.bold),
+                            labelStyle: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark), fontWeight: FontWeight.bold),
                             backgroundColor: appTheme.themeColor,
                             selected: preferedPattern == 'summer',
                             selectedColor: appTheme.themeColor[900],
@@ -407,12 +383,10 @@ class SettingsScreenView extends SettingsScreenState {
                           child: ChoiceChip(
                             avatar: Icon(
                               LineIcons.leaf,
-                              color: isDark ? Colors.grey[900] : Colors.white,
+                              color: AppTheme.getLightOrDarkModeTheme(isDark),
                             ),
                             label: Text('fall'),
-                            labelStyle: GoogleFonts.lato(
-                                color: isDark ? Colors.grey[900] : Colors.white,
-                                fontWeight: FontWeight.bold),
+                            labelStyle: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark), fontWeight: FontWeight.bold),
                             backgroundColor: appTheme.themeColor,
                             selected: preferedPattern == 'fall',
                             selectedColor: appTheme.themeColor[900],
@@ -428,12 +402,10 @@ class SettingsScreenView extends SettingsScreenState {
                           child: ChoiceChip(
                             avatar: Icon(
                               LineIcons.snowflake,
-                              color: isDark ? Colors.grey[900] : Colors.white,
+                              color: AppTheme.getLightOrDarkModeTheme(isDark),
                             ),
                             label: Text('winter'),
-                            labelStyle: GoogleFonts.lato(
-                                color: isDark ? Colors.grey[900] : Colors.white,
-                                fontWeight: FontWeight.bold),
+                            labelStyle: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark), fontWeight: FontWeight.bold),
                             backgroundColor: appTheme.themeColor,
                             selected: preferedPattern == 'winter',
                             selectedColor: appTheme.themeColor[900],
@@ -460,10 +432,7 @@ class SettingsScreenView extends SettingsScreenState {
       children: [
         Text(
           'sound',
-          style: GoogleFonts.lato(
-              fontSize: 16,
-              color: appTheme.themeColor,
-              fontWeight: FontWeight.bold),
+          style: GoogleFonts.lato(fontSize: 16, color: appTheme.themeColor, fontWeight: FontWeight.bold),
         ),
         ListTile(
           leading: GestureDetector(
@@ -482,13 +451,10 @@ class SettingsScreenView extends SettingsScreenState {
           ),
           title: Text(
             'AISA\'s dialog',
-            style: GoogleFonts.lato(
-                color: appTheme.themeColor, fontWeight: FontWeight.bold),
+            style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
           ),
           subtitle: Text(
-            audioEnabled
-                ? 'audio dialog from AISA is enabled'
-                : 'AISA is muted',
+            audioEnabled ? 'audio dialog from AISA is enabled' : 'AISA is muted',
             style: GoogleFonts.lato(
               color: appTheme.themeColor,
             ),
@@ -517,10 +483,7 @@ class SettingsScreenView extends SettingsScreenState {
       children: [
         Text(
           'social',
-          style: GoogleFonts.lato(
-              fontSize: 16,
-              color: appTheme.themeColor,
-              fontWeight: FontWeight.bold),
+          style: GoogleFonts.lato(fontSize: 16, color: appTheme.themeColor, fontWeight: FontWeight.bold),
         ),
         ListTile(
           leading: GestureDetector(
@@ -539,13 +502,10 @@ class SettingsScreenView extends SettingsScreenState {
           ),
           title: Text(
             'multiplayer visibility',
-            style: GoogleFonts.lato(
-                color: appTheme.themeColor, fontWeight: FontWeight.bold),
+            style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
           ),
           subtitle: Text(
-            isFriendly
-                ? 'anyone can invite you to multiplayer games'
-                : 'only friends can invite you to multiplayer games',
+            isFriendly ? 'anyone can invite you to multiplayer games' : 'only friends can invite you to multiplayer games',
             style: GoogleFonts.lato(
               color: appTheme.themeColor,
             ),
@@ -574,10 +534,7 @@ class SettingsScreenView extends SettingsScreenState {
       children: [
         Text(
           'advanced',
-          style: GoogleFonts.lato(
-              fontSize: 16,
-              color: appTheme.themeColor,
-              fontWeight: FontWeight.bold),
+          style: GoogleFonts.lato(fontSize: 16, color: appTheme.themeColor, fontWeight: FontWeight.bold),
         ),
         ExpansionTile(
           leading: GestureDetector(
@@ -596,8 +553,7 @@ class SettingsScreenView extends SettingsScreenState {
           ),
           title: Text(
             'restart single-player',
-            style: GoogleFonts.lato(
-                color: appTheme.themeColor, fontWeight: FontWeight.bold),
+            style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
           ),
           subtitle: Text(
             'reset single-player progress',
@@ -614,9 +570,7 @@ class SettingsScreenView extends SettingsScreenState {
                   },
                   child: Text(
                     'restart',
-                    style: GoogleFonts.lato(
-                        fontWeight: FontWeight.bold,
-                        color: appTheme.themeColor),
+                    style: GoogleFonts.lato(fontWeight: FontWeight.bold, color: appTheme.themeColor),
                   )),
             )
           ],
@@ -638,8 +592,7 @@ class SettingsScreenView extends SettingsScreenState {
           ),
           title: Text(
             'delete account',
-            style: GoogleFonts.lato(
-                color: appTheme.themeColor, fontWeight: FontWeight.bold),
+            style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
           ),
           subtitle: Text(
             'permantently delete your account',
@@ -656,9 +609,7 @@ class SettingsScreenView extends SettingsScreenState {
                   },
                   child: Text(
                     'delete account',
-                    style: GoogleFonts.lato(
-                        fontWeight: FontWeight.bold,
-                        color: appTheme.themeColor),
+                    style: GoogleFonts.lato(fontWeight: FontWeight.bold, color: appTheme.themeColor),
                   )),
             )
           ],
@@ -673,8 +624,7 @@ class SettingsScreenView extends SettingsScreenState {
           key: formKey,
           child: Expanded(
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.1),
+              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.1),
               child: TextFormField(
                 autofocus: true,
                 initialValue: user.username,
@@ -684,16 +634,10 @@ class SettingsScreenView extends SettingsScreenState {
                 cursorColor: appTheme.themeColor,
                 decoration: InputDecoration(
                   errorStyle: GoogleFonts.lato(color: appTheme.themeColor),
-                  errorBorder: UnderlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide:
-                          BorderSide(color: appTheme.themeColor, width: 1)),
+                  errorBorder: UnderlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide(color: appTheme.themeColor, width: 1)),
                   focusColor: appTheme.themeColor,
                   labelStyle: GoogleFonts.lato(color: appTheme.themeColor),
-                  focusedBorder: UnderlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide:
-                          BorderSide(color: appTheme.themeColor, width: 1)),
+                  focusedBorder: UnderlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide(color: appTheme.themeColor, width: 1)),
                   labelText: 'username',
                 ),
                 validator: (value) {
@@ -722,12 +666,11 @@ class SettingsScreenView extends SettingsScreenState {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               PopupMenuButton(
-                color: isDark ? Colors.grey[900] : Colors.white,
+                color: AppTheme.getLightOrDarkModeTheme(isDark),
                 elevation: 1,
                 child: CircularProfileAvatar(
                   user.profileUrl, //sets image path, it should be a URL string. default value is empty string, if path is empty it will display only initials
-                  radius: MediaQuery.of(context).size.width *
-                      0.1, // sets radius, default 50.0
+                  radius: MediaQuery.of(context).size.width * 0.1, // sets radius, default 50.0
                   backgroundColor: appTheme.themeColor,
                   // sets background color, default Colors.white
                   // borderWidth:
@@ -737,20 +680,15 @@ class SettingsScreenView extends SettingsScreenState {
                     style: GoogleFonts.lato(
                       fontWeight: FontWeight.bold,
                       fontSize: 25,
-                      color: isDark ? Colors.grey[900] : Colors.white,
+                      color: AppTheme.getLightOrDarkModeTheme(isDark),
                     ),
                   ), // sets initials text, set your own style, default Text('')
-                  borderColor: Colors
-                      .transparent, // sets border color, default Colors.white
-                  elevation:
-                      0.0, // sets elevation (shadow of the profile picture), default value is 0.0
-                  foregroundColor: Colors
-                      .transparent, //sets foreground colour, it works if showInitialTextAbovePicture = true , default Colors.transparent
-                  cacheImage:
-                      true, // allow widget to cache image against provided url
+                  borderColor: Colors.transparent, // sets border color, default Colors.white
+                  elevation: 0.0, // sets elevation (shadow of the profile picture), default value is 0.0
+                  foregroundColor: Colors.transparent, //sets foreground colour, it works if showInitialTextAbovePicture = true , default Colors.transparent
+                  cacheImage: true, // allow widget to cache image against provided url
                   // sets on tap
-                  showInitialTextAbovePicture:
-                      false, // setting it true will show initials text above profile picture, default false
+                  showInitialTextAbovePicture: false, // setting it true will show initials text above profile picture, default false
                 ),
                 onSelected: (value) {
                   handlePopupSelection(value);
@@ -800,10 +738,7 @@ class SettingsScreenView extends SettingsScreenState {
                       },
                       child: Text(
                         user.username,
-                        style: GoogleFonts.lato(
-                            color: appTheme.themeColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
+                        style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold, fontSize: 20),
                       ),
                     ),
             ],
@@ -826,7 +761,7 @@ class SettingsScreenView extends SettingsScreenState {
       child: Scaffold(
         key: scaffoldKey,
         appBar: AppBar(
-          backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+          backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
           elevation: 0,
           title: Text(
             'settings',
@@ -859,9 +794,7 @@ class SettingsScreenView extends SettingsScreenState {
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
                               'save',
-                              style: GoogleFonts.lato(
-                                  color: appTheme.themeColor,
-                                  fontWeight: FontWeight.bold),
+                              style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                             ),
                           )),
                       GestureDetector(
@@ -872,9 +805,7 @@ class SettingsScreenView extends SettingsScreenState {
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
                               'cancel',
-                              style: GoogleFonts.lato(
-                                  color: appTheme.themeColor,
-                                  fontWeight: FontWeight.bold),
+                              style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                             ),
                           )),
                     ],
@@ -883,7 +814,7 @@ class SettingsScreenView extends SettingsScreenState {
           ],
         ),
         body: Container(
-          color: isDark ? Colors.grey[900] : Colors.white,
+          color: AppTheme.getLightOrDarkModeTheme(isDark),
           child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(8.0),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
+import 'package:sudoku/src/models/theme.dart';
 import 'package:sudoku/src/screens/single_player_game_screen/single_player_game_screen.dart';
 
 class SinglePlayerGameScreenView extends SinglePlayerGameScreenState {
@@ -19,8 +20,7 @@ class SinglePlayerGameScreenView extends SinglePlayerGameScreenState {
               ),
               itemBuilder: (BuildContext context, int index) {
                 return Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: appTheme.themeColor)),
+                  decoration: BoxDecoration(border: Border.all(color: appTheme.themeColor)),
                 );
               }),
           // eliminate outside border
@@ -35,7 +35,7 @@ class SinglePlayerGameScreenView extends SinglePlayerGameScreenState {
                   decoration: BoxDecoration(
                       border: Border.all(
                     width: 2,
-                    color: isDark ? Colors.grey[900] : Colors.white,
+                    color: AppTheme.getLightOrDarkModeTheme(isDark),
                   )),
                 );
               }),
@@ -47,8 +47,7 @@ class SinglePlayerGameScreenView extends SinglePlayerGameScreenState {
                 crossAxisCount: 9,
               ),
               itemBuilder: (BuildContext context, int index) {
-                int value =
-                    game[user.difficultyLevel].levels[user.level].board[index];
+                int value = game[user.difficultyLevel].levels[user.level].board[index];
                 return GestureDetector(
                   onTap: filledCells.contains(index)
                       ? () {}
@@ -61,9 +60,7 @@ class SinglePlayerGameScreenView extends SinglePlayerGameScreenState {
                     child: Center(
                       child: Text(
                         isCellEmpty(value) ? '-' : value.toString(),
-                        style: GoogleFonts.lato(
-                            color: getCellTextColor(index, value),
-                            fontWeight: FontWeight.bold),
+                        style: GoogleFonts.lato(color: getCellTextColor(index, value), fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
@@ -90,33 +87,23 @@ class SinglePlayerGameScreenView extends SinglePlayerGameScreenState {
                   children: [
                     Text(
                       StopWatchTimer.getDisplayTimeHours(snap.data),
-                      style: GoogleFonts.lato(
-                          color: appTheme.themeColor,
-                          fontWeight: FontWeight.bold),
+                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       ":",
-                      style: GoogleFonts.lato(
-                          color: appTheme.themeColor,
-                          fontWeight: FontWeight.bold),
+                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       StopWatchTimer.getDisplayTimeMinute(snap.data),
-                      style: GoogleFonts.lato(
-                          color: appTheme.themeColor,
-                          fontWeight: FontWeight.bold),
+                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       ":",
-                      style: GoogleFonts.lato(
-                          color: appTheme.themeColor,
-                          fontWeight: FontWeight.bold),
+                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       StopWatchTimer.getDisplayTimeSecond(snap.data),
-                      style: GoogleFonts.lato(
-                          color: appTheme.themeColor,
-                          fontWeight: FontWeight.bold),
+                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -190,9 +177,7 @@ class SinglePlayerGameScreenView extends SinglePlayerGameScreenState {
           child: IconButton(
             icon: Text(
               i.toString(),
-              style: GoogleFonts.lato(
-                  color: isDark ? Colors.black : Colors.white,
-                  fontWeight: FontWeight.bold),
+              style: GoogleFonts.lato(color: isDark ? Colors.black : Colors.white, fontWeight: FontWeight.bold),
             ),
             onPressed: () {
               setCellValue(i, context);
@@ -202,9 +187,7 @@ class SinglePlayerGameScreenView extends SinglePlayerGameScreenState {
       ));
     }
     return Container(
-      child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: numberPadWidgets),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: numberPadWidgets),
     );
   }
 
@@ -215,7 +198,7 @@ class SinglePlayerGameScreenView extends SinglePlayerGameScreenState {
       child: Scaffold(
         key: scaffoldKey,
         appBar: AppBar(
-          backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+          backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
           elevation: 0,
           leading: IconButton(
             icon: Icon(
@@ -243,7 +226,7 @@ class SinglePlayerGameScreenView extends SinglePlayerGameScreenState {
             clearSelectedIndex();
           },
           child: Container(
-            color: isDark ? Colors.grey[900] : Colors.white,
+            color: AppTheme.getLightOrDarkModeTheme(isDark),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,

@@ -17,7 +17,7 @@ showChoiceDialog({
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+          backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
           title: Text(title, textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
           content: Text(
             contentMessage,

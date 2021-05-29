@@ -9,8 +9,7 @@ import 'package:flutter/services.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
     runApp(MyApp());
   });
 }
@@ -33,31 +32,21 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void delayLoading() {
-    Future.delayed(Duration(milliseconds: 500), () {
-      this.setState(() {
-        this.hasLoaded = true;
-      });
-    });
-  }
-
   @override
   void initState() {
-    delayLoading();
+    this.getUser();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Sudoku with AISA',
+      title: 'sudoku with AISA',
       theme: ThemeData(
-        primarySwatch: this.user == null
-            ? AppTheme.themes[0].themeColor
-            : AppTheme.themes[this.user.difficultyLevel].themeColor,
+        primarySwatch: this.user == null ? AppTheme.themes[0].themeColor : AppTheme.themes[this.user.difficultyLevel].themeColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: hasLoaded ? SplashScreen() : Container(),
+      home: SplashScreen(),
     );
   }
 }
