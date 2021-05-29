@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:package_info/package_info.dart';
 import 'package:sudoku/src/models/theme.dart';
-import 'package:sudoku/src/models/theme.dart';
 import 'package:sudoku/src/models/user.dart';
 import 'package:sudoku/src/providers/authentication_provider.dart';
 import 'package:sudoku/src/providers/database_provider.dart';

@@ -9,6 +9,64 @@ class IntroductionScreenView extends IntroductionScreenState {
     return AISA.aisaAvatar(appTheme.themeColor);
   }
 
+  Widget buildBoard() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Stack(
+        children: [
+          // for thick border
+          GridView.builder(
+              shrinkWrap: true,
+              itemCount: 9,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+              ),
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  decoration: BoxDecoration(border: Border.all(color: appTheme.themeColor)),
+                );
+              }),
+          // eliminate outside border
+          GridView.builder(
+              shrinkWrap: true,
+              itemCount: 1,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1,
+              ),
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                    width: 2,
+                    color: AppTheme.getLightOrDarkModeTheme(isDark),
+                  )),
+                );
+              }),
+          // actual grid
+          GridView.builder(
+              shrinkWrap: true,
+              itemCount: 81,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 9,
+              ),
+              itemBuilder: (BuildContext context, int index) {
+                int value = sampleBoard[index];
+                return Container(
+                  margin: const EdgeInsets.all(2),
+                  color: Colors.transparent,
+                  child: Center(
+                    child: Text(
+                      value == 0 ? '-' : value.toString(),
+                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                );
+              }),
+        ],
+      ),
+    );
+  }
+
   Widget buildIntroductionMessage() {
     return Container(
       child: Expanded(
@@ -16,6 +74,7 @@ class IntroductionScreenView extends IntroductionScreenState {
           padding: const EdgeInsets.all(8.0),
           child: ListView(
             children: [
+              buildAISAAvatar(),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -31,16 +90,13 @@ class IntroductionScreenView extends IntroductionScreenState {
                   style: GoogleFonts.lato(color: appTheme.themeColor),
                 ),
               ),
-              Center(
-                child: Text('image here'),
-              ),
+              buildBoard(),
               Center(
                 child: Text(
                   AISA.introductionDialog[1],
                   style: GoogleFonts.lato(color: appTheme.themeColor),
                 ),
               ),
-              buildContinueButton()
             ],
           ),
         ),
@@ -74,10 +130,7 @@ class IntroductionScreenView extends IntroductionScreenState {
           color: AppTheme.getLightOrDarkModeTheme(widget.isDark),
           child: SafeArea(
             child: Column(
-              children: [
-                buildAISAAvatar(),
-                buildIntroductionMessage(),
-              ],
+              children: [buildIntroductionMessage(), buildContinueButton()],
             ),
           ),
         ),

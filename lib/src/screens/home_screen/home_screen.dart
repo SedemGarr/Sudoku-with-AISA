@@ -5,7 +5,6 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:sudoku/src/components/choice_dialog.dart';
 import 'package:sudoku/src/models/level.dart';
 import 'package:sudoku/src/models/theme.dart';
-import 'package:sudoku/src/models/theme.dart';
 import 'package:sudoku/src/models/user.dart';
 import 'package:sudoku/src/models/game.dart';
 import 'package:sudoku/src/models/difficulty.dart';

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,6 +28,7 @@ abstract class IntroductionScreenState extends State<IntroductionScreen> with Ti
   bool isDark;
   AppTheme appTheme;
   List<Difficulty> game;
+  List<int> sampleBoard = [];
 
   UserStateUpdateProvider userStateUpdateProvider = UserStateUpdateProvider();
 
@@ -36,13 +39,15 @@ abstract class IntroductionScreenState extends State<IntroductionScreen> with Ti
     this.isDark = widget.isDark;
     this.appTheme = widget.appTheme;
     this.game = widget.game;
+    this.prepareSampleBoard();
     this.setAISASpeechRate(1.0);
   }
 
   @override
   void initState() {
     initVariables();
-    aisaSpeak(AISA.introductionDialog[0] + AISA.introductionDialog[1]);
+    this.setAISASpeechRate(1.2);
+    aisaSpeak('Hi! ' + AISA.introductionDialog[0] + AISA.introductionDialog[1]);
     super.initState();
   }
 
@@ -50,6 +55,22 @@ abstract class IntroductionScreenState extends State<IntroductionScreen> with Ti
   void dispose() {
     this.flutterTts.stop();
     super.dispose();
+  }
+
+  void prepareSampleBoard() {
+    for (int i = 0; i < 81; i++) {
+      this.sampleBoard.add(this.generateRandomNumber());
+    }
+  }
+
+  int generateRandomNumber() {
+    Random random = Random();
+    int randomNumber = random.nextInt(10);
+    if (randomNumber == 0) {
+      return this.generateRandomNumber();
+    } else {
+      return randomNumber;
+    }
   }
 
   void goToSinglePlayerGameScreen() {
@@ -68,7 +89,7 @@ abstract class IntroductionScreenState extends State<IntroductionScreen> with Ti
 
   void startGame() async {
     this.aisaStop();
-    this.setAISASpeechRate(1.0);
+    this.setAISASpeechRate(1.2);
     this.user.hasCompletedIntro = true;
     // save user
     await this.userStateUpdateProvider.updateUser(this.user);
@@ -78,7 +99,7 @@ abstract class IntroductionScreenState extends State<IntroductionScreen> with Ti
 
   showTermsDialog() async {
     this.aisaStop();
-    this.setAISASpeechRate(2.5);
+    this.setAISASpeechRate(2.0);
     this.aisaSpeak(AISA.introductionDialog[2]);
 
     return showDialog(

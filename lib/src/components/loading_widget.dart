@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sudoku/src/models/theme.dart';
-import 'package:sudoku/src/models/theme.dart';
+
 
 class LoadingWidget extends StatefulWidget {
   final bool isDark;

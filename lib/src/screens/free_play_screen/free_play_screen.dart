@@ -9,7 +9,6 @@ import 'package:sudoku/src/models/difficulty.dart';
 import 'package:sudoku/src/models/level.dart';
 import 'package:sudoku/src/models/stats.dart';
 import 'package:sudoku/src/models/theme.dart';
-import 'package:sudoku/src/models/theme.dart';
 import 'package:sudoku/src/models/user.dart';
 import 'package:sudoku/src/providers/theme_provider.dart';
 import 'package:sudoku/src/providers/user_state_update_provider.dart';
