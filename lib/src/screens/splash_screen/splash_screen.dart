@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:sudoku/src/models/theme.dart';
 import 'package:sudoku/src/models/user.dart';
 import 'package:sudoku/src/providers/local_storage_provider.dart';
@@ -14,20 +15,14 @@ class SplashScreen extends StatefulWidget {
 abstract class SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin {
   Users user;
   bool isDark = false;
-  AppTheme appTheme = AppTheme.themes[0];
+  AppTheme appTheme;
   LocalStorageProvider localStorageProvider = LocalStorageProvider();
   ThemeProvider themeProvider = ThemeProvider();
 
-  void initVariables() async {
+  Future<void> initVariables() async {
     await this.getUser();
     this.getDarkMode();
     this.getTheme();
-  }
-
-  @override
-  void initState() {
-    initVariables();
-    super.initState();
   }
 
   Future<void> getUser() async {
@@ -44,8 +39,9 @@ abstract class SplashScreenState extends State<SplashScreen> with TickerProvider
   }
 
   void getDarkMode() {
+    var brightness = SchedulerBinding.instance.window.platformBrightness;
     setState(() {
-      this.isDark = this.user == null ? false : this.user.isDark;
+      this.isDark = this.user == null ? brightness == Brightness.dark : this.user.isDark;
     });
   }
 

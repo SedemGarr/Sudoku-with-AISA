@@ -27,9 +27,6 @@ class SplashScreenView extends SplashScreenState {
                     color: appTheme.themeColor,
                   )),
             ],
-            onTap: () {
-              print("Tap Event");
-            },
           ),
         ),
       ),
@@ -41,8 +38,18 @@ class SplashScreenView extends SplashScreenState {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        body: buildSplashScreenAnimation(),
-      ),
+          body: FutureBuilder(
+              future: initVariables(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (appTheme == null) {
+                  return Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    color: AppTheme.getLightOrDarkModeTheme(isDark),
+                  );
+                }
+                return buildSplashScreenAnimation();
+              })),
     );
   }
 }
