@@ -65,7 +65,7 @@ class Difficulty {
       Puzzle sudoku = Puzzle(
         PuzzleOptions(
           patternName: "Random",
-          clues:  parseDifficultyLevel(difficultyLevel),
+          clues: parseDifficultyLevel(difficultyLevel),
         ),
       );
       sudoku.generate().then((_) {
@@ -92,7 +92,7 @@ class Difficulty {
     Puzzle sudoku = Puzzle(
       PuzzleOptions(
         patternName: patternName,
-        clues:   parseDifficultyLevel(difficultyLevel),
+        clues: parseDifficultyLevel(difficultyLevel),
       ),
     );
 
@@ -144,7 +144,7 @@ class Difficulty {
   }
 
   static bool isConflicting(int selectedIndex, int index, bool hasTrainingWheels) {
-    if (hasTrainingWheels) {
+    if (!hasTrainingWheels) {
       return false;
     }
 
