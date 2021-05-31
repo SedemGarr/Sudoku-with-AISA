@@ -293,12 +293,17 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
     }
   }
 
+  void deleteExpiredGame(MultiplayerGame game) async {
+    this.multiplayerProvider.deleteGame(game.id);
+    showGameExpiredSnackBar();
+  }
+
   showCopiedSnackBar() {
     Future.delayed(Duration(seconds: 1), () {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: appTheme.themeColor,
           content: Text(
-            'game id copied to clipbaord',
+            'game id copied to clipboard',
             style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
             textAlign: TextAlign.start,
           )));
@@ -327,6 +332,16 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
             textAlign: TextAlign.start,
           )));
     });
+  }
+
+  showGameExpiredSnackBar() {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: appTheme.themeColor,
+        content: Text(
+          'this game has expired. please start another',
+          style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
+          textAlign: TextAlign.start,
+        )));
   }
 
   void enableWakeLock() {

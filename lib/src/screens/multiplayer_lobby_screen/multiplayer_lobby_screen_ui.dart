@@ -263,7 +263,11 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                                   color: appTheme.themeColor,
                                                   child: ListTile(
                                                     onTap: () {
-                                                      showJoiningGameFromListDialog(onGoingGames[index], context);
+                                                      if (onGoingGames[index].hasFinished) {
+                                                        deleteExpiredGame(onGoingGames[index]);
+                                                      } else {
+                                                        showJoiningGameFromListDialog(onGoingGames[index], context);
+                                                      }
                                                     },
                                                     dense: true,
                                                     tileColor: appTheme.themeColor,
