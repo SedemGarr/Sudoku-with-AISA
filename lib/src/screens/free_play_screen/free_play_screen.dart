@@ -260,11 +260,11 @@ abstract class FreePlayScreenState extends State<FreePlayScreen> with TickerProv
       }
     }
 
-    if (isPuzzleComplete && isPuzzleCorrect) {
-      return true;
-    } else {
-      return false;
+    if (isPuzzleComplete && !isPuzzleCorrect) {
+      // taunt()
     }
+
+    return isPuzzleComplete && isPuzzleCorrect;
   }
 
   void clearSelectedIndex() {

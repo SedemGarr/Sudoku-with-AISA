@@ -8,10 +8,7 @@ class MultiplayerProvider {
   final firestore = FirebaseFirestore.instance;
 
   Stream getCurrentGame(String gameId) {
-    return firestore
-        .collection('games')
-        .where('id', isEqualTo: gameId)
-        .snapshots();
+    return firestore.collection('games').where('id', isEqualTo: gameId).snapshots();
   }
 
   Stream getOngoingGames(Users user) {
@@ -22,21 +19,14 @@ class MultiplayerProvider {
   }
 
   Stream getStartingGame(String docId) {
-    return firestore
-        .collection('games')
-        .where('id', isEqualTo: docId)
-        .snapshots();
+    return firestore.collection('games').where('id', isEqualTo: docId).snapshots();
   }
 
   Stream getInvites(String id) {
-    return firestore
-        .collection('invites')
-        .where('inviteeId', isEqualTo: id)
-        .snapshots();
+    return firestore.collection('invites').where('inviteeId', isEqualTo: id).snapshots();
   }
 
-  Future<void> sendInvite(
-      Users friend, Users user, MultiplayerGame game) async {
+  Future<void> sendInvite(Users friend, Users user, MultiplayerGame game) async {
     var inviteRef = firestore.collection("invites");
 
     Invite invite = Invite(
@@ -78,12 +68,7 @@ class MultiplayerProvider {
     await firestore.collection('games').get().then((value) => {
           value.docs.forEach((mpGame) {
             tempGames.add(MultiplayerGame.fromJson(mpGame.data()));
-            if (tempGames[tempGames.length - 1]
-                    .players
-                    .where((element) => element.id == user.id)
-                    .toList()
-                    .length >
-                0) {
+            if (tempGames[tempGames.length - 1].players.where((element) => element.id == user.id).toList().length > 0) {
               games.add(MultiplayerGame.fromJson(mpGame.data()));
             }
           })
@@ -95,10 +80,7 @@ class MultiplayerProvider {
   Future<void> startGameOnInit(MultiplayerGame currentGame) async {
     currentGame.hasStarted = true;
 
-    await firestore
-        .collection('games')
-        .doc(currentGame.id)
-        .set(currentGame.toJson(), SetOptions(merge: true));
+    await firestore.collection('games').doc(currentGame.id).set(currentGame.toJson(), SetOptions(merge: true));
   }
 
   Future<MultiplayerGame> createGame(Users user) async {
@@ -123,10 +105,9 @@ class MultiplayerProvider {
         players: [user],
         createdOn: DateTime.now().toString(),
         lastPlayedOn: DateTime.now().toString(),
-        lastPlayer: user.id);
+        lastPlayer: null);
 
-    game.level = await Difficulty.regenerateLevel(
-        user.freePlayDifficulty, 400, user.preferedPattern);
+    game.level = await Difficulty.regenerateLevel(user.freePlayDifficulty, 400, user.preferedPattern);
 
     await gameRef.doc(game.id).set(game.toJson(), SetOptions(merge: true));
 
@@ -137,11 +118,7 @@ class MultiplayerProvider {
     var doc = await firestore.collection('games').doc(gameId).get();
 
     if (doc.exists) {
-      if (doc.data()['players'].length <= 1 ||
-          doc
-                  .data()['players']
-                  .indexWhere((element) => element['id'] != user.id) !=
-              -1) {
+      if (doc.data()['players'].length <= 1 || doc.data()['players'].indexWhere((element) => element['id'] != user.id) != -1) {
         return true;
       } else {
         return false;
@@ -152,13 +129,11 @@ class MultiplayerProvider {
   }
 
   Future<MultiplayerGame> getGame(String gameId) async {
-    return MultiplayerGame.fromJson(
-        (await firestore.collection('games').doc(gameId).get()).data());
+    return MultiplayerGame.fromJson((await firestore.collection('games').doc(gameId).get()).data());
   }
 
   Future<MultiplayerGame> joinGame(String gameId, Users user) async {
-    MultiplayerGame game = MultiplayerGame.fromJson(
-        (await firestore.collection('games').doc(gameId).get()).data());
+    MultiplayerGame game = MultiplayerGame.fromJson((await firestore.collection('games').doc(gameId).get()).data());
 
     if (game.players.indexWhere((element) => element.id == user.id) == -1) {
       await firestore.collection('games').doc(gameId).update({
@@ -166,8 +141,7 @@ class MultiplayerProvider {
       });
     }
 
-    return MultiplayerGame.fromJson(
-        (await firestore.collection('games').doc(gameId).get()).data());
+    return MultiplayerGame.fromJson((await firestore.collection('games').doc(gameId).get()).data());
   }
 
   Future<void> leaveGame(MultiplayerGame game, Users user) async {
@@ -187,10 +161,7 @@ class MultiplayerProvider {
 
   Future<void> updateGameSettings(MultiplayerGame currentGame) async {
     // make a transaction
-    await firestore
-        .collection('games')
-        .doc(currentGame.id)
-        .set(currentGame.toJson(), SetOptions(merge: true));
+    await firestore.collection('games').doc(currentGame.id).set(currentGame.toJson(), SetOptions(merge: true));
   }
 
   Future<void> updateOngoingGames(Users user) async {
@@ -198,16 +169,12 @@ class MultiplayerProvider {
       res.docs.forEach((game) async {
         MultiplayerGame tempGame = MultiplayerGame.fromJson(game.data());
 
-        int index =
-            tempGame.players.indexWhere((element) => element.id == user.id);
+        int index = tempGame.players.indexWhere((element) => element.id == user.id);
 
         if (index != -1) {
           tempGame.players[index] = user;
 
-          await firestore
-              .collection('games')
-              .doc(game.data()['id'])
-              .set(tempGame.toJson(), SetOptions(merge: true));
+          await firestore.collection('games').doc(game.data()['id']).set(tempGame.toJson(), SetOptions(merge: true));
         }
       });
     });

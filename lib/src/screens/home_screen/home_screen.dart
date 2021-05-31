@@ -242,15 +242,19 @@ abstract class HomeScreenState extends State<HomeScreen> with TickerProviderStat
     ));
   }
 
-  void startGame() {
-    if (this.user.hasCompletedIntro) {
-      if (this.user.hasCompletedGame) {
-        this.goToFreePlayGameScreen();
+  void startGame() async {
+    if (await this.connectivityProvider.isConnected()) {
+      if (this.user.hasCompletedIntro) {
+        if (this.user.hasCompletedGame) {
+          this.goToFreePlayGameScreen();
+        } else {
+          this.goToSinglePlayerGameScreen();
+        }
       } else {
-        this.goToSinglePlayerGameScreen();
+        this.goToIntroductionScreen();
       }
     } else {
-      this.goToIntroductionScreen();
+      this.showNoInternetSnackBar();
     }
   }
 

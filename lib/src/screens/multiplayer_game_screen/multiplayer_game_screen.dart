@@ -29,12 +29,15 @@ class MultiplayerGameScreenScreen extends StatefulWidget {
 abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScreenScreen> with TickerProviderStateMixin {
   Users user;
   MultiplayerGame currentGame;
+  MultiplayerGame currentCompetitiveGame;
 
   String hostName;
   String partnerName;
+  String competitiveGameWonBy;
 
   bool isDark;
   bool isHost;
+  bool isCompetitiveGame;
   AppTheme appTheme;
 
   ThemeProvider themeProvider = ThemeProvider();
@@ -59,6 +62,7 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
     this.partnerName = this.currentGame.players.indexWhere((element) => element.id != this.user.id) == -1
         ? this.user.username
         : this.currentGame.players[this.currentGame.players.indexWhere((element) => element.id != this.user.id)].username;
+    this.isCompetitiveGame = this.currentGame.isCompetitive;
     this.getTheme();
     this.startGameIfHostOnInit();
     this.loadSavedGame();
@@ -120,16 +124,33 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
 
     if (snapshot.data.docs.length > 0) {
       this.currentGame = MultiplayerGame.fromJson(snapshot.data.docs[0].data());
+
+      // if competitive
+      if (this.currentGame.isCompetitive && this.currentGame.elapsedTime == null) {
+        this.currentCompetitiveGame = this.currentGame;
+        if (isHost) {
+          this.currentGame.elapsedTime = 1;
+          this.multiplayerProvider.updateGameSettings(this.currentGame);
+        }
+      }
+
       // check if board is solved
       if (this.isPuzzleSolved()) {
         this.currentGame.elapsedTime = this.elapsedTime;
         if (!this.currentGame.hasFinished) {
+          this.currentGame.hasFinished = true;
+          if (isHost) {
+            this.multiplayerProvider.updateGameSettings(this.currentGame);
+          }
+          this.competitiveGameWonBy = this.currentGame.lastPlayer;
           this.updateUserAfterGame();
         }
         this.stopStopWatchTimer();
         this.currentGame.hasFinished = true;
       } else {
         if (this.currentGame.elapsedTime == null) {
+          this.isCompetitiveGame = this.currentGame.isCompetitive;
+          this.selectedIndex = null;
           this.stopStopWatchTimer();
           this.resetStopWatchTimer();
           this.startStopWatchTimer();
@@ -249,8 +270,7 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
     if (this.selectedIndex != null) {
       // if cell is not empty
       if (!this.isCellEmpty(value)) {
-        // if cell is not selected but has same value
-        // as selected cell
+        // if cell is not selected but has same value as selected cell
         if (this.currentGame.level.board[this.selectedIndex] == value && this.selectedIndex != index) {
           return Difficulty.isConflicting(this.selectedIndex, index, user.hasTrainingWheels) ? this.appTheme.partnerColor : this.appTheme.themeColor[100];
         }
@@ -349,10 +369,16 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
       if (this.currentGame.level.board[this.selectedIndex] != value) {
         setState(() {
           this.currentGame.level.board[this.selectedIndex] = value;
+          if (this.currentCompetitiveGame != null) {
+            this.currentCompetitiveGame.level.board[this.selectedIndex] = value;
+          }
         });
       } else {
         setState(() {
           this.currentGame.level.board[this.selectedIndex] = 0;
+          if (this.currentCompetitiveGame != null) {
+            this.currentCompetitiveGame.level.board[this.selectedIndex] = 0;
+          }
         });
       }
 
@@ -362,12 +388,10 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
   }
 
   void updateUserStateDuringGame() async {
-    if (this.currentGame.isCooperative) {
-      this.currentGame.elapsedTime = this.elapsedTime;
-      this.currentGame.lastPlayedOn = DateTime.now().toString();
-      this.currentGame.lastPlayer = this.user.id;
-      this.multiplayerProvider.updateGameSettings(this.currentGame);
-    }
+    this.currentGame.elapsedTime = this.elapsedTime;
+    this.currentGame.lastPlayedOn = DateTime.now().toString();
+    this.currentGame.lastPlayer = this.user.id;
+    this.multiplayerProvider.updateGameSettings(this.currentGame);
   }
 
   bool isPuzzleSolved() {
@@ -390,11 +414,11 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
       }
     }
 
-    if (isPuzzleComplete && isPuzzleCorrect) {
-      return true;
-    } else {
-      return false;
+    if (isPuzzleComplete && !isPuzzleCorrect) {
+      // taunt()
     }
+
+    return isPuzzleComplete && isPuzzleCorrect;
   }
 
   Future<void> regenerateBoard() async {
@@ -455,21 +479,21 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
         isSinglePlayer: false,
         level: 400,
         timeTaken: this.elapsedTime,
-        wonGame: true);
+        wonGame: this.competitiveGameWonBy == this.user.id);
 
     if (mpStats.length <= 1 || newStats != mpStats[mpStats.length - 1]) {
       if (mpStats.length < 100) {
         this.user.stats.add(newStats);
-        print('heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy 1');
       } else if (mpStats.length == 100) {
-        print('heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy 2');
         mpStats.removeAt(0);
         mpStats.add(newStats);
         this.user.stats = [...mpStats];
       }
 
       // update user fields
-      this.user.score += 1;
+      if (this.competitiveGameWonBy == this.user.id) {
+        this.user.score += 1;
+      }
       // update user
       await this.userStateUpdateProvider.updateUser(this.user);
     }

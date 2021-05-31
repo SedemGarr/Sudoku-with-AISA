@@ -263,11 +263,11 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
       }
     }
 
-    if (isPuzzleComplete && isPuzzleCorrect) {
-      return true;
-    } else {
-      return false;
+    if (isPuzzleComplete && !isPuzzleCorrect) {
+      // taunt()
     }
+
+    return isPuzzleComplete && isPuzzleCorrect;
   }
 
   void clearSelectedIndex() {

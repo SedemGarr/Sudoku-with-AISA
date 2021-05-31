@@ -86,7 +86,11 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                 crossAxisCount: 9,
               ),
               itemBuilder: (BuildContext context, int index) {
-                int value = currentGame.level.board[index];
+                int value = currentGame.isCompetitive
+                    ? currentCompetitiveGame == null
+                        ? currentGame.level.board[index]
+                        : currentCompetitiveGame.level.board[index]
+                    : currentGame.level.board[index];
                 return GestureDetector(
                   onTap: filledCells.contains(index)
                       ? () {}
@@ -263,16 +267,27 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('congratulations!',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.lato(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: appTheme.themeColor,
-                        )),
-                  ),
+                  isCompetitiveGame
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(competitiveGameWonBy == user.id ? 'congratulations!' : 'oops!',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.lato(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: appTheme.themeColor,
+                              )),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('congratulations!',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.lato(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: appTheme.themeColor,
+                              )),
+                        ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
@@ -280,17 +295,29 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                       style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      height: isHost ? MediaQuery.of(context).size.height * 1 / 6 : MediaQuery.of(context).size.height * 1 / 3,
-                      child: Icon(
-                        LineIcons.checkCircle,
-                        color: appTheme.themeColor,
-                        size: isHost ? MediaQuery.of(context).size.width * 0.25 : MediaQuery.of(context).size.width * 0.55,
-                      ),
-                    ),
-                  ),
+                  isCompetitiveGame
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: isHost ? MediaQuery.of(context).size.height * 1 / 6 : MediaQuery.of(context).size.height * 1 / 3,
+                            child: Icon(
+                              competitiveGameWonBy == user.id ? LineIcons.grinningFaceWithSmilingEyes : LineIcons.loudlyCryingFaceAlt,
+                              color: appTheme.themeColor,
+                              size: isHost ? MediaQuery.of(context).size.width * 0.25 : MediaQuery.of(context).size.width * 0.55,
+                            ),
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: isHost ? MediaQuery.of(context).size.height * 1 / 6 : MediaQuery.of(context).size.height * 1 / 3,
+                            child: Icon(
+                              LineIcons.checkCircle,
+                              color: appTheme.themeColor,
+                              size: isHost ? MediaQuery.of(context).size.width * 0.25 : MediaQuery.of(context).size.width * 0.55,
+                            ),
+                          ),
+                        ),
                   isHost ? Container() : Padding(padding: const EdgeInsets.all(8.0), child: CircularProgressIndicator()),
                   Padding(
                     padding: const EdgeInsets.all(8.0),

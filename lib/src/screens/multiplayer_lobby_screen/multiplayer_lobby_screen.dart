@@ -344,7 +344,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
         return MultiplayerGameScreenScreen(
           currentGame: this.currentGame,
           user: this.user,
-          isSavedGame: this.currentGame.elapsedTime != null,
+          isSavedGame: this.currentGame.lastPlayer != null,
         );
       },
     ));
@@ -465,38 +465,6 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
         onNo: () {
           Navigator.pop(context);
         });
-
-    // return showDialog(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return AlertDialog(
-    //         backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
-    //         title: Text('join this game with ${invite.inviter.username}?', textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
-    //         actions: [
-    //           Column(
-    //             crossAxisAlignment: CrossAxisAlignment.end,
-    //             children: [
-    //               TextButton(
-    //                   onPressed: () {
-    //                     Navigator.pop(context);
-    //                   },
-    //                   child: Text('on second thought, nah', textAlign: TextAlign.end, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900]))),
-    //               TextButton(
-    //                 onPressed: () {
-    //                   Navigator.pop(context);
-    //                   this.acceptInvite(invite);
-    //                 },
-    //                 child: Text(
-    //                   'let\'s go!',
-    //                   textAlign: TextAlign.end,
-    //                   style: GoogleFonts.lato(color: appTheme.themeColor),
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ],
-    //       );
-    //     });
   }
 
   showRefuseInviteDialog(Invite invite, BuildContext context) {
@@ -515,38 +483,6 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
         onNo: () {
           Navigator.pop(context);
         });
-
-    // return showDialog(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return AlertDialog(
-    //         backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
-    //         title: Text('refuse ${invite.inviter.username}\'s invite?', textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
-    //         actions: [
-    //           Column(
-    //             crossAxisAlignment: CrossAxisAlignment.end,
-    //             children: [
-    //               TextButton(
-    //                   onPressed: () {
-    //                     Navigator.pop(context);
-    //                   },
-    //                   child: Text('oops!', textAlign: TextAlign.end, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900]))),
-    //               TextButton(
-    //                 onPressed: () {
-    //                   Navigator.pop(context);
-    //                   this.refuseInvite(invite, false);
-    //                 },
-    //                 child: Text(
-    //                   'yep. not interested',
-    //                   textAlign: TextAlign.end,
-    //                   style: GoogleFonts.lato(color: appTheme.themeColor),
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ],
-    //       );
-    //     });
   }
 
   showInviteFriendsDialog(BuildContext context) {
@@ -708,43 +644,6 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
         onNo: () {
           Navigator.pop(context);
         });
-
-    // return showDialog(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return AlertDialog(
-    //         backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
-    //         title: Text(
-    //             game.players.indexWhere((element) => element.id != user.id) == -1
-    //                 ? 'rejoing this game?'
-    //                 : 'rejoin this game with ' + game.players[game.players.indexWhere((element) => element.id != user.id)].username + '?',
-    //             textAlign: TextAlign.center,
-    //             style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
-    //         actions: [
-    //           Column(
-    //             crossAxisAlignment: CrossAxisAlignment.end,
-    //             children: [
-    //               TextButton(
-    //                   onPressed: () {
-    //                     Navigator.pop(context);
-    //                   },
-    //                   child: Text('oops!', textAlign: TextAlign.end, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900]))),
-    //               TextButton(
-    //                 onPressed: () {
-    //                   Navigator.pop(context);
-    //                   this.joinGameFromList(game);
-    //                 },
-    //                 child: Text(
-    //                   'yes please',
-    //                   textAlign: TextAlign.end,
-    //                   style: GoogleFonts.lato(color: appTheme.themeColor),
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ],
-    //       );
-    //     });
   }
 
   showDeleteGameDialog(MultiplayerGame game, BuildContext context) {
@@ -765,43 +664,6 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
         onNo: () {
           Navigator.pop(context);
         });
-
-    // return showDialog(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return AlertDialog(
-    //         backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
-    //         title: Text(
-    //             game.players.indexWhere((element) => element.id != user.id) == -1
-    //                 ? 'end game?'
-    //                 : 'end this game with ' + game.players[game.players.indexWhere((element) => element.id != user.id)].username + '?',
-    //             textAlign: TextAlign.center,
-    //             style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
-    //         actions: [
-    //           Column(
-    //             crossAxisAlignment: CrossAxisAlignment.end,
-    //             children: [
-    //               TextButton(
-    //                   onPressed: () {
-    //                     Navigator.pop(context);
-    //                   },
-    //                   child: Text('oops!', textAlign: TextAlign.end, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900]))),
-    //               TextButton(
-    //                 onPressed: () {
-    //                   Navigator.pop(context);
-    //                   this.multiplayerProvider.deleteGame(game.id);
-    //                 },
-    //                 child: Text(
-    //                   'mmhm, end it',
-    //                   textAlign: TextAlign.end,
-    //                   style: GoogleFonts.lato(color: appTheme.themeColor),
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ],
-    //       );
-    //     });
   }
 
   showLeaveGameDialog(MultiplayerGame game, BuildContext context) {
@@ -820,38 +682,5 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
         onNo: () {
           Navigator.pop(context);
         });
-
-    // return showDialog(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return AlertDialog(
-    //         backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
-    //         title: Text('leave this game with ' + game.players[game.players.indexWhere((element) => element.id != user.id)].username + '?',
-    //             textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
-    //         actions: [
-    //           Column(
-    //             crossAxisAlignment: CrossAxisAlignment.end,
-    //             children: [
-    //               TextButton(
-    //                   onPressed: () {
-    //                     Navigator.pop(context);
-    //                   },
-    //                   child: Text('oops!', textAlign: TextAlign.end, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900]))),
-    //               TextButton(
-    //                 onPressed: () {
-    //                   Navigator.pop(context);
-    //                   this.multiplayerProvider.leaveGame(game, this.user);
-    //                 },
-    //                 child: Text(
-    //                   'yes, I want to leave',
-    //                   textAlign: TextAlign.end,
-    //                   style: GoogleFonts.lato(color: appTheme.themeColor),
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ],
-    //       );
-    //     });
   }
 }
