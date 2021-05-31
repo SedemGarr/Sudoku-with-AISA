@@ -150,14 +150,17 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
 
   void setFreePlaydifficultyToRandom() async {
     setState(() {
-      if (user.freePlayDifficulty != 10) {
-        freePlayDifficulty = 10;
-        user.freePlayDifficulty = 10;
+      if (this.user.freePlayDifficulty != 6) {
+        this.freePlayDifficulty = 6;
+        this.user.freePlayDifficulty = 6;
       } else {
-        freePlayDifficulty = 0;
-        user.freePlayDifficulty = 0;
+        this.freePlayDifficulty = 0;
+        this.user.freePlayDifficulty = 0;
       }
     });
+
+    print(this.freePlayDifficulty);
+
     this.userStateUpdateProvider.updateUser(this.user);
   }
 
@@ -243,38 +246,6 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
         onNo: () {
           Navigator.pop(context);
         });
-
-    // return showDialog(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return AlertDialog(
-    //         backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
-    //         title: Text('are you sure?', textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
-    //         actions: [
-    //           Column(
-    //             crossAxisAlignment: CrossAxisAlignment.end,
-    //             children: [
-    //               TextButton(
-    //                   onPressed: () {
-    //                     Navigator.pop(context);
-    //                   },
-    //                   child: Text('oops!', textAlign: TextAlign.end, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900]))),
-    //               TextButton(
-    //                 onPressed: () {
-    //                   Navigator.pop(context);
-    //                   this.resetProgress();
-    //                 },
-    //                 child: Text(
-    //                   'yep, I love the pain',
-    //                   textAlign: TextAlign.end,
-    //                   style: GoogleFonts.lato(color: appTheme.themeColor),
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ],
-    //       );
-    //     });
   }
 
   void resetProgress() async {

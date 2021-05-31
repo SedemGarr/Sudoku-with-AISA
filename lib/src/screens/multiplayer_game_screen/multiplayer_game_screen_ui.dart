@@ -541,14 +541,14 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                                   children: [
                                     Expanded(
                                       child: Slider(
-                                          label: currentGame.difficulty.toString(),
-                                          value: currentGame.difficulty == 10 ? 0.0 : currentGame.difficulty.toDouble(),
+                                          label: (currentGame.difficulty + 1).toString(),
+                                          value: currentGame.difficulty == 6 ? 0.0 : currentGame.difficulty.toDouble(),
                                           min: 0,
                                           max: 5,
                                           divisions: 5,
                                           activeColor: appTheme.themeColor,
                                           inactiveColor: appTheme.themeColor[200],
-                                          onChanged: user.freePlayDifficulty == 10
+                                          onChanged: user.freePlayDifficulty == 6
                                               ? null
                                               : (value) {
                                                   setFreePlaydifficulty(value);
@@ -567,7 +567,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                                           Checkbox(
                                             focusColor: appTheme.themeColor,
                                             hoverColor: appTheme.themeColor,
-                                            value: currentGame.difficulty == 10,
+                                            value: currentGame.difficulty == 6,
                                             onChanged: (value) {
                                               setFreePlaydifficultyToRandom();
                                             },

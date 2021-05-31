@@ -272,7 +272,7 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
       if (!this.isCellEmpty(value)) {
         // if cell is not selected but has same value as selected cell
         if (this.currentGame.level.board[this.selectedIndex] == value && this.selectedIndex != index) {
-          return Difficulty.isConflicting(this.selectedIndex, index, user.hasTrainingWheels) ? this.appTheme.partnerColor : this.appTheme.themeColor[100];
+          return Difficulty.isConflicting(this.selectedIndex, index, this.user.hasTrainingWheels) ? this.appTheme.partnerColor : this.appTheme.themeColor[100];
         }
         // if cell is selected
         if (this.selectedIndex == index) {
@@ -668,8 +668,8 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
 
   void setFreePlaydifficultyToRandom() async {
     setState(() {
-      if (this.currentGame.difficulty != 10) {
-        this.currentGame.difficulty = 10;
+      if (this.currentGame.difficulty != 6) {
+        this.currentGame.difficulty = 6;
       } else {
         this.currentGame.difficulty = 0;
       }

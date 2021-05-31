@@ -160,7 +160,7 @@ class SettingsScreenView extends SettingsScreenState {
             style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
           ),
           subtitle: Text(
-            hasTrainingWheels ? 'obvious errors aren\'t highlighted' : 'obvious errors are highlighted',
+            hasTrainingWheels ? 'obvious errors are highlighted' : 'obvious errors aren\'t highlighted',
             style: GoogleFonts.lato(
               color: appTheme.themeColor,
             ),
@@ -249,14 +249,14 @@ class SettingsScreenView extends SettingsScreenState {
                     children: [
                       Expanded(
                         child: Slider(
-                            label: freePlayDifficulty.toString(),
-                            value: freePlayDifficulty == 10 ? 0.0 : freePlayDifficulty.toDouble(),
+                            label: (freePlayDifficulty + 1).toString(),
+                            value: freePlayDifficulty == 6 ? 0.0 : freePlayDifficulty.toDouble(),
                             min: 0,
                             max: 5,
                             divisions: 5,
                             activeColor: appTheme.themeColor,
                             inactiveColor: appTheme.themeColor[200],
-                            onChanged: user.freePlayDifficulty == 10
+                            onChanged: user.freePlayDifficulty == 6
                                 ? null
                                 : (value) {
                                     setFreePlaydifficulty(value);
@@ -275,7 +275,7 @@ class SettingsScreenView extends SettingsScreenState {
                             Checkbox(
                               focusColor: appTheme.themeColor,
                               hoverColor: appTheme.themeColor,
-                              value: freePlayDifficulty == 10,
+                              value: freePlayDifficulty == 6,
                               onChanged: (value) {
                                 setFreePlaydifficultyToRandom();
                               },
