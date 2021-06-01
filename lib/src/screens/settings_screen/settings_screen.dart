@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_circle_color_picker/flutter_circle_color_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sudoku/src/components/choice_dialog.dart';
 import 'package:sudoku/src/providers/authentication_provider.dart';
 import 'package:sudoku/src/providers/connectivity_provider.dart';
 import 'package:sudoku/src/providers/local_storage_provider.dart';
 import 'package:sudoku/src/providers/multiplayer_provider.dart';
+import 'package:sudoku/src/providers/theme_provider.dart';
 import 'package:sudoku/src/providers/user_state_update_provider.dart';
 import 'package:sudoku/src/providers/database_provider.dart';
 import 'package:sudoku/src/screens/splash_screen/splash_screen.dart';
@@ -40,6 +42,7 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
   bool usesLargeFont;
   bool isEditing;
   bool isLoading;
+  bool isChoosingCustomColor;
 
   List<String> helpDialogs = [
     'creature of the night?\n\ntoggle this to switch between light and dark modes. we really don\'t know why you\'d want to use a light theme though. but hey, you do you',
@@ -68,7 +71,10 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
   AuthenticationProvider authenticationProvider = AuthenticationProvider();
   UserStateUpdateProvider userStateUpdateProvider = UserStateUpdateProvider();
   DatabaseProvider databaseProvider = DatabaseProvider();
+  ThemeProvider themeProvider = ThemeProvider();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  CircleColorPickerController circleColorPickerThemeColorController;
+  CircleColorPickerController circleColorPickerPartnerColorController;
 
   initVariables() {
     this.user = widget.user;
@@ -82,12 +88,26 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
     this.preferedPattern = this.user.preferedPattern;
     this.freePlayDifficulty = this.user.freePlayDifficulty;
     this.isLoading = false;
+    this.isChoosingCustomColor = false;
   }
 
   @override
   void initState() {
     initVariables();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    this.circleColorPickerThemeColorController.dispose();
+    this.circleColorPickerPartnerColorController.dispose();
+    super.dispose();
+  }
+
+  void getTheme() {
+    setState(() {
+      this.appTheme = this.themeProvider.getCurrentAppTheme(this.user);
+    });
   }
 
   // profile
@@ -188,7 +208,42 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
       this.appTheme = theme;
     });
     this.user.selectedTheme = AppTheme.themes.indexWhere((element) => element.themeColor == theme.themeColor);
+    this.user.hasCustomColor = false;
+    this.user.customPartnerColor = null;
+    this.user.customThemeColor = null;
     this.userStateUpdateProvider.updateUser(this.user);
+  }
+
+  void setCustomThemeColor(Color colors) async {
+    setState(() {
+      appTheme.themeColor = this.themeProvider.processColor(colors);
+    });
+    // update user
+    this.user.hasCustomColor = true;
+    this.user.customThemeColor = int.parse(colors.toString().replaceAll('Color', '').replaceAll('(', '').replaceAll(')', ''));
+    this.userStateUpdateProvider.updateUser(this.user);
+  }
+
+  void setCustomPartnerColor(Color colors) async {
+    setState(() {
+      appTheme.partnerColor = this.themeProvider.processColor(colors);
+    });
+    // update user
+    this.user.hasCustomColor = true;
+    this.user.customPartnerColor = int.parse(colors.toString().replaceAll('Color', '').replaceAll('(', '').replaceAll(')', ''));
+    this.userStateUpdateProvider.updateUser(this.user);
+  }
+
+  void toggleCustomTheme() {
+    setState(() {
+      isChoosingCustomColor = !isChoosingCustomColor;
+      if (!isChoosingCustomColor) {
+        this.getTheme();
+      } else {
+        this.circleColorPickerThemeColorController = CircleColorPickerController(initialColor: appTheme.themeColor);
+        this.circleColorPickerPartnerColorController = CircleColorPickerController(initialColor: appTheme.partnerColor);
+      }
+    });
   }
 
   Future<void> setBoardPatterns(String pattern) async {
@@ -269,38 +324,6 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
         onNo: () {
           Navigator.pop(context);
         });
-
-    // return showDialog(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return AlertDialog(
-    //         backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
-    //         title: Text('are you sure?', textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
-    //         actions: [
-    //           Column(
-    //             crossAxisAlignment: CrossAxisAlignment.end,
-    //             children: [
-    //               TextButton(
-    //                   onPressed: () {
-    //                     Navigator.pop(context);
-    //                   },
-    //                   child: Text('oops!', textAlign: TextAlign.end, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900]))),
-    //               TextButton(
-    //                 onPressed: () {
-    //                   Navigator.pop(context);
-    //                   this.deleteAccount();
-    //                 },
-    //                 child: Text(
-    //                   'my mind is made up',
-    //                   textAlign: TextAlign.end,
-    //                   style: GoogleFonts.lato(color: appTheme.themeColor),
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ],
-    //       );
-    //     });
   }
 
   void deleteAccount() async {
@@ -478,16 +501,6 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
       isLoading = !isLoading;
     });
   }
-
-  // void goToEditProfileScreen() {
-  //   Navigator.of(context).pushReplacement(MaterialPageRoute(
-  //     builder: (BuildContext context) {
-  //       return EditProfileScreen(
-  //         user: this.user,
-  //       );
-  //     },
-  //   ));
-  // }
 
   void goToSplashScreen() {
     Navigator.of(context).pushReplacement(MaterialPageRoute(

@@ -23,26 +23,16 @@ class DatabaseProvider {
   }
 
   Future<Users> getUser(String id) async {
-    return Users.fromJson(
-        (await firestore.collection('user-data').doc(id).get()).data());
+    return Users.fromJson((await firestore.collection('user-data').doc(id).get()).data());
   }
 
   Future<bool> createFriendRequest(Users friend, Users user) async {
     var reqRef = firestore.collection("requests");
 
-    Request request = Request(
-        id: reqRef.doc().id,
-        createdOn: DateTime.now().toString(),
-        requestee: friend,
-        requesteeId: friend.id,
-        requesterId: user.id,
-        requester: user);
+    Request request = Request(id: reqRef.doc().id, createdOn: DateTime.now().toString(), requestee: friend, requesteeId: friend.id, requesterId: user.id, requester: user);
 
     //  check if friend has already sent request
-    var querySnapshot = await firestore
-        .collection('requests')
-        .where("requesterId", isEqualTo: friend.id)
-        .get();
+    var querySnapshot = await firestore.collection('requests').where("requesterId", isEqualTo: friend.id).get();
 
     querySnapshot.docs.forEach((result) {
       if (Request.fromJson(result.data()).requestee.id == user.id) {
@@ -55,12 +45,9 @@ class DatabaseProvider {
     return true;
   }
 
-  Future<void> acceptRequest(
-      Request request, String friendId, String userId) async {
-    Users friend = Users.fromJson(
-        (await firestore.collection('user-data').doc(friendId).get()).data());
-    Users user = Users.fromJson(
-        (await firestore.collection('user-data').doc(userId).get()).data());
+  Future<void> acceptRequest(Request request, String friendId, String userId) async {
+    Users friend = Users.fromJson((await firestore.collection('user-data').doc(friendId).get()).data());
+    Users user = Users.fromJson((await firestore.collection('user-data').doc(userId).get()).data());
 
     List friendFriends = [];
     List userFriends = [];
@@ -78,15 +65,9 @@ class DatabaseProvider {
 
     await denyRequest(request);
 
-    await firestore
-        .collection('user-data')
-        .doc(friendId)
-        .update({"friends": FieldValue.arrayUnion(friendFriends)});
+    await firestore.collection('user-data').doc(friendId).update({"friends": FieldValue.arrayUnion(friendFriends)});
 
-    await firestore
-        .collection('user-data')
-        .doc(userId)
-        .update({"friends": FieldValue.arrayUnion(userFriends)});
+    await firestore.collection('user-data').doc(userId).update({"friends": FieldValue.arrayUnion(userFriends)});
 
     LocalStorageProvider localStorageProvider = LocalStorageProvider();
     await localStorageProvider.setUser(user);
@@ -97,25 +78,15 @@ class DatabaseProvider {
   }
 
   Future<void> unfriend(String friendId, String userId) async {
-    Users friend = Users.fromJson(
-        (await firestore.collection('user-data').doc(friendId).get()).data());
-    Users user = Users.fromJson(
-        (await firestore.collection('user-data').doc(userId).get()).data());
+    Users friend = Users.fromJson((await firestore.collection('user-data').doc(friendId).get()).data());
+    Users user = Users.fromJson((await firestore.collection('user-data').doc(userId).get()).data());
 
-    friend.friends
-        .removeAt(friend.friends.indexWhere((element) => element.id == userId));
-    user.friends
-        .removeAt(user.friends.indexWhere((element) => element.id == friendId));
+    friend.friends.removeAt(friend.friends.indexWhere((element) => element.id == userId));
+    user.friends.removeAt(user.friends.indexWhere((element) => element.id == friendId));
 
-    await firestore
-        .collection('user-data')
-        .doc(friendId)
-        .set(friend.toJson(), SetOptions(merge: true));
+    await firestore.collection('user-data').doc(friendId).set(friend.toJson(), SetOptions(merge: true));
 
-    await firestore
-        .collection('user-data')
-        .doc(userId)
-        .set(user.toJson(), SetOptions(merge: true));
+    await firestore.collection('user-data').doc(userId).set(user.toJson(), SetOptions(merge: true));
 
     LocalStorageProvider localStorageProvider = LocalStorageProvider();
     await localStorageProvider.setUser(user);
@@ -138,6 +109,9 @@ class DatabaseProvider {
       // create user
       user = Users(
           freePlayDifficulty: 0,
+          hasCustomColor: false,
+          customPartnerColor: null,
+          customThemeColor: null,
           preferedPattern: 'Random',
           id: uid,
           username: username,
@@ -162,10 +136,7 @@ class DatabaseProvider {
           savedSolvedBoard: [],
           score: 0);
       // push to firestore
-      await firestore
-          .collection('user-data')
-          .doc(uid)
-          .set(user.toJson(), SetOptions(merge: true));
+      await firestore.collection('user-data').doc(uid).set(user.toJson(), SetOptions(merge: true));
       // save user locally
       LocalStorageProvider localStorageProvider = LocalStorageProvider();
       await localStorageProvider.setUser(user);
@@ -174,24 +145,19 @@ class DatabaseProvider {
   }
 
   Future<void> updateUserData(Users user) async {
-    await firestore
-        .collection('user-data')
-        .doc(user.id)
-        .set(user.toJson(), SetOptions(merge: true));
+    await firestore.collection('user-data').doc(user.id).set(user.toJson(), SetOptions(merge: true));
   }
 
   Future<Users> updateProfilePhoto(Users user, File image) async {
     if (user.profileUrl != '' && user.profilePath != '') {
       Reference oldStorageReference;
-      oldStorageReference =
-          FirebaseStorage.instance.ref().child(user.profilePath);
+      oldStorageReference = FirebaseStorage.instance.ref().child(user.profilePath);
       await oldStorageReference.delete();
     }
 
     String storagePath = 'images/avatars/' + Path.basename(image.path);
 
-    Reference storageReference =
-        FirebaseStorage.instance.ref().child(storagePath);
+    Reference storageReference = FirebaseStorage.instance.ref().child(storagePath);
 
     await storageReference.putFile(image);
 
@@ -217,8 +183,7 @@ class DatabaseProvider {
   Future deleteProfilePhoto(Users user) async {
     if (user.profilePath != '') {
       Reference oldStorageReference;
-      oldStorageReference =
-          FirebaseStorage.instance.ref().child(user.profilePath);
+      oldStorageReference = FirebaseStorage.instance.ref().child(user.profilePath);
       await oldStorageReference.delete();
     }
     user.profileUrl = '';
@@ -253,16 +218,12 @@ class DatabaseProvider {
     user.difficultyLevel = 0;
     user.level = 0;
     user.hasCompletedIntro = false;
-    user.stats =
-        user.stats.where((element) => !element.isSinglePlayer).toList();
+    user.stats = user.stats.where((element) => !element.isSinglePlayer).toList();
     await userStateUpdateProvider.updateUser(user);
     await multiplayerProvider.updateOngoingGames(user);
   }
 
   Stream getLeaderboard() {
-    return firestore
-        .collection('user-data')
-        .orderBy('score', descending: true)
-        .snapshots();
+    return firestore.collection('user-data').orderBy('score', descending: true).snapshots();
   }
 }

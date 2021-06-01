@@ -1,5 +1,6 @@
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_circle_color_picker/flutter_circle_color_picker.dart';
 import 'package:sudoku/src/components/loading_widget.dart';
 import 'package:sudoku/src/models/theme.dart';
 import 'settings_screen.dart';
@@ -41,6 +42,57 @@ class SettingsScreenView extends SettingsScreenState {
           children: listOfThemeWidgets,
         ),
       ],
+    );
+  }
+
+  Widget buildCustomThemeColorWidget() {
+    return Container(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Text('primary', style: GoogleFonts.lato(color: appTheme.themeColor)),
+            CircleColorPicker(
+              textStyle: GoogleFonts.lato(color: appTheme.themeColor, fontSize: 24, fontWeight: FontWeight.bold),
+              onChanged: (colors) {},
+              controller: circleColorPickerThemeColorController,
+              onEnded: (colors) {
+                setCustomThemeColor(colors);
+              },
+              size: const Size(240, 240),
+              strokeWidth: 4,
+              thumbSize: 28,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildCustomPartnerColorWidget() {
+    return Container(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Text(
+              'secondary',
+              style: GoogleFonts.lato(color: appTheme.themeColor),
+            ),
+            CircleColorPicker(
+              textStyle: GoogleFonts.lato(color: appTheme.themeColor, fontSize: 24, fontWeight: FontWeight.bold),
+              onChanged: (colors) {},
+              controller: circleColorPickerPartnerColorController,
+              onEnded: (colors) {
+                setCustomPartnerColor(colors);
+              },
+              size: const Size(240, 240),
+              strokeWidth: 4,
+              thumbSize: 28,
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -121,10 +173,25 @@ class SettingsScreenView extends SettingsScreenState {
                   ),
                 ),
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: buildThemeSelectorRow(),
-                  )
+                  isChoosingCustomColor
+                      ? Container()
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: buildThemeSelectorRow(),
+                        ),
+                  isChoosingCustomColor
+                      ? Column(
+                          children: [buildCustomThemeColorWidget(), buildCustomPartnerColorWidget()],
+                        )
+                      : Container(),
+                  TextButton(
+                      onPressed: () {
+                        toggleCustomTheme();
+                      },
+                      child: Text(
+                        isChoosingCustomColor ? 'choose a preset' : 'choose your own color',
+                        style: GoogleFonts.lato(fontWeight: FontWeight.bold, color: appTheme.themeColor),
+                      ))
                 ],
               )
             : Container()

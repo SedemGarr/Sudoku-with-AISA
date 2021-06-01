@@ -120,31 +120,7 @@ abstract class HomeScreenState extends State<HomeScreen> with TickerProviderStat
   void processLeaderboardStreamData(AsyncSnapshot snapshot) {
     this.leaderboard = [];
     snapshot.data.docs.forEach((user) {
-      this.leaderboard.add(Users(
-          freePlayDifficulty: user['freePlayDifficulty'],
-          preferedPattern: user['preferedPattern'],
-          audioEnabled: user['audioEnabled'],
-          profileUrl: user['profileUrl'],
-          tokens: user['tokens'],
-          backupBoard: user['backupBoard'],
-          elapsedTime: user['elapsedTime'],
-          hasCompletedGame: user['hasCompletedGame'],
-          profilePath: user['profilePath'],
-          friends: user['friends'],
-          hasCompletedIntro: user['hasCompletedIntro'],
-          isDark: user['isDark'],
-          enableWakelock: user['enableWakelock'],
-          isFriendly: user['isFriendly'],
-          selectedTheme: user['selectedTheme'],
-          difficultyLevel: user['difficultyLevel'],
-          hasTrainingWheels: user['hasTrainingWheels'],
-          id: user['id'],
-          level: user['level'],
-          savedBoard: user['savedBoard'],
-          savedSolvedBoard: user['savedSolvedBoard'],
-          score: user['score'],
-          stats: user['stats'],
-          username: user['username']));
+      this.leaderboard.add(Users.fromJson(user.data()));
     });
   }
 
@@ -316,37 +292,6 @@ abstract class HomeScreenState extends State<HomeScreen> with TickerProviderStat
         onNo: () {
           Navigator.pop(context);
         });
-
-    // showDialog(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return AlertDialog(
-    //         backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
-    //         title: Text('leaving so soon?', textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
-    //         actions: [
-    //           Column(
-    //             crossAxisAlignment: CrossAxisAlignment.end,
-    //             children: [
-    //               TextButton(
-    //                   onPressed: () {
-    //                     Navigator.pop(context);
-    //                   },
-    //                   child: Text('oops!', textAlign: TextAlign.end, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900]))),
-    //               TextButton(
-    //                 onPressed: () {
-    //                   this.signOut();
-    //                 },
-    //                 child: Text(
-    //                   'yeah, I\'ve got to do a thing',
-    //                   textAlign: TextAlign.end,
-    //                   style: GoogleFonts.lato(color: appTheme.themeColor),
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ],
-    //       );
-    //     });
   }
 
   void signOut() async {
@@ -374,37 +319,6 @@ abstract class HomeScreenState extends State<HomeScreen> with TickerProviderStat
         onNo: () {
           Navigator.pop(context);
         });
-
-    // showDialog(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return AlertDialog(
-    //         backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
-    //         title: Text('did we do something wrong?', textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
-    //         actions: [
-    //           Column(
-    //             crossAxisAlignment: CrossAxisAlignment.end,
-    //             children: [
-    //               TextButton(
-    //                   onPressed: () {
-    //                     Navigator.pop(context);
-    //                   },
-    //                   child: Text('sorry, it\'s that pesky back button again', textAlign: TextAlign.end, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900]))),
-    //               TextButton(
-    //                 onPressed: () {
-    //                   this.exitApp();
-    //                 },
-    //                 child: Text(
-    //                   'that\'s enough sudoku for today',
-    //                   textAlign: TextAlign.end,
-    //                   style: GoogleFonts.lato(color: appTheme.themeColor),
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ],
-    //       );
-    //     });
   }
 
   void exitApp() {

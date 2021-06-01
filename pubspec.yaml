@@ -53,6 +53,7 @@ dependencies:
   firebase_messaging: ^10.0.0
   firebase_database: ^7.0.0
   firebase_core: ^1.2.0
+  flutter_circle_color_picker: ^0.3.0
 
 dev_dependencies:
   flutter_test:

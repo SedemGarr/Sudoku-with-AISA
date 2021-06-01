@@ -13,6 +13,8 @@ class Users {
   int difficultyLevel;
   int selectedTheme;
   int freePlayDifficulty;
+  int customThemeColor;
+  int customPartnerColor;
   bool hasCompletedIntro;
   bool enableWakelock;
   bool hasCompletedGame;
@@ -20,6 +22,7 @@ class Users {
   bool isDark;
   bool audioEnabled;
   bool hasTrainingWheels;
+  bool hasCustomColor;
   List<dynamic> tokens;
   List<dynamic> friends;
   List<dynamic> stats;
@@ -35,6 +38,8 @@ class Users {
       @required this.isDark,
       @required this.preferedPattern,
       @required this.freePlayDifficulty,
+      @required this.customThemeColor,
+      @required this.customPartnerColor,
       @required this.selectedTheme,
       @required this.hasCompletedGame,
       @required this.enableWakelock,
@@ -46,6 +51,7 @@ class Users {
       @required this.difficultyLevel,
       @required this.hasCompletedIntro,
       @required this.hasTrainingWheels,
+      @required this.hasCustomColor,
       @required this.isFriendly,
       @required this.stats,
       @required this.tokens,
@@ -63,6 +69,8 @@ class Users {
     audioEnabled = json['audioEnabled'];
     preferedPattern = json['preferedPattern'];
     freePlayDifficulty = json['freePlayDifficulty'];
+    customThemeColor = json['customThemeColor'];
+    customPartnerColor = json['customPartnerColor'];
     isDark = json['isDark'];
     hasCompletedGame = json['hasCompletedGame'];
     enableWakelock = json['enableWakelock'];
@@ -70,6 +78,7 @@ class Users {
     elapsedTime = json['elapsedTime'];
     hasCompletedIntro = json['hasCompletedIntro'];
     hasTrainingWheels = json['hasTrainingWheels'];
+    hasCustomColor = json['hasCustomColor'];
     isFriendly = json['isFriendly'];
     difficultyLevel = json['difficultyLevel'];
     if (json['tokens'] != null) {
@@ -120,6 +129,8 @@ class Users {
     data['level'] = this.level;
     data['hasCompletedGame'] = this.hasCompletedGame;
     data['freePlayDifficulty'] = this.freePlayDifficulty;
+    data['customThemeColor'] = this.customThemeColor;
+    data['customPartnerColor'] = this.customPartnerColor;
     data['preferedPattern'] = this.preferedPattern;
     data['audioEnabled'] = this.audioEnabled;
     data['enableWakelock'] = this.enableWakelock;
@@ -128,6 +139,7 @@ class Users {
     data['elapsedTime'] = this.elapsedTime;
     data['hasCompletedIntro'] = this.hasCompletedIntro;
     data['hasTrainingWheels'] = this.hasTrainingWheels;
+    data['hasCustomColor'] = this.hasCustomColor;
     data['isFriendly'] = this.isFriendly;
     data['difficultyLevel'] = this.difficultyLevel;
     if (this.tokens != null) {
