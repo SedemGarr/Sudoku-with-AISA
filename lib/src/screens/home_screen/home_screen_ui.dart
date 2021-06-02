@@ -76,7 +76,7 @@ class HomeScreenView extends HomeScreenState {
   }
 
   Widget buildSinglePlayerStats(List<dynamic> stats, String id) {
-    List listOfSinglePlayerStats = stats.where((element) => element['isSinglePlayer'] == true).toList();
+    List listOfSinglePlayerStats = stats.where((element) => element.isSinglePlayer == true).toList();
     return Container(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
@@ -94,7 +94,7 @@ class HomeScreenView extends HomeScreenState {
                         : appTheme.themeColor),
               ),
               subtitle: Text(
-                listOfSinglePlayerStats.length == 0 ? 'hasn\'t finished a level yet!' : 'level ' + listOfSinglePlayerStats[listOfSinglePlayerStats.length - 1]['level'].toString(),
+                listOfSinglePlayerStats.length == 0 ? 'hasn\'t finished a level yet!' : 'level ' + listOfSinglePlayerStats[listOfSinglePlayerStats.length - 1].level.toString(),
                 style: GoogleFonts.lato(
                     color: isMe(id)
                         ? isDark
@@ -105,7 +105,7 @@ class HomeScreenView extends HomeScreenState {
               trailing: listOfSinglePlayerStats.length == 0
                   ? null
                   : Text(
-                      parseLevelTime(Duration(seconds: listOfSinglePlayerStats[listOfSinglePlayerStats.length - 1]['timeTaken'])),
+                      parseLevelTime(Duration(seconds: listOfSinglePlayerStats[listOfSinglePlayerStats.length - 1].timeTaken)),
                       style: GoogleFonts.lato(
                           fontWeight: FontWeight.bold,
                           color: isMe(id)
@@ -122,7 +122,7 @@ class HomeScreenView extends HomeScreenState {
   }
 
   Widget buildFreePlayStats(List<dynamic> stats, String id) {
-    List listOfFreePlayStats = stats.where((element) => element['level'] == 300).toList();
+    List listOfFreePlayStats = stats.where((element) => element.level == 300).toList();
     return listOfFreePlayStats.length > 0
         ? Container(
             child: Padding(
@@ -158,7 +158,7 @@ class HomeScreenView extends HomeScreenState {
   }
 
   Widget buildCoopMultiPlayerStats(List<dynamic> stats, String id) {
-    List listOfMultiPlayerStats = stats.where((element) => element['isCoop']).toList();
+    List listOfMultiPlayerStats = stats.where((element) => element.isCoop).toList();
     return listOfMultiPlayerStats.length > 0
         ? Container(
             child: Padding(

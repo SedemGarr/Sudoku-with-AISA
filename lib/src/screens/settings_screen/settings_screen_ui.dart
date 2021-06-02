@@ -77,7 +77,7 @@ class SettingsScreenView extends SettingsScreenState {
           children: [
             Text(
               'secondary',
-              style: GoogleFonts.lato(color: appTheme.themeColor),
+              style: GoogleFonts.lato(color: appTheme.partnerColor),
             ),
             CircleColorPicker(
               textStyle: GoogleFonts.lato(color: appTheme.themeColor, fontSize: 24, fontWeight: FontWeight.bold),

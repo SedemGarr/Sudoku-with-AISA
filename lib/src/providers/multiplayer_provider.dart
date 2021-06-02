@@ -168,12 +168,9 @@ class MultiplayerProvider {
     await firestore.collection('games').get().then((res) {
       res.docs.forEach((game) async {
         MultiplayerGame tempGame = MultiplayerGame.fromJson(game.data());
-
         int index = tempGame.players.indexWhere((element) => element.id == user.id);
-
         if (index != -1) {
           tempGame.players[index] = user;
-
           await firestore.collection('games').doc(game.data()['id']).set(tempGame.toJson(), SetOptions(merge: true));
         }
       });
