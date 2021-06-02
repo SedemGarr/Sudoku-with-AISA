@@ -20,17 +20,4 @@ class LocalStorageProvider {
     this._preferences = await SharedPreferences.getInstance();
     await this._preferences.remove('user');
   }
-
-  // setDarkMode(bool value) async {
-  //   this._preferences = await SharedPreferences.getInstance();
-  //   await this._preferences.setBool('isDark', value);
-  // }
-
-  // Future<bool> getDarkMode() async {
-  //   this._preferences = await SharedPreferences.getInstance();
-  //   return this._preferences.getBool('isDark') == null
-  //       ? true
-  //       : this._preferences.getBool('isDark');
-  // }
-
 }

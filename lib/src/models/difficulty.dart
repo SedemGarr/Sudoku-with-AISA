@@ -20,22 +20,22 @@ class Difficulty {
   static int parseDifficultyLevel(int difficultyLevel) {
     switch (difficultyLevel) {
       case 0:
-        return 71;
-        break;
-      case 1:
         return 61;
         break;
-      case 2:
+      case 1:
         return 51;
         break;
-      case 3:
+      case 2:
         return 41;
         break;
-      case 4:
+      case 3:
         return 31;
         break;
-      case 5:
+      case 4:
         return 21;
+        break;
+      case 5:
+        return 11;
         break;
       case 6:
         return generateRandomInt(21, 81);
@@ -43,18 +43,6 @@ class Difficulty {
       default:
         return 10;
     }
-
-    // if (difficultyLevel <= 1) {
-    //   return 1;
-    // }
-    // if (difficultyLevel > 1 && difficultyLevel <= 3) {
-    //   return 2;
-    // }
-    // if (difficultyLevel > 3 && difficultyLevel <= 5) {
-    //   return 3;
-    // } else {
-    //   return 10;
-    // }
   }
 
   static Future<List<Level>> generateLevels(int difficultyLevel) async {
