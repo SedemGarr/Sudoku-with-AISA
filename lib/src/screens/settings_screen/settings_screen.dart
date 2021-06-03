@@ -172,8 +172,6 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
       }
     });
 
-    print(this.freePlayDifficulty);
-
     this.userStateUpdateProvider.updateUser(this.user);
   }
 

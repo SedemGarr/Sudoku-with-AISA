@@ -58,7 +58,7 @@ class MultiplayerProvider {
     await firestore.collection("invites").doc(gameId).delete();
 
     game.invitationStatus = accepted ? 1 : 0;
-    updateGameSettings(game);
+    await updateGameSettings(game);
   }
 
   Future<List<MultiplayerGame>> getOngoingGamesList(Users user) async {
