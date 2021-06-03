@@ -88,22 +88,13 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
     this.preferedPattern = this.user.preferedPattern;
     this.freePlayDifficulty = this.user.freePlayDifficulty;
     this.isLoading = false;
-    this.isChoosingCustomColor = false;
+    this.isChoosingCustomColor = this.user.hasCustomColor;
   }
 
   @override
   void initState() {
     initVariables();
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    if (this.isChoosingCustomColor) {
-      this.circleColorPickerThemeColorController.dispose();
-      this.circleColorPickerPartnerColorController.dispose();
-    }
-    super.dispose();
   }
 
   void getTheme() {
