@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:sudoku/src/components/choice_dialog.dart';
 import 'package:sudoku/src/models/level.dart';
+import 'package:sudoku/src/models/stats.dart';
 import 'package:sudoku/src/models/theme.dart';
 import 'package:sudoku/src/models/user.dart';
 import 'package:sudoku/src/models/game.dart';
@@ -115,6 +116,15 @@ abstract class HomeScreenState extends State<HomeScreen> with TickerProviderStat
     for (int i = 0; i < 7; i++) {
       this.game[i].levels = await Difficulty.generateLevels(i);
     }
+  }
+
+  int getAverageTimeTaken(List<Stats> stats) {
+    double sum = 0;
+    stats.forEach((stat) {
+      sum += stat.timeTaken;
+    });
+
+    return (sum / stats.length).round();
   }
 
   void processLeaderboardStreamData(AsyncSnapshot snapshot) {

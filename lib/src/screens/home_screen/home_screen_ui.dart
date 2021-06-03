@@ -77,35 +77,58 @@ class HomeScreenView extends HomeScreenState {
 
   Widget buildSinglePlayerStats(List<dynamic> stats, String id) {
     List listOfSinglePlayerStats = stats.where((element) => element.isSinglePlayer == true).toList();
+    List<Widget> spStats = [];
+
+    listOfSinglePlayerStats.forEach((stat) {
+      spStats.add(ListTile(
+        dense: true,
+        title: Text(
+          stat.level.toString() + ' - easy',
+          style: GoogleFonts.lato(
+              fontWeight: FontWeight.bold,
+              color: isMe(id)
+                  ? isDark
+                      ? Colors.grey[900]
+                      : Colors.white
+                  : appTheme.themeColor),
+        ),
+        trailing: Text(
+          parseLevelTime(Duration(seconds: stat.timeTaken)),
+          style: GoogleFonts.lato(
+              fontWeight: FontWeight.bold,
+              color: isMe(id)
+                  ? isDark
+                      ? Colors.grey[900]
+                      : Colors.white
+                  : appTheme.themeColor),
+        ),
+      ));
+    });
+
     return Container(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
         child: Column(
           children: [
-            ListTile(
-              title: Text(
-                listOfSinglePlayerStats.length >= 54 ? 'game completed' : 'has completed...',
-                style: GoogleFonts.lato(
-                    fontWeight: FontWeight.bold,
-                    color: isMe(id)
-                        ? isDark
-                            ? Colors.grey[900]
-                            : Colors.white
-                        : appTheme.themeColor),
-              ),
-              subtitle: Text(
-                listOfSinglePlayerStats.length == 0 ? 'hasn\'t finished a level yet!' : 'level ' + listOfSinglePlayerStats[listOfSinglePlayerStats.length - 1].level.toString(),
-                style: GoogleFonts.lato(
-                    color: isMe(id)
-                        ? isDark
-                            ? Colors.grey[900]
-                            : Colors.white
-                        : appTheme.themeColor),
-              ),
-              trailing: listOfSinglePlayerStats.length == 0
-                  ? null
-                  : Text(
-                      parseLevelTime(Duration(seconds: listOfSinglePlayerStats[listOfSinglePlayerStats.length - 1].timeTaken)),
+            listOfSinglePlayerStats.length == 0
+                ? ListTile(
+                    title: Text(
+                    listOfSinglePlayerStats.length == 0
+                        ? 'hasn\'t finished a story level yet!'
+                        : listOfSinglePlayerStats.length >= 54
+                            ? 'game completed'
+                            : 'last story level',
+                    style: GoogleFonts.lato(
+                        fontWeight: FontWeight.bold,
+                        color: isMe(id)
+                            ? isDark
+                                ? Colors.grey[900]
+                                : Colors.white
+                            : appTheme.themeColor),
+                  ))
+                : ExpansionTile(
+                    title: Text(
+                      listOfSinglePlayerStats.length >= 54 ? 'game completed' : 'last story level',
                       style: GoogleFonts.lato(
                           fontWeight: FontWeight.bold,
                           color: isMe(id)
@@ -114,7 +137,31 @@ class HomeScreenView extends HomeScreenState {
                                   : Colors.white
                               : appTheme.themeColor),
                     ),
-            )
+                    subtitle: listOfSinglePlayerStats.length == 0
+                        ? null
+                        : Text(
+                            'level ' + listOfSinglePlayerStats[listOfSinglePlayerStats.length - 1].level.toString(),
+                            style: GoogleFonts.lato(
+                                color: isMe(id)
+                                    ? isDark
+                                        ? Colors.grey[900]
+                                        : Colors.white
+                                    : appTheme.themeColor),
+                          ),
+                    trailing: listOfSinglePlayerStats.length == 0
+                        ? null
+                        : Text(
+                            parseLevelTime(Duration(seconds: listOfSinglePlayerStats[listOfSinglePlayerStats.length - 1].timeTaken)),
+                            style: GoogleFonts.lato(
+                                fontWeight: FontWeight.bold,
+                                color: isMe(id)
+                                    ? isDark
+                                        ? Colors.grey[900]
+                                        : Colors.white
+                                    : appTheme.themeColor),
+                          ),
+                    children: spStats,
+                  )
           ],
         ),
       ),
@@ -131,7 +178,7 @@ class HomeScreenView extends HomeScreenState {
                 children: [
                   ListTile(
                     title: Text(
-                      'free-play games played...',
+                      'free play games played: ' + listOfFreePlayStats.length.toString(),
                       style: GoogleFonts.lato(
                           fontWeight: FontWeight.bold,
                           color: isMe(id)
@@ -140,9 +187,10 @@ class HomeScreenView extends HomeScreenState {
                                   : Colors.white
                               : appTheme.themeColor),
                     ),
-                    subtitle: Text(
-                      listOfFreePlayStats.length.toString(),
+                    trailing: Text(
+                      parseLevelTime(Duration(seconds: getAverageTimeTaken(listOfFreePlayStats))),
                       style: GoogleFonts.lato(
+                          fontWeight: FontWeight.bold,
                           color: isMe(id)
                               ? isDark
                                   ? Colors.grey[900]
@@ -158,34 +206,44 @@ class HomeScreenView extends HomeScreenState {
   }
 
   Widget buildCoopMultiPlayerStats(List<dynamic> stats, String id) {
-    List listOfMultiPlayerStats = stats.where((element) => element.isCoop).toList();
-    return listOfMultiPlayerStats.length > 0
+    List listOfCoopStats = stats.where((element) => element.isCoop).toList();
+    List listOfCompetitiveStats = stats.where((element) => element.isCompetitive).toList();
+
+    return stats.where((element) => element.isCoop || element.isCompetitive).toList().length > 0
         ? Container(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
               child: Column(
                 children: [
                   ListTile(
-                    title: Text(
-                      'multiplayer co-op games played...',
-                      style: GoogleFonts.lato(
-                          fontWeight: FontWeight.bold,
-                          color: isMe(id)
-                              ? isDark
-                                  ? Colors.grey[900]
-                                  : Colors.white
-                              : appTheme.themeColor),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'co-op games played: ' + listOfCoopStats.length.toString(),
+                          style: GoogleFonts.lato(
+                              fontWeight: FontWeight.bold,
+                              color: isMe(id)
+                                  ? isDark
+                                      ? Colors.grey[900]
+                                      : Colors.white
+                                  : appTheme.themeColor),
+                        ),
+                        Text(
+                          'competitive games win rate: ' +
+                              (stats.where((element) => element.isCompetitive && element.wonGame).toList().length / listOfCompetitiveStats.length).toStringAsFixed(1) +
+                              '%',
+                          style: GoogleFonts.lato(
+                              fontWeight: FontWeight.bold,
+                              color: isMe(id)
+                                  ? isDark
+                                      ? Colors.grey[900]
+                                      : Colors.white
+                                  : appTheme.themeColor),
+                        ),
+                      ],
                     ),
-                    subtitle: Text(
-                      listOfMultiPlayerStats.length.toString(),
-                      style: GoogleFonts.lato(
-                          color: isMe(id)
-                              ? isDark
-                                  ? Colors.grey[900]
-                                  : Colors.white
-                              : appTheme.themeColor),
-                    ),
-                  )
+                  ),
                 ],
               ),
             ),

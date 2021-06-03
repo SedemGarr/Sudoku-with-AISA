@@ -352,8 +352,9 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                               padding: const EdgeInsets.all(8.0),
                               child: TextButton(
                                 child: Text('end game', style: GoogleFonts.lato(fontSize: 16, color: appTheme.themeColor, fontWeight: FontWeight.bold)),
-                                onPressed: () {
-                                  multiplayerProvider.deleteGame(currentGame.id);
+                                onPressed: () async {
+                                  await updateUserAfterGame();
+                                  await multiplayerProvider.deleteGame(currentGame.id);
                                   goToHomeScreen();
                                 },
                               ),
@@ -415,7 +416,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                                     activeTrackColor: appTheme.themeColor[300],
                                     activeColor: appTheme.themeColor,
                                     inactiveThumbColor: appTheme.themeColor,
-                                    inactiveTrackColor: appTheme.themeColor[300],
+                                    inactiveTrackColor: appTheme.themeColor,
                                   ),
                                   Text(
                                     'competitive',

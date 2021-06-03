@@ -173,7 +173,7 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
       }
       this.currentGame.lastPlayedOn = DateTime.now().toString();
       this.currentGame.lastPlayer = this.user.id;
-    //  this.currentGame.level.board = [...this.currentGame.level.solvedBoard]; // don't forget to clear this after testing
+      //  this.currentGame.level.board = [...this.currentGame.level.solvedBoard]; // don't forget to clear this after testing
       this.multiplayerProvider.updateGameSettings(this.currentGame);
     }
   }
@@ -468,7 +468,7 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
     this.findAlreadyFilledCells();
   }
 
-  void updateUserAfterGame() async {
+  Future<void> updateUserAfterGame() async {
     List mpStats = this.user.stats.where((element) => element.isCompetitive || element.isCoop).toList();
 
     Stats newStats = Stats(
