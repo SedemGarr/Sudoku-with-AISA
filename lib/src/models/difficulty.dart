@@ -20,22 +20,22 @@ class Difficulty {
   static int parseDifficultyLevel(int difficultyLevel) {
     switch (difficultyLevel) {
       case 0:
-        return 61;
+        return 71;
         break;
       case 1:
-        return 51;
+        return 61;
         break;
       case 2:
-        return 41;
+        return 51;
         break;
       case 3:
-        return 31;
+        return 41;
         break;
       case 4:
-        return 21;
+        return 31;
         break;
       case 5:
-        return 11;
+        return 21;
         break;
       case 6:
         return generateRandomInt(21, 81);

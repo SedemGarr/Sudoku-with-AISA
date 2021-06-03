@@ -99,8 +99,10 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
 
   @override
   void dispose() {
-    this.circleColorPickerThemeColorController.dispose();
-    this.circleColorPickerPartnerColorController.dispose();
+    if (this.isChoosingCustomColor) {
+      this.circleColorPickerThemeColorController.dispose();
+      this.circleColorPickerPartnerColorController.dispose();
+    }
     super.dispose();
   }
 
