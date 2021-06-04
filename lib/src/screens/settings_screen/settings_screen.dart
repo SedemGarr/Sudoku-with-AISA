@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_circle_color_picker/flutter_circle_color_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sudoku/src/components/choice_dialog.dart';
+import 'package:sudoku/src/components/image_cropper.dart';
 import 'package:sudoku/src/components/photo_viewer.dart';
 import 'package:sudoku/src/providers/authentication_provider.dart';
 import 'package:sudoku/src/providers/connectivity_provider.dart';
@@ -437,6 +438,15 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
       final pickedFile = await picker.getImage(source: ImageSource.camera);
 
       if (pickedFile != null) {
+        this.image = await Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ImageCropper(
+                      image: File(pickedFile.path),
+                      appTheme: this.appTheme,
+                      user: this.user,
+                    )));
+
         this.image = File(pickedFile.path);
         String newProfileUrl = (await this.databaseProvider.updateProfilePhoto(this.user, this.image)).profileUrl;
 
@@ -459,6 +469,16 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
       final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
       if (pickedFile != null) {
+        this.image = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ImageCropper(
+                image: File(image.path),
+                appTheme: this.appTheme,
+                user: this.user,
+              ),
+            ));
+
         this.image = File(pickedFile.path);
         String newProfileUrl = (await this.databaseProvider.updateProfilePhoto(this.user, this.image)).profileUrl;
 
