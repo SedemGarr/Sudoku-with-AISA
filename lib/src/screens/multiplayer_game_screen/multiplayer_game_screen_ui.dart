@@ -92,11 +92,9 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                         : currentCompetitiveGame.level.board[index]
                     : currentGame.level.board[index];
                 return GestureDetector(
-                  onTap: filledCells.contains(index)
-                      ? () {}
-                      : () {
-                          selectIndex(index);
-                        },
+                  onTap: () {
+                    selectIndex(index);
+                  },
                   child: Container(
                     margin: const EdgeInsets.all(2),
                     color: getCellColor(index, value),

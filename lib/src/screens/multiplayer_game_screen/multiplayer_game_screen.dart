@@ -47,7 +47,6 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
 
   int selectedIndex;
   int elapsedTime;
-  List filledCells = [];
 
   final stopWatchTimer = StopWatchTimer();
 
@@ -68,9 +67,6 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
     this.loadSavedGame();
     this.startStopWatchTimer();
     this.enableWakeLock();
-    if (!widget.isSavedGame) {
-      this.findAlreadyFilledCells();
-    }
     this.removeDuplicatePlayers();
   }
 
@@ -154,7 +150,6 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
           this.stopStopWatchTimer();
           this.resetStopWatchTimer();
           this.startStopWatchTimer();
-          this.findAlreadyFilledCells();
         }
       }
     }
@@ -175,15 +170,6 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
       this.currentGame.lastPlayer = this.user.id;
       //  this.currentGame.level.board = [...this.currentGame.level.solvedBoard]; // don't forget to clear this after testing
       this.multiplayerProvider.updateGameSettings(this.currentGame);
-    }
-  }
-
-  void findAlreadyFilledCells() {
-    this.filledCells = [];
-    for (int i = 0; i < this.currentGame.level.board.length; i++) {
-      if (this.currentGame.level.board[i] != 0) {
-        this.filledCells.add(i);
-      }
     }
   }
 
@@ -465,7 +451,6 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
     this.resetStopWatchTimer();
     this.startStopWatchTimer();
     this.enableWakeLock();
-    this.findAlreadyFilledCells();
   }
 
   Future<void> updateUserAfterGame() async {
