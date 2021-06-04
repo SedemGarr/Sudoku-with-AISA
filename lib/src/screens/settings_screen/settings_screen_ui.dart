@@ -724,7 +724,7 @@ class SettingsScreenView extends SettingsScreenState {
     );
   }
 
-  Widget buildProfileSection() {
+  Widget buildProfileSection(BuildContext context) {
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -758,7 +758,7 @@ class SettingsScreenView extends SettingsScreenState {
                   showInitialTextAbovePicture: false, // setting it true will show initials text above profile picture, default false
                 ),
                 onSelected: (value) {
-                  handlePopupSelection(value);
+                  handlePopupSelection(value, context);
                 },
                 itemBuilder: (context) {
                   return [
@@ -785,6 +785,18 @@ class SettingsScreenView extends SettingsScreenState {
                     user.profileUrl != ''
                         ? PopupMenuItem(
                             value: 3,
+                            child: Text(
+                              'view photo',
+                              style: GoogleFonts.lato(
+                                color: appTheme.themeColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
+                        : null,
+                    user.profileUrl != ''
+                        ? PopupMenuItem(
+                            value: 4,
                             child: Text(
                               'remove photo',
                               style: GoogleFonts.lato(
@@ -892,7 +904,7 @@ class SettingsScreenView extends SettingsScreenState {
                     )
                   : Column(
                       children: [
-                        buildProfileSection(),
+                        buildProfileSection(context),
                         Expanded(
                           child: ListView(
                             children: [

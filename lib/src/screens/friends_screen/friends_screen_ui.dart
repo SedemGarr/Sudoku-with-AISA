@@ -127,23 +127,28 @@ class FriendsScreenView extends FriendsScreenState {
                       color: appTheme.themeColor,
                       child: ListTile(
                           dense: true,
-                          leading: CircularProfileAvatar(
-                            myRequests[index].requester.profileUrl,
-                            radius: 20,
-                            backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
-                            initialsText: Text(
-                              getInitials(myRequests[index].requester.username),
-                              style: GoogleFonts.lato(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                                color: appTheme.themeColor,
+                          leading: GestureDetector(
+                            onTap: () {
+                              openPhoto(context, myRequests[index].requester.profileUrl, myRequests[index].requester.username);
+                            },
+                            child: CircularProfileAvatar(
+                              myRequests[index].requester.profileUrl,
+                              radius: 20,
+                              backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
+                              initialsText: Text(
+                                getInitials(myRequests[index].requester.username),
+                                style: GoogleFonts.lato(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: appTheme.themeColor,
+                                ),
                               ),
+                              borderColor: Colors.transparent,
+                              elevation: 0.0,
+                              foregroundColor: Colors.transparent,
+                              cacheImage: true,
+                              showInitialTextAbovePicture: false,
                             ),
-                            borderColor: Colors.transparent,
-                            elevation: 0.0,
-                            foregroundColor: Colors.transparent,
-                            cacheImage: true,
-                            showInitialTextAbovePicture: false,
                           ),
                           title: Text(
                             myRequests[index].requester.username,
@@ -230,23 +235,28 @@ class FriendsScreenView extends FriendsScreenState {
                           color: appTheme.themeColor,
                           child: ListTile(
                             dense: true,
-                            leading: CircularProfileAvatar(
-                              foundUsers[index].profileUrl,
-                              radius: 20,
-                              backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
-                              initialsText: Text(
-                                getInitials(foundUsers[index].username),
-                                style: GoogleFonts.lato(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                  color: appTheme.themeColor,
+                            leading: GestureDetector(
+                              onTap: () {
+                                openPhoto(context, foundUsers[index].profileUrl, foundUsers[index].username);
+                              },
+                              child: CircularProfileAvatar(
+                                foundUsers[index].profileUrl,
+                                radius: 20,
+                                backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
+                                initialsText: Text(
+                                  getInitials(foundUsers[index].username),
+                                  style: GoogleFonts.lato(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    color: appTheme.themeColor,
+                                  ),
                                 ),
+                                borderColor: Colors.transparent,
+                                elevation: 0.0,
+                                foregroundColor: Colors.transparent,
+                                cacheImage: true,
+                                showInitialTextAbovePicture: false,
                               ),
-                              borderColor: Colors.transparent,
-                              elevation: 0.0,
-                              foregroundColor: Colors.transparent,
-                              cacheImage: true,
-                              showInitialTextAbovePicture: false,
                             ),
                             title: Text(
                               foundUsers[index].username,

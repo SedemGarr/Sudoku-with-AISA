@@ -414,30 +414,35 @@ class HomeScreenView extends HomeScreenState {
                                   },
                                   leading: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: CircularProfileAvatar(
-                                        leaderboard[index].profileUrl,
-                                        radius: 20,
-                                        backgroundColor: isMe(leaderboard[index].id)
-                                            ? isDark
-                                                ? Colors.grey[900]
-                                                : Colors.white
-                                            : appTheme.themeColor,
-                                        initialsText: Text(
-                                          getInitials(leaderboard[index].username),
-                                          style: GoogleFonts.lato(
-                                            fontWeight: FontWeight.bold,
-                                            color: isMe(leaderboard[index].id)
-                                                ? appTheme.themeColor
-                                                : isDark
-                                                    ? Colors.grey[900]
-                                                    : Colors.white,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          openPhoto(context, leaderboard[index].profileUrl, leaderboard[index].username);
+                                        },
+                                        child: CircularProfileAvatar(
+                                          leaderboard[index].profileUrl,
+                                          radius: 20,
+                                          backgroundColor: isMe(leaderboard[index].id)
+                                              ? isDark
+                                                  ? Colors.grey[900]
+                                                  : Colors.white
+                                              : appTheme.themeColor,
+                                          initialsText: Text(
+                                            getInitials(leaderboard[index].username),
+                                            style: GoogleFonts.lato(
+                                              fontWeight: FontWeight.bold,
+                                              color: isMe(leaderboard[index].id)
+                                                  ? appTheme.themeColor
+                                                  : isDark
+                                                      ? Colors.grey[900]
+                                                      : Colors.white,
+                                            ),
                                           ),
+                                          borderColor: Colors.transparent,
+                                          elevation: 0.0,
+                                          foregroundColor: Colors.transparent,
+                                          cacheImage: true,
+                                          showInitialTextAbovePicture: false,
                                         ),
-                                        borderColor: Colors.transparent,
-                                        elevation: 0.0,
-                                        foregroundColor: Colors.transparent,
-                                        cacheImage: true,
-                                        showInitialTextAbovePicture: false,
                                       )),
                                   title: Text(
                                     leaderboard[index].username,

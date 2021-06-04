@@ -149,23 +149,28 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                   child: ListTile(
                     dense: true,
                     tileColor: appTheme.themeColor,
-                    leading: CircularProfileAvatar(
-                      myInvites[index].inviter.profileUrl,
-                      radius: 20,
-                      backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
-                      initialsText: Text(
-                        getInitials(myInvites[index].inviter.username),
-                        style: GoogleFonts.lato(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                          color: appTheme.themeColor,
+                    leading: GestureDetector(
+                      onTap: () {
+                        openPhoto(context, myInvites[index].inviter.profileUrl, myInvites[index].inviter.username);
+                      },
+                      child: CircularProfileAvatar(
+                        myInvites[index].inviter.profileUrl,
+                        radius: 20,
+                        backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
+                        initialsText: Text(
+                          getInitials(myInvites[index].inviter.username),
+                          style: GoogleFonts.lato(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: appTheme.themeColor,
+                          ),
                         ),
+                        borderColor: Colors.transparent,
+                        elevation: 0.0,
+                        foregroundColor: Colors.transparent,
+                        cacheImage: true,
+                        showInitialTextAbovePicture: false,
                       ),
-                      borderColor: Colors.transparent,
-                      elevation: 0.0,
-                      foregroundColor: Colors.transparent,
-                      cacheImage: true,
-                      showInitialTextAbovePicture: false,
                     ),
                     title: RichText(
                       text: TextSpan(children: [
@@ -271,27 +276,41 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                                     },
                                                     dense: true,
                                                     tileColor: appTheme.themeColor,
-                                                    leading: CircularProfileAvatar(
-                                                      onGoingGames[index].players.indexWhere((element) => element.id != user.id) == -1
-                                                          ? user.profileUrl
-                                                          : onGoingGames[index].players[onGoingGames[index].players.indexWhere((element) => element.id != user.id)].profileUrl,
-                                                      radius: 20,
-                                                      backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
-                                                      initialsText: Text(
-                                                        getInitials(onGoingGames[index].players.indexWhere((element) => element.id != user.id) == -1
-                                                            ? user.username
-                                                            : onGoingGames[index].players[onGoingGames[index].players.indexWhere((element) => element.id != user.id)].username),
-                                                        style: GoogleFonts.lato(
-                                                          fontWeight: FontWeight.bold,
-                                                          fontSize: 14,
-                                                          color: appTheme.themeColor,
+                                                    leading: GestureDetector(
+                                                      onTap: () {
+                                                        openPhoto(
+                                                            context,
+                                                            onGoingGames[index].players.indexWhere((element) => element.id != user.id) == -1
+                                                                ? user.profileUrl
+                                                                : onGoingGames[index]
+                                                                    .players[onGoingGames[index].players.indexWhere((element) => element.id != user.id)]
+                                                                    .profileUrl,
+                                                            onGoingGames[index].players.indexWhere((element) => element.id != user.id) == -1
+                                                                ? user.username
+                                                                : onGoingGames[index].players[onGoingGames[index].players.indexWhere((element) => element.id != user.id)].username);
+                                                      },
+                                                      child: CircularProfileAvatar(
+                                                        onGoingGames[index].players.indexWhere((element) => element.id != user.id) == -1
+                                                            ? user.profileUrl
+                                                            : onGoingGames[index].players[onGoingGames[index].players.indexWhere((element) => element.id != user.id)].profileUrl,
+                                                        radius: 20,
+                                                        backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
+                                                        initialsText: Text(
+                                                          getInitials(onGoingGames[index].players.indexWhere((element) => element.id != user.id) == -1
+                                                              ? user.username
+                                                              : onGoingGames[index].players[onGoingGames[index].players.indexWhere((element) => element.id != user.id)].username),
+                                                          style: GoogleFonts.lato(
+                                                            fontWeight: FontWeight.bold,
+                                                            fontSize: 14,
+                                                            color: appTheme.themeColor,
+                                                          ),
                                                         ),
+                                                        borderColor: Colors.transparent,
+                                                        elevation: 0.0,
+                                                        foregroundColor: Colors.transparent,
+                                                        cacheImage: true,
+                                                        showInitialTextAbovePicture: false,
                                                       ),
-                                                      borderColor: Colors.transparent,
-                                                      elevation: 0.0,
-                                                      foregroundColor: Colors.transparent,
-                                                      cacheImage: true,
-                                                      showInitialTextAbovePicture: false,
                                                     ),
                                                     title: onGoingGames[index].players.indexWhere((element) => element.id != user.id) == -1
                                                         ? Text(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_circle_color_picker/flutter_circle_color_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sudoku/src/components/choice_dialog.dart';
+import 'package:sudoku/src/components/photo_viewer.dart';
 import 'package:sudoku/src/providers/authentication_provider.dart';
 import 'package:sudoku/src/providers/connectivity_provider.dart';
 import 'package:sudoku/src/providers/local_storage_provider.dart';
@@ -397,7 +398,7 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
     return initials;
   }
 
-  void handlePopupSelection(int value) {
+  void handlePopupSelection(int value, BuildContext context) {
     switch (value) {
       case 1:
         this.getImageFromCamera();
@@ -406,9 +407,28 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
         this.getImageFromGallery();
         break;
       case 3:
+        this.openPhoto(
+          context,
+          this.user.profileUrl,
+        );
+        break;
+      case 4:
         this.removeProfilePhoto();
         break;
     }
+  }
+
+  void openPhoto(BuildContext context, String profileUrl) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (BuildContext context) {
+        return ViewPhotoWidget(
+          photoUrl: profileUrl,
+          user: this.user,
+          appTheme: this.appTheme,
+          username: this.user.username,
+        );
+      },
+    ));
   }
 
   Future getImageFromCamera() async {

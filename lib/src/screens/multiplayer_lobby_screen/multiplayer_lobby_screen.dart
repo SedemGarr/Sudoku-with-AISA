@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sudoku/src/components/choice_dialog.dart';
+import 'package:sudoku/src/components/photo_viewer.dart';
 import 'package:sudoku/src/models/difficulty.dart';
 import 'package:sudoku/src/models/invite.dart';
 import 'package:sudoku/src/models/multiplayer.dart';
@@ -429,6 +430,19 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
 
   bool isFriend(Users user) {
     return user.friends.indexWhere((user) => user.id == this.user.id) != -1;
+  }
+
+  void openPhoto(BuildContext context, String profileUrl, String username) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (BuildContext context) {
+        return ViewPhotoWidget(
+          photoUrl: profileUrl,
+          user: this.user,
+          appTheme: this.appTheme,
+          username: username,
+        );
+      },
+    ));
   }
 
   showInviteSentSnackBar(Users friend) {

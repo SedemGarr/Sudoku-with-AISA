@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sudoku/src/components/choice_dialog.dart';
+import 'package:sudoku/src/components/photo_viewer.dart';
 import 'package:sudoku/src/models/request.dart';
 import 'package:sudoku/src/models/theme.dart';
 import 'package:sudoku/src/models/user.dart';
@@ -74,6 +75,19 @@ abstract class FriendsScreenState extends State<FriendsScreen> with TickerProvid
       this.isViewingFriends = true;
       this.isSearching = false;
     });
+  }
+
+  void openPhoto(BuildContext context, String profileUrl, String username) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (BuildContext context) {
+        return ViewPhotoWidget(
+          photoUrl: profileUrl,
+          user: this.user,
+          appTheme: this.appTheme,
+          username: username,
+        );
+      },
+    ));
   }
 
   void processFindUserData(AsyncSnapshot snapshot) {

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:sudoku/src/components/choice_dialog.dart';
+import 'package:sudoku/src/components/photo_viewer.dart';
 import 'package:sudoku/src/models/level.dart';
 import 'package:sudoku/src/models/stats.dart';
 import 'package:sudoku/src/models/theme.dart';
@@ -251,6 +252,19 @@ abstract class HomeScreenState extends State<HomeScreen> with TickerProviderStat
     } else {
       this.showNoInternetSnackBar();
     }
+  }
+
+  void openPhoto(BuildContext context, String profileUrl, String username) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (BuildContext context) {
+        return ViewPhotoWidget(
+          photoUrl: profileUrl,
+          user: this.user,
+          appTheme: this.appTheme,
+          username: username,
+        );
+      },
+    ));
   }
 
   void goToSettingsScreen() {
