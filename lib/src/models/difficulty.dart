@@ -57,7 +57,7 @@ class Difficulty {
         ),
       );
       sudoku.generate().then((_) {
-        Level level = Level(board: [], levelNumber: i, solvedBoard: [], backupBoard: []);
+        Level level = Level(board: [], levelNumber: i, solvedBoard: [], backupBoard: [], difficulty: difficultyLevel);
 
         // create level boards
         for (int j = 0; j < 81; j++) {
@@ -75,7 +75,7 @@ class Difficulty {
   }
 
   static Future<Level> regenerateLevel(int difficultyLevel, int levelNumber, String patternName) async {
-    Level level = Level(board: [], levelNumber: levelNumber, solvedBoard: [], backupBoard: []);
+    Level level = Level(board: [], levelNumber: levelNumber, solvedBoard: [], backupBoard: [], difficulty: difficultyLevel);
 
     Puzzle sudoku = Puzzle(
       PuzzleOptions(

@@ -7,6 +7,7 @@ class Stats {
       @required this.isCompetitive,
       @required this.isCoop,
       @required this.gameId,
+      @required this.difficulty,
       @required this.isMultiplayer,
       @required this.isSinglePlayer,
       @required this.wonGame});
@@ -14,6 +15,7 @@ class Stats {
   String gameId;
   int level;
   int timeTaken;
+  int difficulty;
   bool isSinglePlayer;
   bool isMultiplayer;
   bool isCoop;
@@ -46,6 +48,7 @@ class Stats {
     isMultiplayer = json['Multiplayer'];
     isSinglePlayer = json['isSinglePlayer'];
     wonGame = json['wonGame'];
+    difficulty = json['difficulty'];
   }
 
   Map<String, dynamic> toJson() {
@@ -58,6 +61,7 @@ class Stats {
     data['isCoop'] = this.isCoop;
     data['isMultiplayer'] = this.isMultiplayer;
     data['isSinglePlayer'] = this.isSinglePlayer;
+    data['difficulty'] = this.difficulty;
     return data;
   }
 }

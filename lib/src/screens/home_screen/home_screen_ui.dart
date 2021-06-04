@@ -13,7 +13,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 class HomeScreenView extends HomeScreenState {
   Widget buildTitleWidget() {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.10),
       child: TitleWidget(color: appTheme.themeColor),
     );
   }
@@ -83,7 +83,7 @@ class HomeScreenView extends HomeScreenState {
       spStats.add(ListTile(
         dense: true,
         title: Text(
-          stat.level.toString() + ' - easy',
+          stat.level.toString() + ' - ${parseDifficultyToString(stat.difficulty)}',
           style: GoogleFonts.lato(
               fontWeight: FontWeight.bold,
               color: isMe(id)
@@ -112,23 +112,45 @@ class HomeScreenView extends HomeScreenState {
           children: [
             listOfSinglePlayerStats.length == 0
                 ? ListTile(
+                    leading: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(LineIcons.user,
+                            color: isMe(id)
+                                ? isDark
+                                    ? Colors.grey[900]
+                                    : Colors.white
+                                : appTheme.themeColor),
+                      ],
+                    ),
                     title: Text(
-                    listOfSinglePlayerStats.length == 0
-                        ? 'hasn\'t finished a story level yet!'
-                        : listOfSinglePlayerStats.length >= 54
-                            ? 'game completed'
-                            : 'last story level',
-                    style: GoogleFonts.lato(
-                        fontWeight: FontWeight.bold,
-                        color: isMe(id)
-                            ? isDark
-                                ? Colors.grey[900]
-                                : Colors.white
-                            : appTheme.themeColor),
-                  ))
+                      listOfSinglePlayerStats.length == 0
+                          ? 'hasn\'t finished a story level yet!'
+                          : listOfSinglePlayerStats.length >= 54
+                              ? 'game completed'
+                              : 'last story level',
+                      style: GoogleFonts.lato(
+                          fontWeight: FontWeight.bold,
+                          color: isMe(id)
+                              ? isDark
+                                  ? Colors.grey[900]
+                                  : Colors.white
+                              : appTheme.themeColor),
+                    ))
                 : ExpansionTile(
+                    leading: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(LineIcons.user,
+                            color: isMe(id)
+                                ? isDark
+                                    ? Colors.grey[900]
+                                    : Colors.white
+                                : appTheme.themeColor),
+                      ],
+                    ),
                     title: Text(
-                      listOfSinglePlayerStats.length >= 54 ? 'game completed' : 'last story level',
+                      listOfSinglePlayerStats.length >= 54 ? 'game completed' : 'last story level: ',
                       style: GoogleFonts.lato(
                           fontWeight: FontWeight.bold,
                           color: isMe(id)
@@ -137,21 +159,10 @@ class HomeScreenView extends HomeScreenState {
                                   : Colors.white
                               : appTheme.themeColor),
                     ),
-                    subtitle: listOfSinglePlayerStats.length == 0
-                        ? null
-                        : Text(
-                            'level ' + listOfSinglePlayerStats[listOfSinglePlayerStats.length - 1].level.toString(),
-                            style: GoogleFonts.lato(
-                                color: isMe(id)
-                                    ? isDark
-                                        ? Colors.grey[900]
-                                        : Colors.white
-                                    : appTheme.themeColor),
-                          ),
                     trailing: listOfSinglePlayerStats.length == 0
                         ? null
                         : Text(
-                            parseLevelTime(Duration(seconds: listOfSinglePlayerStats[listOfSinglePlayerStats.length - 1].timeTaken)),
+                            listOfSinglePlayerStats[listOfSinglePlayerStats.length - 1].level.toString(),
                             style: GoogleFonts.lato(
                                 fontWeight: FontWeight.bold,
                                 color: isMe(id)
@@ -176,9 +187,20 @@ class HomeScreenView extends HomeScreenState {
               padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
               child: Column(
                 children: [
-                  ListTile(
+                  ExpansionTile(
+                    leading: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(LineIcons.star,
+                            color: isMe(id)
+                                ? isDark
+                                    ? Colors.grey[900]
+                                    : Colors.white
+                                : appTheme.themeColor),
+                      ],
+                    ),
                     title: Text(
-                      'free play games played: ' + listOfFreePlayStats.length.toString(),
+                      'free play games played: ',
                       style: GoogleFonts.lato(
                           fontWeight: FontWeight.bold,
                           color: isMe(id)
@@ -188,7 +210,7 @@ class HomeScreenView extends HomeScreenState {
                               : appTheme.themeColor),
                     ),
                     trailing: Text(
-                      parseLevelTime(Duration(seconds: getAverageTimeTaken(listOfFreePlayStats))),
+                      listOfFreePlayStats.length.toString(),
                       style: GoogleFonts.lato(
                           fontWeight: FontWeight.bold,
                           color: isMe(id)
@@ -197,6 +219,54 @@ class HomeScreenView extends HomeScreenState {
                                   : Colors.white
                               : appTheme.themeColor),
                     ),
+                    children: [
+                      ListTile(
+                        dense: true,
+                        title: Text(
+                          'avergae time taken: ',
+                          style: GoogleFonts.lato(
+                              fontWeight: FontWeight.bold,
+                              color: isMe(id)
+                                  ? isDark
+                                      ? Colors.grey[900]
+                                      : Colors.white
+                                  : appTheme.themeColor),
+                        ),
+                        trailing: Text(
+                          parseLevelTime(Duration(seconds: getAverageTimeTaken(listOfFreePlayStats))).toString(),
+                          style: GoogleFonts.lato(
+                              fontWeight: FontWeight.bold,
+                              color: isMe(id)
+                                  ? isDark
+                                      ? Colors.grey[900]
+                                      : Colors.white
+                                  : appTheme.themeColor),
+                        ),
+                      ),
+                      ListTile(
+                        dense: true,
+                        title: Text(
+                          'average difficulty: ',
+                          style: GoogleFonts.lato(
+                              fontWeight: FontWeight.bold,
+                              color: isMe(id)
+                                  ? isDark
+                                      ? Colors.grey[900]
+                                      : Colors.white
+                                  : appTheme.themeColor),
+                        ),
+                        trailing: Text(
+                          getAverageDifficulty(listOfFreePlayStats).toString(),
+                          style: GoogleFonts.lato(
+                              fontWeight: FontWeight.bold,
+                              color: isMe(id)
+                                  ? isDark
+                                      ? Colors.grey[900]
+                                      : Colors.white
+                                  : appTheme.themeColor),
+                        ),
+                      )
+                    ],
                   )
                 ],
               ),
@@ -215,34 +285,86 @@ class HomeScreenView extends HomeScreenState {
               padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
               child: Column(
                 children: [
-                  ListTile(
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  ExpansionTile(
+                    leading: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          'co-op games played: ' + listOfCoopStats.length.toString(),
-                          style: GoogleFonts.lato(
-                              fontWeight: FontWeight.bold,
-                              color: isMe(id)
-                                  ? isDark
-                                      ? Colors.grey[900]
-                                      : Colors.white
-                                  : appTheme.themeColor),
-                        ),
-                        Text(
-                          'competitive games win rate: ' +
-                              (stats.where((element) => element.isCompetitive && element.wonGame).toList().length / listOfCompetitiveStats.length).toStringAsFixed(1) +
-                              '%',
-                          style: GoogleFonts.lato(
-                              fontWeight: FontWeight.bold,
-                              color: isMe(id)
-                                  ? isDark
-                                      ? Colors.grey[900]
-                                      : Colors.white
-                                  : appTheme.themeColor),
-                        ),
+                        Icon(LineIcons.users,
+                            color: isMe(id)
+                                ? isDark
+                                    ? Colors.grey[900]
+                                    : Colors.white
+                                : appTheme.themeColor),
                       ],
                     ),
+                    title: Text(
+                      'multiplayer games played: ',
+                      style: GoogleFonts.lato(
+                          fontWeight: FontWeight.bold,
+                          color: isMe(id)
+                              ? isDark
+                                  ? Colors.grey[900]
+                                  : Colors.white
+                              : appTheme.themeColor),
+                    ),
+                    trailing: Text(
+                      (listOfCoopStats.length + listOfCompetitiveStats.length).toString(),
+                      style: GoogleFonts.lato(
+                          fontWeight: FontWeight.bold,
+                          color: isMe(id)
+                              ? isDark
+                                  ? Colors.grey[900]
+                                  : Colors.white
+                              : appTheme.themeColor),
+                    ),
+                    children: [
+                      ListTile(
+                        dense: true,
+                        title: Text(
+                          'co-op games played: ',
+                          style: GoogleFonts.lato(
+                              fontWeight: FontWeight.bold,
+                              color: isMe(id)
+                                  ? isDark
+                                      ? Colors.grey[900]
+                                      : Colors.white
+                                  : appTheme.themeColor),
+                        ),
+                        trailing: Text(
+                          listOfCoopStats.length.toString(),
+                          style: GoogleFonts.lato(
+                              fontWeight: FontWeight.bold,
+                              color: isMe(id)
+                                  ? isDark
+                                      ? Colors.grey[900]
+                                      : Colors.white
+                                  : appTheme.themeColor),
+                        ),
+                      ),
+                      ListTile(
+                        dense: true,
+                        title: Text(
+                          'competitive games win rate: ',
+                          style: GoogleFonts.lato(
+                              fontWeight: FontWeight.bold,
+                              color: isMe(id)
+                                  ? isDark
+                                      ? Colors.grey[900]
+                                      : Colors.white
+                                  : appTheme.themeColor),
+                        ),
+                        trailing: Text(
+                          (stats.where((element) => element.isCompetitive && element.wonGame).toList().length / listOfCompetitiveStats.length).toStringAsFixed(1) + '%',
+                          style: GoogleFonts.lato(
+                              fontWeight: FontWeight.bold,
+                              color: isMe(id)
+                                  ? isDark
+                                      ? Colors.grey[900]
+                                      : Colors.white
+                                  : appTheme.themeColor),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

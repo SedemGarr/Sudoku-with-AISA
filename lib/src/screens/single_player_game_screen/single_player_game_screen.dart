@@ -347,10 +347,16 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
 
   void updateUserAfterFinalGame() async {
     // create new stat
-    this
-        .user
-        .stats
-        .add(Stats(isCompetitive: false, isCoop: false, isMultiplayer: false, isSinglePlayer: true, gameId: '54', level: 54, timeTaken: this.elapsedTime, wonGame: true));
+    this.user.stats.add(Stats(
+        isCompetitive: false,
+        isCoop: false,
+        isMultiplayer: false,
+        isSinglePlayer: true,
+        gameId: '54',
+        level: 54,
+        timeTaken: this.elapsedTime,
+        wonGame: true,
+        difficulty: this.user.difficultyLevel));
     // update user fields
     this.user.hasCompletedGame = true;
     this.user.level = 0;
@@ -374,7 +380,9 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
           isSinglePlayer: true,
           level: this.getAdjustedLevel(this.user.level) == 100 ? 54 : this.getAdjustedLevel(this.user.level) - 1,
           timeTaken: this.elapsedTime,
-          wonGame: true));
+          wonGame: true,
+          difficulty: this.user.difficultyLevel
+          ));
     }
     // update user fields
     this.user.elapsedTime = null;

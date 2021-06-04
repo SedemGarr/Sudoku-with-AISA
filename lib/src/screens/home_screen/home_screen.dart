@@ -127,6 +127,43 @@ abstract class HomeScreenState extends State<HomeScreen> with TickerProviderStat
     return (sum / stats.length).round();
   }
 
+  String getAverageDifficulty(List<Stats> stats) {
+    double sum = 0;
+    stats.forEach((stat) {
+      sum += stat.difficulty;
+    });
+
+    return this.parseDifficultyToString((sum / stats.length).round());
+  }
+
+  String parseDifficultyToString(int difficulty) {
+    switch (difficulty) {
+      case 0:
+        return 'easy';
+        break;
+      case 1:
+        return 'medium';
+        break;
+      case 2:
+        return 'hard';
+        break;
+      case 3:
+        return 'very hard';
+        break;
+      case 4:
+        return 'insane';
+        break;
+      case 5:
+        return 'inhuman';
+        break;
+      case 6:
+        return 'crazy';
+        break;
+      default:
+        return '';
+    }
+  }
+
   void processLeaderboardStreamData(AsyncSnapshot snapshot) {
     this.leaderboard = [];
     snapshot.data.docs.forEach((user) {

@@ -479,7 +479,8 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
         isSinglePlayer: false,
         level: 400,
         timeTaken: this.elapsedTime,
-        wonGame: this.competitiveGameWonBy == this.user.id);
+        wonGame: this.competitiveGameWonBy == this.user.id,
+        difficulty: this.currentGame.difficulty);
 
     if (mpStats.length <= 1 || newStats != mpStats[mpStats.length - 1]) {
       if (mpStats.length < 100) {

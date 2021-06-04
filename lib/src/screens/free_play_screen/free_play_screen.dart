@@ -316,13 +316,28 @@ abstract class FreePlayScreenState extends State<FreePlayScreen> with TickerProv
     List<Stats> fpStats = this.user.stats.where((element) => element.level == 300).toList();
 
     if (fpStats.length < 100) {
-      this
-          .user
-          .stats
-          .add(Stats(isCompetitive: false, isCoop: false, gameId: '300', isMultiplayer: false, isSinglePlayer: false, level: 300, timeTaken: this.elapsedTime, wonGame: true));
+      this.user.stats.add(Stats(
+          isCompetitive: false,
+          isCoop: false,
+          gameId: '300',
+          isMultiplayer: false,
+          isSinglePlayer: false,
+          level: 300,
+          timeTaken: this.elapsedTime,
+          wonGame: true,
+          difficulty: this.level.difficulty));
     } else {
       fpStats.removeAt(0);
-      fpStats.add(Stats(isCompetitive: false, isCoop: false, gameId: '300', isMultiplayer: false, isSinglePlayer: false, level: 300, timeTaken: this.elapsedTime, wonGame: true));
+      fpStats.add(Stats(
+          isCompetitive: false,
+          isCoop: false,
+          gameId: '300',
+          isMultiplayer: false,
+          isSinglePlayer: false,
+          level: 300,
+          timeTaken: this.elapsedTime,
+          wonGame: true,
+          difficulty: this.level.difficulty));
       this.user.stats = [...fpStats];
     }
 
