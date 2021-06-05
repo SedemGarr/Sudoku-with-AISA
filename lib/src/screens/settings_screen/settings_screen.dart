@@ -473,7 +473,7 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
             context,
             MaterialPageRoute(
               builder: (context) => ImageCropper(
-                image: File(image.path),
+                image: File(pickedFile.path),
                 appTheme: this.appTheme,
                 user: this.user,
               ),
