@@ -51,6 +51,7 @@ class AuthScreenView extends AuthScreenState {
   }
 
   Widget buildSignInView() {
+    loadInWidgets();
     return Container(
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(color: AppTheme.getLightOrDarkModeTheme(isDark)),

@@ -194,7 +194,6 @@ class FreePlayScreenView extends FreePlayScreenState {
   @override
   Widget build(BuildContext context) {
     loadInWidgets();
-
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
