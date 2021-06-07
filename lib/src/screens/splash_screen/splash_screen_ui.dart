@@ -21,9 +21,9 @@ class SplashScreenView extends SplashScreenState {
             isRepeatingAnimation: false,
             animatedTexts: [
               FadeAnimatedText('half-full games',
-                  textStyle: GoogleFonts.caveat(
+                  textStyle: GoogleFonts.quicksand(
                     fontWeight: FontWeight.bold,
-                    fontSize: 55,
+                    fontSize: 35,
                     color: appTheme.themeColor,
                   )),
             ],
