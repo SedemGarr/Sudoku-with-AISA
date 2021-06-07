@@ -170,7 +170,7 @@ abstract class FriendsScreenState extends State<FriendsScreen> with TickerProvid
           backgroundColor: appTheme.themeColor,
           content: Text(
             'you and ${friend.username} are no longer friends',
-            style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
+            style: GoogleFonts.quicksand(color: AppTheme.getLightOrDarkModeTheme(isDark)),
             textAlign: TextAlign.start,
           )));
     });
@@ -182,7 +182,7 @@ abstract class FriendsScreenState extends State<FriendsScreen> with TickerProvid
           backgroundColor: appTheme.themeColor,
           content: Text(
             '${friend.username} has already sent you a request',
-            style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
+            style: GoogleFonts.quicksand(color: AppTheme.getLightOrDarkModeTheme(isDark)),
             textAlign: TextAlign.start,
           )));
     });
@@ -194,7 +194,7 @@ abstract class FriendsScreenState extends State<FriendsScreen> with TickerProvid
           backgroundColor: appTheme.themeColor,
           content: Text(
             'you and ${friend.username} are now friends',
-            style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
+            style: GoogleFonts.quicksand(color: AppTheme.getLightOrDarkModeTheme(isDark)),
             textAlign: TextAlign.start,
           )));
     });
@@ -206,7 +206,7 @@ abstract class FriendsScreenState extends State<FriendsScreen> with TickerProvid
           backgroundColor: appTheme.themeColor,
           content: Text(
             '${friend.username}\'s request denied',
-            style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
+            style: GoogleFonts.quicksand(color: AppTheme.getLightOrDarkModeTheme(isDark)),
             textAlign: TextAlign.start,
           )));
     });
@@ -218,7 +218,7 @@ abstract class FriendsScreenState extends State<FriendsScreen> with TickerProvid
           backgroundColor: appTheme.themeColor,
           content: Text(
             'a friend request has been sent to ${friend.username}',
-            style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
+            style: GoogleFonts.quicksand(color: AppTheme.getLightOrDarkModeTheme(isDark)),
             textAlign: TextAlign.start,
           )));
     });
@@ -253,8 +253,8 @@ abstract class FriendsScreenState extends State<FriendsScreen> with TickerProvid
   showSendRequestDialog(Users friend, BuildContext context) {
     return showChoiceDialog(
         context: context,
-        title: 'send ${friend.username} a friend request?',
-        contentMessage: '',
+        title: 'send request',
+        contentMessage: 'send ${friend.username} a friend request?',
         yesMessage: 'yep!',
         noMessage: 'what if they think I\'m stalking them?',
         isDark: this.isDark,
@@ -266,45 +266,13 @@ abstract class FriendsScreenState extends State<FriendsScreen> with TickerProvid
         onNo: () {
           Navigator.pop(context);
         });
-
-    // return showDialog(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return AlertDialog(
-    //         backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
-    //         title: Text('send ${friend.username} a friend request?', textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
-    //         actions: [
-    //           Column(
-    //             crossAxisAlignment: CrossAxisAlignment.end,
-    //             children: [
-    //               TextButton(
-    //                   onPressed: () {
-    //                     Navigator.pop(context);
-    //                   },
-    //                   child: Text('what if they think I\'m stalking them?', textAlign: TextAlign.end, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900]))),
-    //               TextButton(
-    //                 onPressed: () {
-    //                   Navigator.pop(context);
-    //                   this.createFriendRequest(friend, this.user);
-    //                 },
-    //                 child: Text(
-    //                   'yep!',
-    //                   textAlign: TextAlign.end,
-    //                   style: GoogleFonts.lato(color: appTheme.themeColor),
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ],
-    //       );
-    //     });
   }
 
   showAcceptRequestDialog(Request request, Users friend, BuildContext context) {
     return showChoiceDialog(
         context: context,
-        title: 'accept ${friend.username}\'s friend request?',
-        contentMessage: '',
+        title: 'accept request',
+        contentMessage: 'accept ${friend.username}\'s friend request?',
         yesMessage: '👍',
         noMessage: 'oops!',
         isDark: this.isDark,
@@ -316,45 +284,13 @@ abstract class FriendsScreenState extends State<FriendsScreen> with TickerProvid
         onNo: () {
           Navigator.pop(context);
         });
-
-    // return showDialog(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return AlertDialog(
-    //         backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
-    //         title: Text('accept ${friend.username}\'s friend request?', textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
-    //         actions: [
-    //           Column(
-    //             crossAxisAlignment: CrossAxisAlignment.end,
-    //             children: [
-    //               TextButton(
-    //                   onPressed: () {
-    //                     Navigator.pop(context);
-    //                   },
-    //                   child: Text('oops!', textAlign: TextAlign.end, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900]))),
-    //               TextButton(
-    //                 onPressed: () {
-    //                   Navigator.pop(context);
-    //                   this.acceptRequest(request, friend);
-    //                 },
-    //                 child: Text(
-    //                   '👍',
-    //                   textAlign: TextAlign.end,
-    //                   style: GoogleFonts.lato(color: appTheme.themeColor),
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ],
-    //       );
-    //     });
   }
 
   showDenyRequestDialog(Request request, Users friend, BuildContext context) {
     return showChoiceDialog(
         context: context,
-        title: 'deny ${friend.username}\'s friend request?',
-        contentMessage: '',
+        title: 'deny request',
+        contentMessage: 'deny ${friend.username}\'s friend request?',
         yesMessage: 'yes, deny',
         noMessage: 'nah, changed my mind',
         isDark: this.isDark,
@@ -366,45 +302,13 @@ abstract class FriendsScreenState extends State<FriendsScreen> with TickerProvid
         onNo: () {
           Navigator.pop(context);
         });
-
-    // return showDialog(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return AlertDialog(
-    //         backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
-    //         title: Text('deny ${friend.username}\'s friend request?', textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
-    //         actions: [
-    //           Column(
-    //             crossAxisAlignment: CrossAxisAlignment.end,
-    //             children: [
-    //               TextButton(
-    //                   onPressed: () {
-    //                     Navigator.pop(context);
-    //                   },
-    //                   child: Text('nah, changed my mind', textAlign: TextAlign.end, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900]))),
-    //               TextButton(
-    //                 onPressed: () {
-    //                   Navigator.pop(context);
-    //                   this.denyRequest(request, friend);
-    //                 },
-    //                 child: Text(
-    //                   'yes, deny',
-    //                   textAlign: TextAlign.end,
-    //                   style: GoogleFonts.lato(color: appTheme.themeColor),
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ],
-    //       );
-    //     });
   }
 
   showUnFriendDialog(Users friend, BuildContext context) {
     return showChoiceDialog(
         context: context,
-        title: 'had enough of ${friend.username}?',
-        contentMessage: '',
+        title: 'un-friend',
+        contentMessage: 'had enough of ${friend.username}?',
         yesMessage: 'yes! 🙄',
         noMessage: 'oops!',
         isDark: this.isDark,
@@ -416,37 +320,5 @@ abstract class FriendsScreenState extends State<FriendsScreen> with TickerProvid
         onNo: () {
           Navigator.pop(context);
         });
-
-    // return showDialog(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return AlertDialog(
-    //         backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
-    //         title: Text('had enough of ${friend.username}?', textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
-    //         actions: [
-    //           Column(
-    //             crossAxisAlignment: CrossAxisAlignment.end,
-    //             children: [
-    //               TextButton(
-    //                   onPressed: () {
-    //                     Navigator.pop(context);
-    //                   },
-    //                   child: Text('oops!', textAlign: TextAlign.end, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900]))),
-    //               TextButton(
-    //                 onPressed: () {
-    //                   Navigator.pop(context);
-    //                   this.unFriend(friend);
-    //                 },
-    //                 child: Text(
-    //                   'yes! 🙄',
-    //                   textAlign: TextAlign.end,
-    //                   style: GoogleFonts.lato(color: appTheme.themeColor),
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ],
-    //       );
-    //     });
   }
 }

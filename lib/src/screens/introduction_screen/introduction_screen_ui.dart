@@ -57,7 +57,7 @@ class IntroductionScreenView extends IntroductionScreenState {
                   child: Center(
                     child: Text(
                       value == 0 ? '-' : value.toString(),
-                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.roboto(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                   ),
                 );
@@ -80,21 +80,21 @@ class IntroductionScreenView extends IntroductionScreenState {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     'Hi!',
-                    style: GoogleFonts.lato(color: appTheme.themeColor, fontSize: 30),
+                    style: GoogleFonts.quicksand(color: appTheme.themeColor, fontSize: 30),
                   ),
                 ),
               ),
               Center(
                 child: Text(
                   AISA.introductionDialog[0],
-                  style: GoogleFonts.lato(color: appTheme.themeColor),
+                  style: GoogleFonts.roboto(color: appTheme.themeColor),
                 ),
               ),
               buildBoard(),
               Center(
                 child: Text(
                   AISA.introductionDialog[1],
-                  style: GoogleFonts.lato(color: appTheme.themeColor),
+                  style: GoogleFonts.roboto(color: appTheme.themeColor),
                 ),
               ),
             ],
@@ -111,7 +111,7 @@ class IntroductionScreenView extends IntroductionScreenState {
         child: TextButton(
           child: Text(
             'start',
-            style: GoogleFonts.lato(color: appTheme.themeColor),
+            style: GoogleFonts.quicksand(color: appTheme.themeColor),
           ),
           onPressed: () {
             showTermsDialog();

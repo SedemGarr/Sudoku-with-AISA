@@ -243,7 +243,7 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
             backgroundColor: appTheme.themeColor,
             content: Text(
               'continuing your previously saved game',
-              style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(this.user.isDark)),
+              style: GoogleFonts.quicksand(color: AppTheme.getLightOrDarkModeTheme(this.user.isDark)),
               textAlign: TextAlign.center,
             )));
       });
@@ -256,7 +256,7 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
           backgroundColor: appTheme.themeColor,
           content: Text(
             '$partnerName has left the game',
-            style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(this.user.isDark)),
+            style: GoogleFonts.quicksand(color: AppTheme.getLightOrDarkModeTheme(this.user.isDark)),
             textAlign: TextAlign.center,
           )));
     });
@@ -516,7 +516,7 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
           return AlertDialog(
             backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
             title: Text('leave this game with ' + game.players[game.players.indexWhere((element) => element.id != user.id)].username + '?',
-                textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
+                textAlign: TextAlign.center, style: GoogleFonts.quicksand(color: isDark ? Colors.white : Colors.grey[900])),
             actions: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -525,7 +525,7 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text('oops!', textAlign: TextAlign.end, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900]))),
+                      child: Text('oops!', textAlign: TextAlign.end, style: GoogleFonts.roboto(color: isDark ? Colors.white : Colors.grey[900]))),
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
@@ -535,7 +535,7 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
                     child: Text(
                       'yes, I want to leave',
                       textAlign: TextAlign.end,
-                      style: GoogleFonts.lato(color: appTheme.themeColor),
+                      style: GoogleFonts.roboto(color: appTheme.themeColor),
                     ),
                   ),
                 ],
@@ -556,7 +556,7 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
                     ? 'end game?'
                     : 'end this game with ' + game.players[game.players.indexWhere((element) => element.id != user.id)].username + '?',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
+                style: GoogleFonts.quicksand(color: isDark ? Colors.white : Colors.grey[900])),
             actions: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -565,7 +565,7 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text('oops!', textAlign: TextAlign.end, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900]))),
+                      child: Text('oops!', textAlign: TextAlign.end, style: GoogleFonts.roboto(color: isDark ? Colors.white : Colors.grey[900]))),
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
@@ -575,7 +575,7 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
                     child: Text(
                       'mmhm, end it',
                       textAlign: TextAlign.end,
-                      style: GoogleFonts.lato(color: appTheme.themeColor),
+                      style: GoogleFonts.roboto(color: appTheme.themeColor),
                     ),
                   ),
                 ],
@@ -649,7 +649,7 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
           backgroundColor: appTheme.themeColor,
           content: Text(
             'game id copied to clipbaord',
-            style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
+            style: GoogleFonts.quicksand(color: AppTheme.getLightOrDarkModeTheme(isDark)),
             textAlign: TextAlign.start,
           )));
     });

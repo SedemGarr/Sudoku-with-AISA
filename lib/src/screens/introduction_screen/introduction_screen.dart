@@ -118,14 +118,14 @@ abstract class IntroductionScreenState extends State<IntroductionScreen> with Ti
           return AlertDialog(
             scrollable: true,
             backgroundColor: this.appTheme.themeColor,
-            title: Text('terms and policies', textAlign: TextAlign.center, style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark))),
+            title: Text('terms and policies', textAlign: TextAlign.center, style: GoogleFonts.quicksand(color: AppTheme.getLightOrDarkModeTheme(isDark))),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    child: Text(AISA.introductionDialog[2], style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark))),
+                    child: Text(AISA.introductionDialog[2], style: GoogleFonts.roboto(color: AppTheme.getLightOrDarkModeTheme(isDark))),
                   ),
                 ),
                 Padding(
@@ -137,7 +137,7 @@ abstract class IntroductionScreenState extends State<IntroductionScreen> with Ti
                     child: Text(
                       'proceed',
                       textAlign: TextAlign.end,
-                      style: GoogleFonts.lato(fontWeight: FontWeight.bold, color: AppTheme.getLightOrDarkModeTheme(isDark)),
+                      style: GoogleFonts.quicksand(fontWeight: FontWeight.bold, color: AppTheme.getLightOrDarkModeTheme(isDark)),
                     ),
                   ),
                 ),

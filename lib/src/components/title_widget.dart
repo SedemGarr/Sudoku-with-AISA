@@ -18,56 +18,32 @@ class TitleWidget extends StatelessWidget {
                 text: TextSpan(children: [
               TextSpan(
                 text: "s",
-                style: GoogleFonts.architectsDaughter(
-                  color: color,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: GoogleFonts.quicksand(color: color, fontWeight: FontWeight.bold),
               ),
               TextSpan(
                 text: "u",
-                style: GoogleFonts.architectsDaughter(
-                  color: color,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: GoogleFonts.quicksand(color: color, fontWeight: FontWeight.bold),
               ),
               TextSpan(
                 text: "d",
-                style: GoogleFonts.architectsDaughter(
-                  color: color,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: GoogleFonts.quicksand(color: color, fontWeight: FontWeight.bold),
               ),
               TextSpan(
                 text: "o",
-                style: GoogleFonts.architectsDaughter(
-                  color: color,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: GoogleFonts.quicksand(color: color, fontWeight: FontWeight.bold),
               ),
               TextSpan(
                 text: "k",
-                style: GoogleFonts.architectsDaughter(
-                  color: color,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: GoogleFonts.quicksand(color: color, fontWeight: FontWeight.bold),
               ),
               TextSpan(
                 text: "u",
-                style: GoogleFonts.architectsDaughter(
-                  color: color,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: GoogleFonts.quicksand(color: color, fontWeight: FontWeight.bold),
               ),
             ])),
             Text(
               'with AISA',
-              style: GoogleFonts.lato(fontSize: 3, color: color),
+              style: GoogleFonts.quicksand(fontSize: 3, color: color),
             )
           ],
         ),

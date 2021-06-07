@@ -24,7 +24,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                 padding: const EdgeInsets.all(10.0),
                 child: Text(
                   'join',
-                  style: GoogleFonts.lato(
+                  style: GoogleFonts.quicksand(
                       color: isJoining
                           ? isDark
                               ? Colors.grey[900]
@@ -48,7 +48,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                 padding: const EdgeInsets.all(10.0),
                 child: Text(
                   'start',
-                  style: GoogleFonts.lato(
+                  style: GoogleFonts.quicksand(
                       color: isHosting
                           ? isDark
                               ? Colors.grey[900]
@@ -81,12 +81,12 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                   child: TextFormField(
                 cursorColor: appTheme.themeColor,
                 keyboardType: TextInputType.text,
-                style: GoogleFonts.lato(color: appTheme.themeColor),
+                style: GoogleFonts.quicksand(color: appTheme.themeColor),
                 decoration: InputDecoration(
                     focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: appTheme.themeColor)),
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: appTheme.themeColor)),
                     hintText: 'enter a game id',
-                    hintStyle: GoogleFonts.lato(color: appTheme.themeColor)),
+                    hintStyle: GoogleFonts.quicksand(color: appTheme.themeColor)),
                 onChanged: (value) {
                   joiningGameId = value;
                 },
@@ -116,7 +116,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.25),
       child: Text(
         'no games',
-        style: GoogleFonts.lato(
+        style: GoogleFonts.roboto(
           color: appTheme.themeColor,
         ),
       ),
@@ -129,7 +129,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.25),
       child: Text(
         'no invitations',
-        style: GoogleFonts.lato(
+        style: GoogleFonts.roboto(
           color: appTheme.themeColor,
         ),
       ),
@@ -159,7 +159,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                         backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
                         initialsText: Text(
                           getInitials(myInvites[index].inviter.username),
-                          style: GoogleFonts.lato(
+                          style: GoogleFonts.quicksand(
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
                             color: appTheme.themeColor,
@@ -176,13 +176,13 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                       text: TextSpan(children: [
                         TextSpan(
                           text: myInvites[index].inviter.username,
-                          style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.getLightOrDarkModeTheme(isDark)),
+                          style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.getLightOrDarkModeTheme(isDark)),
                         ),
                       ]),
                     ),
                     subtitle: Text(
                       myInvites[index].isCoop ? 'is inviting you to join their cooperative game' : 'is inviting you to join their competitive game',
-                      style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
+                      style: GoogleFonts.roboto(color: AppTheme.getLightOrDarkModeTheme(isDark)),
                     ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -238,7 +238,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                       },
                       child: Text(
                         isViewingInvitations ? 'see your ongoing games' : 'see your invitations(${myInvites.length})',
-                        style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                        style: GoogleFonts.quicksand(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                       )),
                 ),
                 isViewingInvitations
@@ -299,7 +299,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                                           getInitials(onGoingGames[index].players.indexWhere((element) => element.id != user.id) == -1
                                                               ? user.username
                                                               : onGoingGames[index].players[onGoingGames[index].players.indexWhere((element) => element.id != user.id)].username),
-                                                          style: GoogleFonts.lato(
+                                                          style: GoogleFonts.quicksand(
                                                             fontWeight: FontWeight.bold,
                                                             fontSize: 14,
                                                             color: appTheme.themeColor,
@@ -319,16 +319,16 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                                                 : onGoingGames[index].hasInvited && onGoingGames[index].invitationStatus == 0
                                                                     ? '${onGoingGames[index].invitee.username} declined your invitation'
                                                                     : 'only you',
-                                                            style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.getLightOrDarkModeTheme(isDark)),
+                                                            style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.getLightOrDarkModeTheme(isDark)),
                                                           )
                                                         : Text(
                                                             onGoingGames[index].players[onGoingGames[index].players.indexWhere((element) => element.id != user.id)].username +
                                                                 ' and you',
-                                                            style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.getLightOrDarkModeTheme(isDark)),
+                                                            style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.getLightOrDarkModeTheme(isDark)),
                                                           ),
                                                     subtitle: Text(
                                                       formatDateTime(onGoingGames[index].lastPlayedOn),
-                                                      style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
+                                                      style: GoogleFonts.roboto(color: AppTheme.getLightOrDarkModeTheme(isDark)),
                                                     ),
                                                     trailing: Row(
                                                       mainAxisSize: MainAxisSize.min,
@@ -386,7 +386,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                           padding: const EdgeInsets.all(8.0),
                           child: SelectableText(
                             currentGame.id,
-                            style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold, fontSize: 25),
+                            style: GoogleFonts.quicksand(color: appTheme.themeColor, fontWeight: FontWeight.bold, fontSize: 25),
                           ),
                         ),
                         Padding(
@@ -394,7 +394,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                           child: Text(
                             'this is your game id. your friend will use it to join your game. the game will start as soon as your friend joins',
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.lato(
+                            style: GoogleFonts.roboto(
                               color: appTheme.themeColor,
                             ),
                           ),
@@ -414,7 +414,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                   ),
                                   label: Text(
                                     'share game id',
-                                    style: GoogleFonts.lato(color: appTheme.themeColor),
+                                    style: GoogleFonts.quicksand(color: appTheme.themeColor),
                                   )),
                             ),
                             !hasInvited
@@ -430,7 +430,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                         ),
                                         label: Text(
                                           'invite friend',
-                                          style: GoogleFonts.lato(color: appTheme.themeColor),
+                                          style: GoogleFonts.quicksand(color: appTheme.themeColor),
                                         )),
                                   )
                                 : Container()
@@ -463,7 +463,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
                                 'game options',
-                                style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                                style: GoogleFonts.roboto(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                               ),
                             ),
                             Padding(
@@ -473,7 +473,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                 children: [
                                   Text(
                                     'cooperative',
-                                    style: GoogleFonts.lato(
+                                    style: GoogleFonts.quicksand(
                                         color: appTheme.themeColor,
                                         fontSize: currentGame.isCooperative ? 16 : 14,
                                         fontWeight: currentGame.isCooperative ? FontWeight.bold : FontWeight.normal),
@@ -490,7 +490,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                   ),
                                   Text(
                                     'competitive',
-                                    style: GoogleFonts.lato(
+                                    style: GoogleFonts.quicksand(
                                         color: appTheme.themeColor,
                                         fontSize: currentGame.isCompetitive ? 16 : 14,
                                         fontWeight: currentGame.isCompetitive ? FontWeight.bold : FontWeight.normal),
@@ -510,7 +510,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                         color: AppTheme.getLightOrDarkModeTheme(isDark),
                                       ),
                                       label: Text('random'),
-                                      labelStyle: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark), fontWeight: FontWeight.bold),
+                                      labelStyle: GoogleFonts.roboto(color: AppTheme.getLightOrDarkModeTheme(isDark), fontWeight: FontWeight.bold),
                                       backgroundColor: appTheme.themeColor,
                                       selected: preferedPattern == 'Random',
                                       selectedColor: appTheme.themeColor[900],
@@ -531,7 +531,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                         color: AppTheme.getLightOrDarkModeTheme(isDark),
                                       ),
                                       label: Text('spring'),
-                                      labelStyle: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark), fontWeight: FontWeight.bold),
+                                      labelStyle: GoogleFonts.quicksand(color: AppTheme.getLightOrDarkModeTheme(isDark), fontWeight: FontWeight.bold),
                                       backgroundColor: appTheme.themeColor,
                                       selected: preferedPattern == 'spring',
                                       selectedColor: appTheme.themeColor[900],
@@ -552,7 +552,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                         color: AppTheme.getLightOrDarkModeTheme(isDark),
                                       ),
                                       label: Text('summer'),
-                                      labelStyle: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark), fontWeight: FontWeight.bold),
+                                      labelStyle: GoogleFonts.quicksand(color: AppTheme.getLightOrDarkModeTheme(isDark), fontWeight: FontWeight.bold),
                                       backgroundColor: appTheme.themeColor,
                                       selected: preferedPattern == 'summer',
                                       selectedColor: appTheme.themeColor[900],
@@ -573,7 +573,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                         color: AppTheme.getLightOrDarkModeTheme(isDark),
                                       ),
                                       label: Text('fall'),
-                                      labelStyle: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark), fontWeight: FontWeight.bold),
+                                      labelStyle: GoogleFonts.quicksand(color: AppTheme.getLightOrDarkModeTheme(isDark), fontWeight: FontWeight.bold),
                                       backgroundColor: appTheme.themeColor,
                                       selected: preferedPattern == 'fall',
                                       selectedColor: appTheme.themeColor[900],
@@ -594,7 +594,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                                         color: AppTheme.getLightOrDarkModeTheme(isDark),
                                       ),
                                       label: Text('winter'),
-                                      labelStyle: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark), fontWeight: FontWeight.bold),
+                                      labelStyle: GoogleFonts.quicksand(color: AppTheme.getLightOrDarkModeTheme(isDark), fontWeight: FontWeight.bold),
                                       backgroundColor: appTheme.themeColor,
                                       selected: preferedPattern == 'winter',
                                       selectedColor: appTheme.themeColor[900],
@@ -646,7 +646,8 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                 elevation: 0,
                 title: Text(
                   'multiplayer',
-                  style: GoogleFonts.lato(
+                  style: GoogleFonts.quicksand(
+                    fontWeight: FontWeight.bold,
                     color: appTheme.themeColor,
                   ),
                 ),

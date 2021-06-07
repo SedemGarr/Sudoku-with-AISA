@@ -60,7 +60,7 @@ class SinglePlayerGameScreenView extends SinglePlayerGameScreenState {
                     child: Center(
                       child: Text(
                         isCellEmpty(value) ? '-' : value.toString(),
-                        style: GoogleFonts.lato(color: getCellTextColor(index, value), fontWeight: FontWeight.bold),
+                        style: GoogleFonts.roboto(color: getCellTextColor(index, value), fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
@@ -87,23 +87,23 @@ class SinglePlayerGameScreenView extends SinglePlayerGameScreenState {
                   children: [
                     Text(
                       StopWatchTimer.getDisplayTimeHours(snap.data),
-                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.quicksand(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       ":",
-                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.quicksand(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       StopWatchTimer.getDisplayTimeMinute(snap.data),
-                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.quicksand(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       ":",
-                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.quicksand(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       StopWatchTimer.getDisplayTimeSecond(snap.data),
-                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.quicksand(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -143,19 +143,6 @@ class SinglePlayerGameScreenView extends SinglePlayerGameScreenState {
       ),
     ];
 
-    // if (user.hasCompletedGame) {
-    //   listOfButtonWidgets.add(Tooltip(
-    //     message: 'settings',
-    //     decoration: BoxDecoration(color: appTheme.themeColor),
-    //     child: IconButton(
-    //         icon: Icon(
-    //           LineIcons.cog,
-    //           color: appTheme.themeColor,
-    //         ),
-    //         onPressed: () {}),
-    //   ));
-    // }
-
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -177,7 +164,7 @@ class SinglePlayerGameScreenView extends SinglePlayerGameScreenState {
           child: IconButton(
             icon: Text(
               i.toString(),
-              style: GoogleFonts.lato(color: isDark ? Colors.black : Colors.white, fontWeight: FontWeight.bold),
+              style: GoogleFonts.quicksand(color: isDark ? Colors.black : Colors.white, fontWeight: FontWeight.bold),
             ),
             onPressed: () {
               setCellValue(i, context);

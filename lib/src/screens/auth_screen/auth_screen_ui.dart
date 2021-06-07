@@ -16,11 +16,11 @@ class AuthScreenView extends AuthScreenState {
         children: [
           Text(
             packageInfo == null ? '' : 'version ${packageInfo.version}',
-            style: GoogleFonts.lato(color: appTheme.themeColor),
+            style: GoogleFonts.roboto(color: appTheme.themeColor),
           ),
           Text(
             'copyright © ${DateTime.now().year} half-full games. all rights reserved',
-            style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+            style: GoogleFonts.roboto(color: appTheme.themeColor, fontWeight: FontWeight.bold),
           ),
         ],
       ),
@@ -44,7 +44,7 @@ class AuthScreenView extends AuthScreenState {
         ),
         label: Text(
           'sign in with google',
-          style: GoogleFonts.lato(color: appTheme.themeColor, fontSize: 20),
+          style: GoogleFonts.quicksand(color: appTheme.themeColor, fontSize: 20),
         ),
       ),
     );

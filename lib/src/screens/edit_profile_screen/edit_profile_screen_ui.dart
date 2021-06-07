@@ -15,7 +15,7 @@ class EditProfileScreenView extends EditProfileScreenState {
           elevation: 0,
           title: Text(
             'edit your profile',
-            style: GoogleFonts.lato(
+            style: GoogleFonts.roboto(
               color: appTheme.themeColor,
             ),
           ),

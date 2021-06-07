@@ -40,7 +40,7 @@ class _ViewPhotoWidgetState extends State<ViewPhotoWidget> {
             )),
         title: Text(
           widget.username == widget.user.username ? 'you' : widget.username,
-          style: GoogleFonts.lato(fontWeight: FontWeight.bold, color: widget.appTheme.themeColor),
+          style: GoogleFonts.roboto(fontWeight: FontWeight.bold, color: widget.appTheme.themeColor),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),

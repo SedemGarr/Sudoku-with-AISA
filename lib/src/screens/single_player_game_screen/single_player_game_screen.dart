@@ -119,7 +119,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
     int adjustedLevel = this.getAdjustedLevel(this.user.level);
     return Text(
       adjustedLevel.toString(),
-      style: GoogleFonts.lato(color: this.appTheme.themeColor),
+      style: GoogleFonts.quicksand(color: this.appTheme.themeColor, fontWeight: FontWeight.bold),
     );
   }
 
@@ -168,7 +168,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
             backgroundColor: appTheme.themeColor,
             content: Text(
               'a previous game was loaded',
-              style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
+              style: GoogleFonts.quicksand(color: AppTheme.getLightOrDarkModeTheme(isDark)),
               textAlign: TextAlign.center,
             )));
       });
@@ -427,7 +427,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    child: Text(AISA.gameDialog[this.getAdjustedLevel(this.user.level) - 1], style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark))),
+                    child: Text(AISA.gameDialog[this.getAdjustedLevel(this.user.level) - 1], style: GoogleFonts.roboto(color: AppTheme.getLightOrDarkModeTheme(isDark))),
                   ),
                 ),
                 Padding(
@@ -441,7 +441,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
                     child: Text(
                       'proceed',
                       textAlign: TextAlign.end,
-                      style: GoogleFonts.lato(fontWeight: FontWeight.bold, color: AppTheme.getLightOrDarkModeTheme(isDark)),
+                      style: GoogleFonts.quicksand(fontWeight: FontWeight.bold, color: AppTheme.getLightOrDarkModeTheme(isDark)),
                     ),
                   ),
                 ),

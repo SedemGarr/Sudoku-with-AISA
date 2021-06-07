@@ -74,7 +74,7 @@ class _ImageCropperState extends State<ImageCropper> {
         ),
         title: Text(
           'crop photo',
-          style: GoogleFonts.lato(color: widget.appTheme.themeColor, fontWeight: FontWeight.w700),
+          style: GoogleFonts.roboto(color: widget.appTheme.themeColor, fontWeight: FontWeight.w700),
         ),
         actions: [
           IconButton(

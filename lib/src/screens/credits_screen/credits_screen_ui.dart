@@ -27,7 +27,7 @@ class CreditsScreenView extends CreditsScreenState {
                       },
                       child: Text(
                         'home',
-                        style: GoogleFonts.lato(fontWeight: FontWeight.bold, color: appTheme.themeColor),
+                        style: GoogleFonts.roboto(fontWeight: FontWeight.bold, color: appTheme.themeColor),
                       ))
                 ],
               ),

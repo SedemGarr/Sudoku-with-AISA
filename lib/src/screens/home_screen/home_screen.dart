@@ -240,7 +240,7 @@ abstract class HomeScreenState extends State<HomeScreen> with TickerProviderStat
         backgroundColor: appTheme.themeColor,
         content: Text(
           'it\'s better if you\'re connected to the internet for this. trust us',
-          style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
+          style: GoogleFonts.quicksand(color: AppTheme.getLightOrDarkModeTheme(isDark)),
           textAlign: TextAlign.start,
         )));
   }
@@ -252,7 +252,7 @@ abstract class HomeScreenState extends State<HomeScreen> with TickerProviderStat
             backgroundColor: appTheme.themeColor,
             content: Text(
               'welcome back, ' + this.user.username,
-              style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
+              style: GoogleFonts.quicksand(color: AppTheme.getLightOrDarkModeTheme(isDark)),
               textAlign: TextAlign.center,
             )));
       });
@@ -358,8 +358,8 @@ abstract class HomeScreenState extends State<HomeScreen> with TickerProviderStat
   showSignOutDialog(BuildContext context) {
     return showChoiceDialog(
         context: context,
-        title: 'leaving so soon?',
-        contentMessage: '',
+        title: 'sign out',
+        contentMessage: 'leaving so soon?',
         yesMessage: 'yeah, I\'ve got to do a thing',
         noMessage: 'oops!',
         isDark: this.isDark,
@@ -385,8 +385,8 @@ abstract class HomeScreenState extends State<HomeScreen> with TickerProviderStat
   showExitDialog(BuildContext context) {
     return showChoiceDialog(
         context: context,
-        title: 'did we do something wrong?',
-        contentMessage: '',
+        title: 'exit',
+        contentMessage: 'did we do something wrong?',
         yesMessage: 'that\'s enough sudoku for today',
         noMessage: 'sorry, it\'s that pesky back button again',
         isDark: this.isDark,

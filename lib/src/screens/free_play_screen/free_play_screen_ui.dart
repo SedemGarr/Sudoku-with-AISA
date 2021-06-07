@@ -60,7 +60,7 @@ class FreePlayScreenView extends FreePlayScreenState {
                     child: Center(
                       child: Text(
                         isCellEmpty(value) ? '-' : value.toString(),
-                        style: GoogleFonts.lato(color: getCellTextColor(index, value), fontWeight: FontWeight.bold),
+                        style: GoogleFonts.roboto(color: getCellTextColor(index, value), fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
@@ -87,23 +87,23 @@ class FreePlayScreenView extends FreePlayScreenState {
                   children: [
                     Text(
                       StopWatchTimer.getDisplayTimeHours(snap.data),
-                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.quicksand(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       ":",
-                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.quicksand(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       StopWatchTimer.getDisplayTimeMinute(snap.data),
-                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.quicksand(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       ":",
-                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.quicksand(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       StopWatchTimer.getDisplayTimeSecond(snap.data),
-                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.quicksand(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -177,7 +177,7 @@ class FreePlayScreenView extends FreePlayScreenState {
           child: IconButton(
             icon: Text(
               i.toString(),
-              style: GoogleFonts.lato(color: user.isDark ? Colors.black : Colors.white, fontWeight: FontWeight.bold),
+              style: GoogleFonts.quicksand(color: user.isDark ? Colors.black : Colors.white, fontWeight: FontWeight.bold),
             ),
             onPressed: () {
               setCellValue(i, context);

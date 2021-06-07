@@ -182,7 +182,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
           backgroundColor: appTheme.themeColor,
           content: Text(
             '${user.username} has declined your invitation',
-            style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
+            style: GoogleFonts.roboto(color: AppTheme.getLightOrDarkModeTheme(isDark)),
             textAlign: TextAlign.start,
           )));
     });
@@ -316,7 +316,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
           backgroundColor: appTheme.themeColor,
           content: Text(
             'game id copied to clipboard',
-            style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
+            style: GoogleFonts.roboto(color: AppTheme.getLightOrDarkModeTheme(isDark)),
             textAlign: TextAlign.start,
           )));
     });
@@ -328,7 +328,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
           backgroundColor: appTheme.themeColor,
           content: Text(
             'a game with that id was not found',
-            style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
+            style: GoogleFonts.roboto(color: AppTheme.getLightOrDarkModeTheme(isDark)),
             textAlign: TextAlign.start,
           )));
     });
@@ -340,7 +340,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
           backgroundColor: appTheme.themeColor,
           content: Text(
             'something went wrong',
-            style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
+            style: GoogleFonts.roboto(color: AppTheme.getLightOrDarkModeTheme(isDark)),
             textAlign: TextAlign.start,
           )));
     });
@@ -351,7 +351,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
         backgroundColor: appTheme.themeColor,
         content: Text(
           'this game has expired. please start another',
-          style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
+          style: GoogleFonts.roboto(color: AppTheme.getLightOrDarkModeTheme(isDark)),
           textAlign: TextAlign.start,
         )));
   }
@@ -462,7 +462,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
           backgroundColor: appTheme.themeColor,
           content: Text(
             'an invite has been sent to ${friend.username}',
-            style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
+            style: GoogleFonts.roboto(color: AppTheme.getLightOrDarkModeTheme(isDark)),
             textAlign: TextAlign.start,
           )));
     });
@@ -474,7 +474,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
           backgroundColor: appTheme.themeColor,
           content: Text(
             'you have declined ${friend.username}\'s invite',
-            style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(isDark)),
+            style: GoogleFonts.roboto(color: AppTheme.getLightOrDarkModeTheme(isDark)),
             textAlign: TextAlign.start,
           )));
     });
@@ -492,8 +492,8 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
   showAcceptInviteDialog(Invite invite, BuildContext context) {
     return showChoiceDialog(
         context: context,
-        title: 'join this game with ${invite.inviter.username}?',
-        contentMessage: '',
+        title: 'accept invitation',
+        contentMessage: 'join this game with ${invite.inviter.username}?',
         yesMessage: 'let\'s go!',
         noMessage: 'on second thought, nah',
         isDark: this.isDark,
@@ -510,8 +510,8 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
   showRefuseInviteDialog(Invite invite, BuildContext context) {
     return showChoiceDialog(
         context: context,
-        title: 'refuse ${invite.inviter.username}\'s invite?',
-        contentMessage: '',
+        title: 'refuse invitation',
+        contentMessage: 'refuse ${invite.inviter.username}\'s invite?',
         yesMessage: 'yep. not interested',
         noMessage: 'oops!',
         isDark: this.isDark,
@@ -534,7 +534,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
             return AlertDialog(
               scrollable: true,
               backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
-              title: Text('select a friend', textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
+              title: Text('select a friend', textAlign: TextAlign.center, style: GoogleFonts.quicksand(color: isDark ? Colors.white : Colors.grey[900])),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -549,12 +549,12 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
                               autofocus: true,
                               cursorColor: appTheme.themeColor,
                               keyboardType: TextInputType.text,
-                              style: GoogleFonts.lato(color: appTheme.themeColor),
+                              style: GoogleFonts.quicksand(color: appTheme.themeColor),
                               decoration: InputDecoration(
                                   focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: appTheme.themeColor)),
                                   enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: appTheme.themeColor)),
                                   hintText: 'enter a username',
-                                  hintStyle: GoogleFonts.lato(color: appTheme.themeColor)),
+                                  hintStyle: GoogleFonts.roboto(color: appTheme.themeColor)),
                               onChanged: (value) {
                                 setState(() {
                                   searchTerm = value;
@@ -589,7 +589,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
                                   child: Text(
                                     'no results found for $searchTerm',
                                     textAlign: TextAlign.center,
-                                    style: GoogleFonts.lato(color: appTheme.themeColor),
+                                    style: GoogleFonts.roboto(color: appTheme.themeColor),
                                   ),
                                 ),
                               )
@@ -617,7 +617,7 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
                                   backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
                                   initialsText: Text(
                                     getInitials(foundUsers[index].username),
-                                    style: GoogleFonts.lato(
+                                    style: GoogleFonts.quicksand(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14,
                                       color: appTheme.themeColor,
@@ -633,27 +633,9 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
                                     foundUsers[index].username,
-                                    style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.getLightOrDarkModeTheme(isDark)),
+                                    style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.getLightOrDarkModeTheme(isDark)),
                                   ),
                                 ),
-                                // subtitle: Text(
-                                //   // check if friendly
-                                //   'you and ${foundUsers[index].username} are friends',
-                                //   style: GoogleFonts.lato(
-                                //     color: isDark
-                                //         ? Colors.grey[900]
-                                //         : Colors.white,
-                                //   ),
-                                // ),
-                                // trailing: IconButton(
-                                //   icon: Icon(
-                                //     LineIcons.userPlus,
-                                //     color: isDark
-                                //         ? Colors.grey[900]
-                                //         : Colors.white,
-                                //   ),
-                                //   onPressed: () {},
-                                // ),
                               );
                             }),
                       );
@@ -669,10 +651,10 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
   showJoiningGameFromListDialog(MultiplayerGame game, BuildContext context) {
     return showChoiceDialog(
         context: context,
-        title: game.players.indexWhere((element) => element.id != user.id) == -1
+        title: 'join game',
+        contentMessage: game.players.indexWhere((element) => element.id != user.id) == -1
             ? 'rejoing this game?'
             : 'rejoin this game with ' + game.players[game.players.indexWhere((element) => element.id != user.id)].username + '?',
-        contentMessage: '',
         yesMessage: 'yes please',
         noMessage: 'oops!',
         isDark: this.isDark,
@@ -689,10 +671,10 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
   showDeleteGameDialog(MultiplayerGame game, BuildContext context) {
     return showChoiceDialog(
         context: context,
-        title: game.players.indexWhere((element) => element.id != user.id) == -1
+        title: 'end game',
+        contentMessage: game.players.indexWhere((element) => element.id != user.id) == -1
             ? 'end game?'
             : 'end this game with ' + game.players[game.players.indexWhere((element) => element.id != user.id)].username + '?',
-        contentMessage: '',
         yesMessage: 'mmhm, end it',
         noMessage: 'oops!',
         isDark: this.isDark,
@@ -709,8 +691,8 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
   showLeaveGameDialog(MultiplayerGame game, BuildContext context) {
     return showChoiceDialog(
         context: context,
-        title: 'leave this game with ' + game.players[game.players.indexWhere((element) => element.id != user.id)].username + '?',
-        contentMessage: '',
+        title: 'leave game',
+        contentMessage: 'leave this game with ' + game.players[game.players.indexWhere((element) => element.id != user.id)].username + '?',
         yesMessage: 'yes, I want to leave',
         noMessage: 'oops!',
         isDark: this.isDark,

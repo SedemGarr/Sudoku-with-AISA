@@ -18,10 +18,11 @@ showChoiceDialog({
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
-          title: Text(title, textAlign: TextAlign.center, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900])),
+          title: Text(title, textAlign: TextAlign.center, style: GoogleFonts.quicksand(fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.grey[900])),
           content: Text(
             contentMessage,
-            style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900]),
+            textAlign: TextAlign.center,
+            style: GoogleFonts.roboto(color: isDark ? Colors.white : Colors.grey[900]),
           ),
           actions: [
             Column(
@@ -31,7 +32,7 @@ showChoiceDialog({
                     onPressed: () {
                       onNo();
                     },
-                    child: Text(noMessage, textAlign: TextAlign.end, style: GoogleFonts.lato(color: isDark ? Colors.white : Colors.grey[900]))),
+                    child: Text(noMessage, textAlign: TextAlign.end, style: GoogleFonts.roboto(color: isDark ? Colors.white : Colors.grey[900]))),
                 TextButton(
                   onPressed: () {
                     onYes();
@@ -39,7 +40,7 @@ showChoiceDialog({
                   child: Text(
                     yesMessage,
                     textAlign: TextAlign.end,
-                    style: GoogleFonts.lato(color: appTheme.themeColor),
+                    style: GoogleFonts.roboto(color: appTheme.themeColor),
                   ),
                 ),
               ],

@@ -165,7 +165,7 @@ abstract class FreePlayScreenState extends State<FreePlayScreen> with TickerProv
             backgroundColor: appTheme.themeColor,
             content: Text(
               'a previous game was loaded',
-              style: GoogleFonts.lato(color: AppTheme.getLightOrDarkModeTheme(this.user.isDark)),
+              style: GoogleFonts.quicksand(color: AppTheme.getLightOrDarkModeTheme(this.user.isDark)),
               textAlign: TextAlign.center,
             )));
       });
@@ -386,7 +386,7 @@ abstract class FreePlayScreenState extends State<FreePlayScreen> with TickerProv
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
                     child: Text(AISA.freeDialog[this.generateRandomInt(0, AISA.freeDialog.length)],
-                        style: GoogleFonts.lato(color: this.user.isDark ? Colors.grey[900] : Colors.white)),
+                        style: GoogleFonts.roboto(color: this.user.isDark ? Colors.grey[900] : Colors.white)),
                   ),
                 ),
                 Padding(
@@ -400,7 +400,7 @@ abstract class FreePlayScreenState extends State<FreePlayScreen> with TickerProv
                     child: Text(
                       'proceed',
                       textAlign: TextAlign.end,
-                      style: GoogleFonts.lato(fontWeight: FontWeight.bold, color: this.user.isDark ? Colors.grey[900] : Colors.white),
+                      style: GoogleFonts.quicksand(fontWeight: FontWeight.bold, color: this.user.isDark ? Colors.grey[900] : Colors.white),
                     ),
                   ),
                 ),

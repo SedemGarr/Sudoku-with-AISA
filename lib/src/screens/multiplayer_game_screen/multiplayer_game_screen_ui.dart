@@ -31,7 +31,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
                                 'waiting for ${currentGame.players[currentGame.players.indexWhere((element) => element.id != user.id)].username}',
-                                style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                                style: GoogleFonts.roboto(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                               ),
                             )
                     ],
@@ -101,7 +101,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                     child: Center(
                       child: Text(
                         isCellEmpty(value) ? '-' : value.toString(),
-                        style: GoogleFonts.lato(
+                        style: GoogleFonts.roboto(
                             color: getCellTextColor(index, value), fontSize: getCellFontSize(index), fontStyle: getCellFontStyle(index), fontWeight: getCellFontWeight(index)),
                       ),
                     ),
@@ -129,23 +129,23 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                   children: [
                     Text(
                       StopWatchTimer.getDisplayTimeHours(snap.data),
-                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.quicksand(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       ":",
-                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.quicksand(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       StopWatchTimer.getDisplayTimeMinute(snap.data),
-                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.quicksand(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       ":",
-                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.quicksand(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       StopWatchTimer.getDisplayTimeSecond(snap.data),
-                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.quicksand(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -239,7 +239,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
           child: IconButton(
             icon: Text(
               i.toString(),
-              style: GoogleFonts.lato(color: user.isDark ? Colors.black : Colors.white, fontWeight: FontWeight.bold),
+              style: GoogleFonts.quicksand(color: user.isDark ? Colors.black : Colors.white, fontWeight: FontWeight.bold),
             ),
             onPressed: () {
               setCellValue(i, context);
@@ -270,7 +270,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(competitiveGameWonBy == user.id ? 'congratulations!' : 'oops!',
                               textAlign: TextAlign.center,
-                              style: GoogleFonts.lato(
+                              style: GoogleFonts.quicksand(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
                                 color: appTheme.themeColor,
@@ -280,7 +280,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                           padding: const EdgeInsets.all(8.0),
                           child: Text('congratulations!',
                               textAlign: TextAlign.center,
-                              style: GoogleFonts.lato(
+                              style: GoogleFonts.quicksand(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
                                 color: appTheme.themeColor,
@@ -290,7 +290,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       parseLevelTime(Duration(seconds: elapsedTime)).toUpperCase(),
-                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.roboto(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                   ),
                   isCompetitiveGame
@@ -321,7 +321,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       !isHost ? 'waiting for ${currentGame.players[currentGame.players.indexWhere((element) => element.id != user.id)].username} to restart the game' : '',
-                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.roboto(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                   ),
                   isHost
@@ -332,7 +332,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                                 ? Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: TextButton(
-                                      child: Text('play again', style: GoogleFonts.lato(fontSize: 16, color: appTheme.themeColor, fontWeight: FontWeight.bold)),
+                                      child: Text('play again', style: GoogleFonts.quicksand(fontSize: 16, color: appTheme.themeColor, fontWeight: FontWeight.bold)),
                                       onPressed: () {
                                         replay();
                                       },
@@ -343,13 +343,13 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
                                 'or',
-                                style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                                style: GoogleFonts.roboto(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextButton(
-                                child: Text('end game', style: GoogleFonts.lato(fontSize: 16, color: appTheme.themeColor, fontWeight: FontWeight.bold)),
+                                child: Text('end game', style: GoogleFonts.quicksand(fontSize: 16, color: appTheme.themeColor, fontWeight: FontWeight.bold)),
                                 onPressed: () async {
                                   await updateUserAfterGame();
                                   await multiplayerProvider.deleteGame(currentGame.id);
@@ -362,7 +362,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                       : Container(),
                   !isHost
                       ? TextButton(
-                          child: Text('leave game', style: GoogleFonts.lato(fontSize: 16, color: appTheme.themeColor, fontWeight: FontWeight.bold)),
+                          child: Text('leave game', style: GoogleFonts.quicksand(fontSize: 16, color: appTheme.themeColor, fontWeight: FontWeight.bold)),
                           onPressed: () {
                             multiplayerProvider.leaveGame(currentGame, user);
                             goToHomeScreen();
@@ -374,7 +374,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       'your score: ${user.score}',
-                      style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.roboto(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                     ),
                   ),
                   isHost
@@ -387,7 +387,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             'game options',
-                            style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                            style: GoogleFonts.roboto(color: appTheme.themeColor, fontWeight: FontWeight.bold),
                           ),
                         )
                       : Container(),
@@ -401,7 +401,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                                 children: [
                                   Text(
                                     'cooperative',
-                                    style: GoogleFonts.lato(
+                                    style: GoogleFonts.quicksand(
                                         color: appTheme.themeColor,
                                         fontSize: currentGame.isCooperative ? 16 : 14,
                                         fontWeight: currentGame.isCooperative ? FontWeight.bold : FontWeight.normal),
@@ -418,7 +418,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                                   ),
                                   Text(
                                     'competitive',
-                                    style: GoogleFonts.lato(
+                                    style: GoogleFonts.quicksand(
                                         color: appTheme.themeColor,
                                         fontSize: currentGame.isCompetitive ? 16 : 14,
                                         fontWeight: currentGame.isCompetitive ? FontWeight.bold : FontWeight.normal),
@@ -435,7 +435,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                                         color: isDark ? Colors.grey[900] : Colors.white,
                                       ),
                                       label: Text('random'),
-                                      labelStyle: GoogleFonts.lato(color: isDark ? Colors.grey[900] : Colors.white, fontWeight: FontWeight.bold),
+                                      labelStyle: GoogleFonts.quicksand(color: isDark ? Colors.grey[900] : Colors.white, fontWeight: FontWeight.bold),
                                       backgroundColor: appTheme.themeColor,
                                       selected: currentGame.preferedPattern == 'Random',
                                       selectedColor: appTheme.themeColor[900],
@@ -456,7 +456,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                                         color: isDark ? Colors.grey[900] : Colors.white,
                                       ),
                                       label: Text('spring'),
-                                      labelStyle: GoogleFonts.lato(color: isDark ? Colors.grey[900] : Colors.white, fontWeight: FontWeight.bold),
+                                      labelStyle: GoogleFonts.quicksand(color: isDark ? Colors.grey[900] : Colors.white, fontWeight: FontWeight.bold),
                                       backgroundColor: appTheme.themeColor,
                                       selected: currentGame.preferedPattern == 'spring',
                                       selectedColor: appTheme.themeColor[900],
@@ -477,7 +477,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                                         color: isDark ? Colors.grey[900] : Colors.white,
                                       ),
                                       label: Text('summer'),
-                                      labelStyle: GoogleFonts.lato(color: isDark ? Colors.grey[900] : Colors.white, fontWeight: FontWeight.bold),
+                                      labelStyle: GoogleFonts.quicksand(color: isDark ? Colors.grey[900] : Colors.white, fontWeight: FontWeight.bold),
                                       backgroundColor: appTheme.themeColor,
                                       selected: currentGame.preferedPattern == 'summer',
                                       selectedColor: appTheme.themeColor[900],
@@ -498,7 +498,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                                         color: isDark ? Colors.grey[900] : Colors.white,
                                       ),
                                       label: Text('fall'),
-                                      labelStyle: GoogleFonts.lato(color: isDark ? Colors.grey[900] : Colors.white, fontWeight: FontWeight.bold),
+                                      labelStyle: GoogleFonts.quicksand(color: isDark ? Colors.grey[900] : Colors.white, fontWeight: FontWeight.bold),
                                       backgroundColor: appTheme.themeColor,
                                       selected: currentGame.preferedPattern == 'fall',
                                       selectedColor: appTheme.themeColor[900],
@@ -519,7 +519,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                                         color: isDark ? Colors.grey[900] : Colors.white,
                                       ),
                                       label: Text('winter'),
-                                      labelStyle: GoogleFonts.lato(color: isDark ? Colors.grey[900] : Colors.white, fontWeight: FontWeight.bold),
+                                      labelStyle: GoogleFonts.quicksand(color: isDark ? Colors.grey[900] : Colors.white, fontWeight: FontWeight.bold),
                                       backgroundColor: appTheme.themeColor,
                                       selected: currentGame.preferedPattern == 'winter',
                                       selectedColor: appTheme.themeColor[900],
@@ -559,7 +559,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                                         children: [
                                           Text(
                                             'random?',
-                                            style: GoogleFonts.lato(
+                                            style: GoogleFonts.quicksand(
                                               color: appTheme.themeColor,
                                             ),
                                           ),
@@ -592,6 +592,104 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
     );
   }
 
+  Widget buildHasEndedGame() {
+    return Container(
+      child: Scaffold(
+        body: Container(
+          color: AppTheme.getLightOrDarkModeTheme(isDark),
+          width: MediaQuery.of(context).size.width,
+          child: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  child: Column(
+                    children: [
+                      isHost
+                          ? Container()
+                          : Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                '$hostName has ended the game',
+                                style: GoogleFonts.quicksand(color: appTheme.themeColor, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                      Tooltip(
+                        message: 'go home',
+                        decoration: BoxDecoration(color: appTheme.themeColor),
+                        child: IconButton(
+                            icon: Icon(
+                              LineIcons.home,
+                              color: appTheme.themeColor,
+                            ),
+                            onPressed: () {
+                              goToHomeScreen();
+                            }),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildAppBar() {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.1),
+      child: AppBar(
+        backgroundColor: AppTheme.getLightOrDarkModeTheme(user.isDark),
+        elevation: 0,
+        leadingWidth: MediaQuery.of(context).size.width * 0.5,
+        leading: ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemCount: this.currentGame.players.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: CircularProfileAvatar(
+                    currentGame.players[index].profileUrl,
+                    radius: 20,
+                    backgroundColor: appTheme.themeColor,
+                    initialsText: Text(
+                      getInitials(currentGame.players[index].username),
+                      style: GoogleFonts.quicksand(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        color: isDark ? Colors.grey[900] : Colors.white,
+                      ),
+                    ),
+                    borderColor: Colors.transparent,
+                    elevation: 0.0,
+                    foregroundColor: Colors.transparent,
+                    cacheImage: true,
+                    showInitialTextAbovePicture: false,
+                  ),
+                ),
+              );
+            }),
+        title: Icon(
+          currentGame.isCooperative ? LineIcons.handshake : LineIcons.helpingHands,
+          color: appTheme.themeColor,
+        ),
+        centerTitle: true,
+        actions: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              buildStopWatch(),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -600,48 +698,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
         stream: multiplayerProvider.getCurrentGame(currentGame.id),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData || snapshot.data == null || snapshot.data.docs.length == 0) {
-            return Container(
-              child: Scaffold(
-                body: Container(
-                  color: AppTheme.getLightOrDarkModeTheme(isDark),
-                  width: MediaQuery.of(context).size.width,
-                  child: SafeArea(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          child: Column(
-                            children: [
-                              isHost
-                                  ? Container()
-                                  : Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        '$hostName has ended the game',
-                                        style: GoogleFonts.lato(color: appTheme.themeColor, fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                              Tooltip(
-                                message: 'go home',
-                                decoration: BoxDecoration(color: appTheme.themeColor),
-                                child: IconButton(
-                                    icon: Icon(
-                                      LineIcons.home,
-                                      color: appTheme.themeColor,
-                                    ),
-                                    onPressed: () {
-                                      goToHomeScreen();
-                                    }),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            );
+            return buildHasEndedGame();
           }
           processMultiplayerGameStreamData(snapshot);
           loadInWidgets();
@@ -650,57 +707,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                   ? buildHasCompleted()
                   : Scaffold(
                       key: scaffoldKey,
-                      appBar: PreferredSize(
-                        preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.1),
-                        child: AppBar(
-                          backgroundColor: AppTheme.getLightOrDarkModeTheme(user.isDark),
-                          elevation: 0,
-                          leadingWidth: MediaQuery.of(context).size.width * 0.5,
-                          leading: ListView.builder(
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: this.currentGame.players.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    child: CircularProfileAvatar(
-                                      currentGame.players[index].profileUrl,
-                                      radius: 20,
-                                      // MediaQuery.of(context).size.height * 0.1,
-                                      backgroundColor: appTheme.themeColor,
-                                      initialsText: Text(
-                                        getInitials(currentGame.players[index].username),
-                                        style: GoogleFonts.lato(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14,
-                                          color: isDark ? Colors.grey[900] : Colors.white,
-                                        ),
-                                      ),
-                                      borderColor: Colors.transparent,
-                                      elevation: 0.0,
-                                      foregroundColor: Colors.transparent,
-                                      cacheImage: true,
-                                      showInitialTextAbovePicture: false,
-                                    ),
-                                  ),
-                                );
-                              }),
-                          title: Icon(
-                            currentGame.isCooperative ? LineIcons.handshake : LineIcons.helpingHands,
-                            color: appTheme.themeColor,
-                          ),
-                          centerTitle: true,
-                          actions: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                buildStopWatch(),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
+                      appBar: buildAppBar(),
                       body: GestureDetector(
                         onTap: () {
                           clearSelectedIndex();

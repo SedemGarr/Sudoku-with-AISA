@@ -71,7 +71,7 @@ class HomeScreenView extends HomeScreenState {
                                           ? 'complete'
                                           : i.difficultyName
                                       : 'locked',
-                                  style: GoogleFonts.lato(
+                                  style: GoogleFonts.roboto(
                                       fontSize: 16.0, fontWeight: FontWeight.bold, color: isUnlocked(user.difficultyLevel, i.id) ? i.theme.themeColor : Colors.grey),
                                 ),
                               ],
@@ -97,7 +97,7 @@ class HomeScreenView extends HomeScreenState {
         dense: true,
         title: Text(
           stat.level.toString() + ' - ${parseDifficultyToString(stat.difficulty)}',
-          style: GoogleFonts.lato(
+          style: GoogleFonts.roboto(
               fontWeight: FontWeight.bold,
               color: isMe(id)
                   ? isDark
@@ -107,7 +107,7 @@ class HomeScreenView extends HomeScreenState {
         ),
         trailing: Text(
           parseLevelTime(Duration(seconds: stat.timeTaken)),
-          style: GoogleFonts.lato(
+          style: GoogleFonts.roboto(
               fontWeight: FontWeight.bold,
               color: isMe(id)
                   ? isDark
@@ -142,7 +142,7 @@ class HomeScreenView extends HomeScreenState {
                           : listOfSinglePlayerStats.length >= 54
                               ? 'game completed'
                               : 'last story level',
-                      style: GoogleFonts.lato(
+                      style: GoogleFonts.roboto(
                           fontWeight: FontWeight.bold,
                           color: isMe(id)
                               ? isDark
@@ -164,7 +164,7 @@ class HomeScreenView extends HomeScreenState {
                     ),
                     title: Text(
                       listOfSinglePlayerStats.length >= 54 ? 'game completed' : 'last story level: ',
-                      style: GoogleFonts.lato(
+                      style: GoogleFonts.roboto(
                           fontWeight: FontWeight.bold,
                           color: isMe(id)
                               ? isDark
@@ -176,7 +176,7 @@ class HomeScreenView extends HomeScreenState {
                         ? null
                         : Text(
                             listOfSinglePlayerStats[listOfSinglePlayerStats.length - 1].level.toString(),
-                            style: GoogleFonts.lato(
+                            style: GoogleFonts.roboto(
                                 fontWeight: FontWeight.bold,
                                 color: isMe(id)
                                     ? isDark
@@ -214,7 +214,7 @@ class HomeScreenView extends HomeScreenState {
                     ),
                     title: Text(
                       'free play games played: ',
-                      style: GoogleFonts.lato(
+                      style: GoogleFonts.roboto(
                           fontWeight: FontWeight.bold,
                           color: isMe(id)
                               ? isDark
@@ -224,7 +224,7 @@ class HomeScreenView extends HomeScreenState {
                     ),
                     trailing: Text(
                       listOfFreePlayStats.length.toString(),
-                      style: GoogleFonts.lato(
+                      style: GoogleFonts.roboto(
                           fontWeight: FontWeight.bold,
                           color: isMe(id)
                               ? isDark
@@ -237,7 +237,7 @@ class HomeScreenView extends HomeScreenState {
                         dense: true,
                         title: Text(
                           'avergae time taken: ',
-                          style: GoogleFonts.lato(
+                          style: GoogleFonts.roboto(
                               fontWeight: FontWeight.bold,
                               color: isMe(id)
                                   ? isDark
@@ -247,7 +247,7 @@ class HomeScreenView extends HomeScreenState {
                         ),
                         trailing: Text(
                           parseLevelTime(Duration(seconds: getAverageTimeTaken(listOfFreePlayStats))).toString(),
-                          style: GoogleFonts.lato(
+                          style: GoogleFonts.roboto(
                               fontWeight: FontWeight.bold,
                               color: isMe(id)
                                   ? isDark
@@ -260,7 +260,7 @@ class HomeScreenView extends HomeScreenState {
                         dense: true,
                         title: Text(
                           'average difficulty: ',
-                          style: GoogleFonts.lato(
+                          style: GoogleFonts.roboto(
                               fontWeight: FontWeight.bold,
                               color: isMe(id)
                                   ? isDark
@@ -270,7 +270,7 @@ class HomeScreenView extends HomeScreenState {
                         ),
                         trailing: Text(
                           getAverageDifficulty(listOfFreePlayStats).toString(),
-                          style: GoogleFonts.lato(
+                          style: GoogleFonts.roboto(
                               fontWeight: FontWeight.bold,
                               color: isMe(id)
                                   ? isDark
@@ -312,7 +312,7 @@ class HomeScreenView extends HomeScreenState {
                     ),
                     title: Text(
                       'multiplayer games played: ',
-                      style: GoogleFonts.lato(
+                      style: GoogleFonts.roboto(
                           fontWeight: FontWeight.bold,
                           color: isMe(id)
                               ? isDark
@@ -322,7 +322,7 @@ class HomeScreenView extends HomeScreenState {
                     ),
                     trailing: Text(
                       (listOfCoopStats.length + listOfCompetitiveStats.length).toString(),
-                      style: GoogleFonts.lato(
+                      style: GoogleFonts.roboto(
                           fontWeight: FontWeight.bold,
                           color: isMe(id)
                               ? isDark
@@ -335,7 +335,7 @@ class HomeScreenView extends HomeScreenState {
                         dense: true,
                         title: Text(
                           'co-op games played: ',
-                          style: GoogleFonts.lato(
+                          style: GoogleFonts.roboto(
                               fontWeight: FontWeight.bold,
                               color: isMe(id)
                                   ? isDark
@@ -345,7 +345,7 @@ class HomeScreenView extends HomeScreenState {
                         ),
                         trailing: Text(
                           listOfCoopStats.length.toString(),
-                          style: GoogleFonts.lato(
+                          style: GoogleFonts.roboto(
                               fontWeight: FontWeight.bold,
                               color: isMe(id)
                                   ? isDark
@@ -358,7 +358,7 @@ class HomeScreenView extends HomeScreenState {
                         dense: true,
                         title: Text(
                           'competitive games win rate: ',
-                          style: GoogleFonts.lato(
+                          style: GoogleFonts.roboto(
                               fontWeight: FontWeight.bold,
                               color: isMe(id)
                                   ? isDark
@@ -368,7 +368,7 @@ class HomeScreenView extends HomeScreenState {
                         ),
                         trailing: Text(
                           (stats.where((element) => element.isCompetitive && element.wonGame).toList().length / listOfCompetitiveStats.length).toStringAsFixed(1) + '%',
-                          style: GoogleFonts.lato(
+                          style: GoogleFonts.roboto(
                               fontWeight: FontWeight.bold,
                               color: isMe(id)
                                   ? isDark
@@ -441,7 +441,7 @@ class HomeScreenView extends HomeScreenState {
                                               : appTheme.themeColor,
                                           initialsText: Text(
                                             getInitials(leaderboard[index].username),
-                                            style: GoogleFonts.lato(
+                                            style: GoogleFonts.quicksand(
                                               fontWeight: FontWeight.bold,
                                               color: isMe(leaderboard[index].id)
                                                   ? appTheme.themeColor
@@ -459,7 +459,7 @@ class HomeScreenView extends HomeScreenState {
                                       )),
                                   title: Text(
                                     leaderboard[index].username,
-                                    style: GoogleFonts.lato(
+                                    style: GoogleFonts.quicksand(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                         color: isMe(leaderboard[index].id)
@@ -470,7 +470,7 @@ class HomeScreenView extends HomeScreenState {
                                   ),
                                   subtitle: Text(
                                     leaderboard[index].score == 1 ? leaderboard[index].score.toString() + ' point' : leaderboard[index].score.toString() + ' points',
-                                    style: GoogleFonts.lato(
+                                    style: GoogleFonts.roboto(
                                         fontWeight: FontWeight.bold,
                                         color: isMe(leaderboard[index].id)
                                             ? isDark
@@ -535,7 +535,7 @@ class HomeScreenView extends HomeScreenState {
         onPressed: toggleLeaderboardExpansion,
         child: Text(
           isLeaderboardExpanded ? 'collapse' : 'expand',
-          style: GoogleFonts.lato(fontWeight: FontWeight.bold, color: appTheme.themeColor),
+          style: GoogleFonts.quicksand(fontWeight: FontWeight.bold, color: appTheme.themeColor),
         ));
   }
 
@@ -597,7 +597,7 @@ class HomeScreenView extends HomeScreenState {
       },
       child: Text(
         'find me',
-        style: GoogleFonts.lato(fontWeight: FontWeight.bold, color: appTheme.themeColor),
+        style: GoogleFonts.quicksand(fontWeight: FontWeight.bold, color: appTheme.themeColor),
       ),
     );
   }

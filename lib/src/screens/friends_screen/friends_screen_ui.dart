@@ -24,7 +24,7 @@ class FriendsScreenView extends FriendsScreenState {
                 padding: const EdgeInsets.all(10.0),
                 child: Text(
                   'find people',
-                  style: GoogleFonts.lato(
+                  style: GoogleFonts.quicksand(
                       color: isSearching
                           ? isDark
                               ? Colors.grey[900]
@@ -48,7 +48,7 @@ class FriendsScreenView extends FriendsScreenState {
                 padding: const EdgeInsets.all(10.0),
                 child: Text(
                   'requests (${myRequests.length})',
-                  style: GoogleFonts.lato(
+                  style: GoogleFonts.quicksand(
                       color: isViewingFriends
                           ? isDark
                               ? Colors.grey[900]
@@ -76,12 +76,12 @@ class FriendsScreenView extends FriendsScreenState {
                 autofocus: true,
                 cursorColor: appTheme.themeColor,
                 keyboardType: TextInputType.text,
-                style: GoogleFonts.lato(color: appTheme.themeColor),
+                style: GoogleFonts.quicksand(color: appTheme.themeColor),
                 decoration: InputDecoration(
                     focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: appTheme.themeColor)),
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: appTheme.themeColor)),
                     hintText: 'enter a username',
-                    hintStyle: GoogleFonts.lato(color: appTheme.themeColor)),
+                    hintStyle: GoogleFonts.quicksand(color: appTheme.themeColor)),
                 onChanged: (value) {
                   setState(() {
                     searchTerm = value;
@@ -101,7 +101,7 @@ class FriendsScreenView extends FriendsScreenState {
 
   Widget buildContents(BuildContext context) {
     return Container(
-      child: isSearching ? buildSearching() : buildRequests(),
+      child: myRequests.isEmpty ? buildSearching() : buildRequests(),
     );
   }
 
@@ -117,7 +117,7 @@ class FriendsScreenView extends FriendsScreenState {
                   child: Text(
                     'no requests',
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.lato(color: appTheme.themeColor),
+                    style: GoogleFonts.roboto(color: appTheme.themeColor),
                   ),
                 ))
               : ListView.builder(
@@ -137,7 +137,7 @@ class FriendsScreenView extends FriendsScreenState {
                               backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
                               initialsText: Text(
                                 getInitials(myRequests[index].requester.username),
-                                style: GoogleFonts.lato(
+                                style: GoogleFonts.quicksand(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 14,
                                   color: appTheme.themeColor,
@@ -152,11 +152,11 @@ class FriendsScreenView extends FriendsScreenState {
                           ),
                           title: Text(
                             myRequests[index].requester.username,
-                            style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.getLightOrDarkModeTheme(isDark)),
+                            style: GoogleFonts.quicksand(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.getLightOrDarkModeTheme(isDark)),
                           ),
                           subtitle: Text(
                             '${myRequests[index].requester.username} wants to be friends',
-                            style: GoogleFonts.lato(
+                            style: GoogleFonts.roboto(
                               color: AppTheme.getLightOrDarkModeTheme(isDark),
                             ),
                           ),
@@ -219,7 +219,7 @@ class FriendsScreenView extends FriendsScreenState {
                           child: Text(
                             'no results found for $searchTerm',
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.lato(color: appTheme.themeColor),
+                            style: GoogleFonts.roboto(color: appTheme.themeColor),
                           ),
                         )
                       ],
@@ -245,7 +245,7 @@ class FriendsScreenView extends FriendsScreenState {
                                 backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
                                 initialsText: Text(
                                   getInitials(foundUsers[index].username),
-                                  style: GoogleFonts.lato(
+                                  style: GoogleFonts.quicksand(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 14,
                                     color: appTheme.themeColor,
@@ -260,7 +260,7 @@ class FriendsScreenView extends FriendsScreenState {
                             ),
                             title: Text(
                               foundUsers[index].username,
-                              style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.getLightOrDarkModeTheme(isDark)),
+                              style: GoogleFonts.quicksand(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.getLightOrDarkModeTheme(isDark)),
                             ),
                             subtitle: Text(
                               hasSentUserRequestPending(foundUsers[index])
@@ -270,7 +270,7 @@ class FriendsScreenView extends FriendsScreenState {
                                       : isFriend(index)
                                           ? 'you are friends'
                                           : 'you and ${foundUsers[index].username} are not friends',
-                              style: GoogleFonts.lato(
+                              style: GoogleFonts.roboto(
                                 color: AppTheme.getLightOrDarkModeTheme(isDark),
                               ),
                             ),
@@ -358,7 +358,8 @@ class FriendsScreenView extends FriendsScreenState {
                 backgroundColor: AppTheme.getLightOrDarkModeTheme(isDark),
                 title: Text(
                   'friends',
-                  style: GoogleFonts.lato(
+                  style: GoogleFonts.quicksand(
+                    fontWeight: FontWeight.bold,
                     color: appTheme.themeColor,
                   ),
                 ),
