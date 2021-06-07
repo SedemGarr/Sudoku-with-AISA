@@ -12,66 +12,79 @@ import 'package:carousel_slider/carousel_slider.dart';
 
 class HomeScreenView extends HomeScreenState {
   Widget buildTitleWidget() {
-    return Padding(
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 500),
+      width: getTitleWidth(),
       padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.10),
-      child: TitleWidget(color: appTheme.themeColor),
+      child: AnimatedOpacity(opacity: getTitleOpacity(), duration: Duration(milliseconds: 100), child: TitleWidget(color: appTheme.themeColor)),
     );
   }
 
   Widget buildTitleSlider() {
-    return CarouselSlider(
-      options: CarouselOptions(
-        height: 175,
-        pauseAutoPlayOnManualNavigate: true,
-        scrollDirection: Axis.horizontal,
-        autoPlay: !user.hasCompletedGame,
-        autoPlayInterval: Duration(seconds: 5),
-        autoPlayAnimationDuration: Duration(milliseconds: 800),
-        autoPlayCurve: Curves.fastOutSlowIn,
-        initialPage: user.difficultyLevel,
-        enableInfiniteScroll: true,
-      ),
-      items: game.map((i) {
-        return Builder(
-          builder: (BuildContext context) {
-            return LayoutBuilder(
-              builder: (context, constraint) {
-                return GestureDetector(
-                  onTap: isUnlocked(user.difficultyLevel, i.id)
-                      ? user.difficultyLevel > i.id
-                          ? () {}
-                          : () {
-                              startGame();
-                            }
-                      : () {},
-                  child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.symmetric(horizontal: 5.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            i.icon,
-                            color: isUnlocked(user.difficultyLevel, i.id) ? i.theme.themeColor : Colors.grey,
-                            size: constraint.biggest.height * 0.65,
-                          ),
-                          Text(
-                            isUnlocked(user.difficultyLevel, i.id)
-                                ? user.difficultyLevel > i.id
-                                    ? 'complete'
-                                    : i.difficultyName
-                                : 'locked',
-                            style: GoogleFonts.lato(fontSize: 16.0, fontWeight: FontWeight.bold, color: isUnlocked(user.difficultyLevel, i.id) ? i.theme.themeColor : Colors.grey),
-                          ),
-                        ],
-                      )),
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 500),
+      width: getTitleWidth(),
+      child: AnimatedOpacity(
+        opacity: getTitleOpacity(),
+        duration: Duration(milliseconds: 100),
+        child: CarouselSlider(
+          options: CarouselOptions(
+            //  height: 175,
+            pauseAutoPlayOnManualNavigate: true,
+            scrollDirection: Axis.horizontal,
+            autoPlay: !user.hasCompletedGame,
+            autoPlayInterval: Duration(seconds: 5),
+            autoPlayAnimationDuration: Duration(milliseconds: 800),
+            autoPlayCurve: Curves.fastOutSlowIn,
+            initialPage: user.difficultyLevel,
+            enableInfiniteScroll: true,
+          ),
+          items: game.map((i) {
+            return Builder(
+              builder: (BuildContext context) {
+                return LayoutBuilder(
+                  builder: (context, constraint) {
+                    return GestureDetector(
+                      onTap: isUnlocked(user.difficultyLevel, i.id)
+                          ? user.difficultyLevel > i.id
+                              ? () {}
+                              : () {
+                                  startGame();
+                                }
+                          : () {},
+                      child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: EdgeInsets.symmetric(horizontal: 5.0),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  i.icon,
+                                  color: isUnlocked(user.difficultyLevel, i.id) ? i.theme.themeColor : Colors.grey,
+                                  size: constraint.biggest.height * 0.65,
+                                ),
+                                Text(
+                                  isUnlocked(user.difficultyLevel, i.id)
+                                      ? user.difficultyLevel > i.id
+                                          ? 'complete'
+                                          : i.difficultyName
+                                      : 'locked',
+                                  style: GoogleFonts.lato(
+                                      fontSize: 16.0, fontWeight: FontWeight.bold, color: isUnlocked(user.difficultyLevel, i.id) ? i.theme.themeColor : Colors.grey),
+                                ),
+                              ],
+                            ),
+                          )),
+                    );
+                  },
                 );
               },
             );
-          },
-        );
-      }).toList(),
+          }).toList(),
+        ),
+      ),
     );
   }
 
@@ -601,14 +614,12 @@ class HomeScreenView extends HomeScreenState {
         body: Container(
           color: AppTheme.getLightOrDarkModeTheme(isDark),
           child: SafeArea(
-            child: Column(
-              children: [
-                !isLeaderboardExpanded ? buildTitleWidget() : Container(),
-                !isLeaderboardExpanded ? buildTitleSlider() : Container(),
-                isLeaderboardExpanded ? buildFindMeButton() : Container(),
-                buildLeaderboard(),
-                buildMenuIconsRow()
-              ],
+            child: AnimatedOpacity(
+              duration: Duration(milliseconds: 500),
+              opacity: widgetOpacity,
+              child: Column(
+                children: [buildTitleWidget(), buildTitleSlider(), isLeaderboardExpanded ? buildFindMeButton() : Container(), buildLeaderboard(), buildMenuIconsRow()],
+              ),
             ),
           ),
         ),

@@ -33,6 +33,8 @@ abstract class FreePlayScreenState extends State<FreePlayScreen> with TickerProv
   int selectedIndex;
   int elapsedTime;
 
+  double widgetOpacity = 0;
+
   Users user;
   bool isSavedGame;
   AppTheme appTheme;
@@ -69,6 +71,14 @@ abstract class FreePlayScreenState extends State<FreePlayScreen> with TickerProv
   void dispose() async {
     super.dispose();
     await stopWatchTimer.dispose();
+  }
+
+  void loadInWidgets() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        this.widgetOpacity = 1;
+      });
+    });
   }
 
   int generateRandomInt(int min, int max) {

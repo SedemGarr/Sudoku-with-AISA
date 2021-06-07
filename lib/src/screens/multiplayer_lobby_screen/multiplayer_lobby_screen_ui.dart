@@ -637,6 +637,7 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
                 ),
               );
             }
+            loadInWidgets();
             processInvitesStreamData(snapshot);
             return Scaffold(
               key: scaffoldKey,
@@ -674,11 +675,15 @@ class MultiplayerLobbyScreenView extends MultiplayerLobbyScreenState {
               body: Container(
                 color: AppTheme.getLightOrDarkModeTheme(isDark),
                 child: SafeArea(
-                  child: Column(
-                    children: [
-                      buildTopNavBar(),
-                      buildContents(context),
-                    ],
+                  child: AnimatedOpacity(
+                    duration: Duration(milliseconds: 500),
+                    opacity: widgetOpacity,
+                    child: Column(
+                      children: [
+                        buildTopNavBar(),
+                        buildContents(context),
+                      ],
+                    ),
                   ),
                 ),
               ),

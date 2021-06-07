@@ -39,6 +39,8 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
   List<Difficulty> game;
   List filledCells = [];
 
+  double widgetOpacity = 0;
+
   UserStateUpdateProvider userStateUpdateProvider = UserStateUpdateProvider();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   ThemeProvider themeProvider = ThemeProvider();
@@ -68,6 +70,14 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
   void dispose() async {
     super.dispose();
     await stopWatchTimer.dispose();
+  }
+
+  void loadInWidgets() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        this.widgetOpacity = 1;
+      });
+    });
   }
 
   void findAlreadyFilledCells() {
@@ -381,8 +391,7 @@ abstract class SinglePlayerGameScreenState extends State<SinglePlayerGameScreen>
           level: this.getAdjustedLevel(this.user.level) == 100 ? 54 : this.getAdjustedLevel(this.user.level) - 1,
           timeTaken: this.elapsedTime,
           wonGame: true,
-          difficulty: this.user.difficultyLevel
-          ));
+          difficulty: this.user.difficultyLevel));
     }
     // update user fields
     this.user.elapsedTime = null;

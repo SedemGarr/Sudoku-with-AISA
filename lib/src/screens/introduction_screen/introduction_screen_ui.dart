@@ -123,14 +123,19 @@ class IntroductionScreenView extends IntroductionScreenState {
 
   @override
   Widget build(BuildContext context) {
+    loadInWidgets();
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
         body: Container(
           color: AppTheme.getLightOrDarkModeTheme(widget.isDark),
           child: SafeArea(
-            child: Column(
-              children: [buildIntroductionMessage(), buildContinueButton()],
+            child: AnimatedOpacity(
+              duration: Duration(milliseconds: 500),
+              opacity: widgetOpacity,
+              child: Column(
+                children: [buildIntroductionMessage(), buildContinueButton()],
+              ),
             ),
           ),
         ),

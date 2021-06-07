@@ -28,6 +28,8 @@ abstract class AuthScreenState extends State<AuthScreen> with TickerProviderStat
 
   Users user;
 
+  double widgetOpacity = 0;
+
   AppTheme appTheme;
   PackageInfo packageInfo;
 
@@ -52,6 +54,14 @@ abstract class AuthScreenState extends State<AuthScreen> with TickerProviderStat
     this.initVariables();
     this.getPackageInfo();
     super.initState();
+  }
+
+  void loadInWidgets() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        this.widgetOpacity = 1;
+      });
+    });
   }
 
   Future<void> getPackageInfo() async {

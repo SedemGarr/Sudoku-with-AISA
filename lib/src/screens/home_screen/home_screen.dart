@@ -38,6 +38,8 @@ abstract class HomeScreenState extends State<HomeScreen> with TickerProviderStat
   bool isDark = false;
   bool isLeaderboardExpanded = false;
 
+  double widgetOpacity = 0;
+
   Users user;
   AppTheme appTheme;
   List<Difficulty> game = [];
@@ -65,6 +67,7 @@ abstract class HomeScreenState extends State<HomeScreen> with TickerProviderStat
     this.autoScrollToUserIndex();
     this.showGreeting();
     this.syncUserData();
+    this.loadInWidgets();
   }
 
   @override
@@ -78,6 +81,12 @@ abstract class HomeScreenState extends State<HomeScreen> with TickerProviderStat
     this.getDarkMode();
     this.getTheme();
     super.didChangeDependencies();
+  }
+
+  void loadInWidgets() {
+    setState(() {
+      this.widgetOpacity = 1;
+    });
   }
 
   void initNotifications() async {
@@ -107,6 +116,14 @@ abstract class HomeScreenState extends State<HomeScreen> with TickerProviderStat
     setState(() {
       this.appTheme = appTheme;
     });
+  }
+
+  double getTitleWidth() {
+    return isLeaderboardExpanded ? 0 : MediaQuery.of(context).size.width;
+  }
+
+  double getTitleOpacity() {
+    return isLeaderboardExpanded ? 0 : 1;
   }
 
   List<Difficulty> generateGame() {

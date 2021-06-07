@@ -897,39 +897,43 @@ class SettingsScreenView extends SettingsScreenState {
           child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: isLoading
-                  ? LoadingWidget(
-                      appTheme: appTheme,
-                      isDark: isDark,
-                    )
-                  : Column(
-                      children: [
-                        buildProfileSection(context),
-                        Expanded(
-                          child: ListView(
-                            children: [
-                              buildAppearanceSettings(),
-                              Divider(
-                                color: appTheme.themeColor,
-                              ),
-                              buildGamplaySettings(),
-                              Divider(
-                                color: appTheme.themeColor,
-                              ),
-                              buildAudioSettings(),
-                              Divider(
-                                color: appTheme.themeColor,
-                              ),
-                              buildSocialSettings(),
-                              Divider(
-                                color: appTheme.themeColor,
-                              ),
-                              buildAdvancedSettings(),
-                            ],
+              child: AnimatedOpacity(
+                duration: Duration(milliseconds: 500),
+                opacity: widgetOpacity,
+                child: isLoading
+                    ? LoadingWidget(
+                        appTheme: appTheme,
+                        isDark: isDark,
+                      )
+                    : Column(
+                        children: [
+                          buildProfileSection(context),
+                          Expanded(
+                            child: ListView(
+                              children: [
+                                buildAppearanceSettings(),
+                                Divider(
+                                  color: appTheme.themeColor,
+                                ),
+                                buildGamplaySettings(),
+                                Divider(
+                                  color: appTheme.themeColor,
+                                ),
+                                buildAudioSettings(),
+                                Divider(
+                                  color: appTheme.themeColor,
+                                ),
+                                buildSocialSettings(),
+                                Divider(
+                                  color: appTheme.themeColor,
+                                ),
+                                buildAdvancedSettings(),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
+              ),
             ),
           ),
         ),

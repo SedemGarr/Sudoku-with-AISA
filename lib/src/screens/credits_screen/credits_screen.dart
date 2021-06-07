@@ -10,18 +10,18 @@ class CreditsScreen extends StatefulWidget {
   final AppTheme appTheme;
   final Users user;
 
-  CreditsScreen(
-      {@required this.isDark, @required this.appTheme, @required this.user});
+  CreditsScreen({@required this.isDark, @required this.appTheme, @required this.user});
 
   @override
   CreditsScreenView createState() => CreditsScreenView();
 }
 
-abstract class CreditsScreenState extends State<CreditsScreen>
-    with TickerProviderStateMixin {
+abstract class CreditsScreenState extends State<CreditsScreen> with TickerProviderStateMixin {
   bool isDark;
   AppTheme appTheme;
   Users user;
+
+  double widgetOpacity = 0;
 
   ThemeProvider themeProvider = ThemeProvider();
 
@@ -35,6 +35,14 @@ abstract class CreditsScreenState extends State<CreditsScreen>
   void initState() {
     this.initVariables();
     super.initState();
+  }
+
+  void loadInWidgets() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        this.widgetOpacity = 1;
+      });
+    });
   }
 
   void getTheme() {

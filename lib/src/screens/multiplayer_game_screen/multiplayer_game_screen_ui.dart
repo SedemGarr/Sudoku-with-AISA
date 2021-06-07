@@ -644,6 +644,7 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
             );
           }
           processMultiplayerGameStreamData(snapshot);
+          loadInWidgets();
           return this.currentGame.hasStarted
               ? this.currentGame.hasFinished
                   ? buildHasCompleted()
@@ -707,20 +708,24 @@ class MultiplayerGameScreenScreenView extends MultiplayerGameScreenScreenState {
                         child: Container(
                           color: AppTheme.getLightOrDarkModeTheme(user.isDark),
                           child: SafeArea(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height * 0.01,
-                                ),
-                                buildBoard(),
-                                Expanded(
-                                  child: Container(),
-                                ),
-                                buildButtonRow(context),
-                                buildNumberPad(context)
-                              ],
+                            child: AnimatedOpacity(
+                              duration: Duration(milliseconds: 500),
+                              opacity: widgetOpacity,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height * 0.01,
+                                  ),
+                                  buildBoard(),
+                                  Expanded(
+                                    child: Container(),
+                                  ),
+                                  buildButtonRow(context),
+                                  buildNumberPad(context)
+                                ],
+                              ),
                             ),
                           ),
                         ),

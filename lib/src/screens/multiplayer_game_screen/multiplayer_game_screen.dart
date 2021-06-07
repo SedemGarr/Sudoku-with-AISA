@@ -35,6 +35,8 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
   String partnerName;
   String competitiveGameWonBy;
 
+  double widgetOpacity = 0;
+
   bool isDark;
   bool isHost;
   bool isCompetitiveGame;
@@ -80,6 +82,14 @@ abstract class MultiplayerGameScreenScreenState extends State<MultiplayerGameScr
   void dispose() async {
     super.dispose();
     await stopWatchTimer.dispose();
+  }
+
+  void loadInWidgets() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        this.widgetOpacity = 1;
+      });
+    });
   }
 
   void removeDuplicatePlayers() async {

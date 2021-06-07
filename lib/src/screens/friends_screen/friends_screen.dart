@@ -30,6 +30,8 @@ abstract class FriendsScreenState extends State<FriendsScreen> with TickerProvid
   Users user;
   AppTheme appTheme;
 
+  double widgetOpacity = 0;
+
   List<Users> foundUsers = [];
   List<Users> allUsers = [];
   List<Request> allRequests = [];
@@ -53,6 +55,14 @@ abstract class FriendsScreenState extends State<FriendsScreen> with TickerProvid
   void initState() {
     initVariables();
     super.initState();
+  }
+
+  void loadInWidgets() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        this.widgetOpacity = 1;
+      });
+    });
   }
 
   void getTheme() {

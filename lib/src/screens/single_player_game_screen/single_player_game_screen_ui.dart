@@ -193,6 +193,7 @@ class SinglePlayerGameScreenView extends SinglePlayerGameScreenState {
 
   @override
   Widget build(BuildContext context) {
+    loadInWidgets();
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -227,20 +228,24 @@ class SinglePlayerGameScreenView extends SinglePlayerGameScreenState {
           },
           child: Container(
             color: AppTheme.getLightOrDarkModeTheme(isDark),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.01,
-                ),
-                buildBoard(),
-                Expanded(
-                  child: Container(),
-                ),
-                buildButtonRow(),
-                buildNumberPad(context)
-              ],
+            child: AnimatedOpacity(
+              duration: Duration(milliseconds: 500),
+              opacity: widgetOpacity,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.01,
+                  ),
+                  buildBoard(),
+                  Expanded(
+                    child: Container(),
+                  ),
+                  buildButtonRow(),
+                  buildNumberPad(context)
+                ],
+              ),
             ),
           ),
         ),

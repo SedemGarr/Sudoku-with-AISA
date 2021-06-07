@@ -349,6 +349,7 @@ class FriendsScreenView extends FriendsScreenState {
                 ),
               );
             }
+            loadInWidgets();
             return Scaffold(
               key: scaffoldKey,
               appBar: AppBar(
@@ -374,11 +375,15 @@ class FriendsScreenView extends FriendsScreenState {
                 width: MediaQuery.of(context).size.width,
                 color: AppTheme.getLightOrDarkModeTheme(isDark),
                 child: SafeArea(
-                  child: Column(
-                    children: [
-                      buildTopNavBar(),
-                      buildContents(context),
-                    ],
+                  child: AnimatedOpacity(
+                    duration: Duration(milliseconds: 500),
+                    opacity: widgetOpacity,
+                    child: Column(
+                      children: [
+                        buildTopNavBar(),
+                        buildContents(context),
+                      ],
+                    ),
                   ),
                 ),
               ),

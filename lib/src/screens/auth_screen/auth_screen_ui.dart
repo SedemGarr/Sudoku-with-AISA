@@ -54,22 +54,26 @@ class AuthScreenView extends AuthScreenState {
     return Container(
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(color: AppTheme.getLightOrDarkModeTheme(isDark)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Spacer(),
-          TitleWidget(
-            color: appTheme.themeColor,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 1 / 7),
-            child: AISAAvatar(color: appTheme.themeColor),
-          ),
-          Spacer(),
-          isLoading ? LoadingWidget(appTheme: appTheme, isDark: isDark) : buildSignInButton(),
-          Spacer(),
-          buildCopyrightText()
-        ],
+      child: AnimatedOpacity(
+        duration: Duration(milliseconds: 500),
+        opacity: widgetOpacity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Spacer(),
+            TitleWidget(
+              color: appTheme.themeColor,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 1 / 7),
+              child: AISAAvatar(color: appTheme.themeColor),
+            ),
+            Spacer(),
+            isLoading ? LoadingWidget(appTheme: appTheme, isDark: isDark) : buildSignInButton(),
+            Spacer(),
+            buildCopyrightText()
+          ],
+        ),
       ),
     );
   }

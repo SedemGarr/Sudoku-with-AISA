@@ -45,6 +45,8 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
   String joiningGameId;
   String preferedPattern;
 
+  double widgetOpacity = 0;
+
   List<MultiplayerGame> onGoingGames = [];
   List<Users> foundUsers = [];
   List<Users> allUsers = [];
@@ -70,8 +72,17 @@ abstract class MultiplayerLobbyScreenState extends State<MultiplayerLobbyScreen>
 
   @override
   void initState() {
-    initVariables();
+    this.initVariables();
+
     super.initState();
+  }
+
+  void loadInWidgets() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        this.widgetOpacity = 1;
+      });
+    });
   }
 
   void toggleIsViewingInvitations() {

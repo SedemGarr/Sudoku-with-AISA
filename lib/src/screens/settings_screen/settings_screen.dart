@@ -36,6 +36,8 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
 
   int freePlayDifficulty;
 
+  double widgetOpacity = 0;
+
   bool isDark;
   bool enableWakelock;
   bool audioEnabled;
@@ -95,8 +97,17 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
 
   @override
   void initState() {
-    initVariables();
+    this.initVariables();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      this.loadInWidgets();
+    });
     super.initState();
+  }
+
+  void loadInWidgets() {
+    setState(() {
+      this.widgetOpacity = 1;
+    });
   }
 
   void getTheme() {

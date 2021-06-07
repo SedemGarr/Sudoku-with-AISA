@@ -29,6 +29,8 @@ abstract class IntroductionScreenState extends State<IntroductionScreen> with Ti
   List<Difficulty> game;
   List<int> sampleBoard = [];
 
+  double widgetOpacity = 0;
+
   UserStateUpdateProvider userStateUpdateProvider = UserStateUpdateProvider();
 
   FlutterTts flutterTts = FlutterTts();
@@ -54,6 +56,14 @@ abstract class IntroductionScreenState extends State<IntroductionScreen> with Ti
   void dispose() {
     this.flutterTts.stop();
     super.dispose();
+  }
+
+  void loadInWidgets() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        this.widgetOpacity = 1;
+      });
+    });
   }
 
   void prepareSampleBoard() {
