@@ -228,6 +228,12 @@ abstract class SettingsScreenState extends State<SettingsScreen> with TickerProv
     this.userStateUpdateProvider.updateUser(this.user);
   }
 
+  void setCustomThemeColorWithoutSaving(Color colors) async {
+    setState(() {
+      appTheme.themeColor = this.themeProvider.processColor(colors);
+    });
+  }
+
   void setCustomPartnerColor(Color colors) async {
     setState(() {
       appTheme.partnerColor = this.themeProvider.processColor(colors);

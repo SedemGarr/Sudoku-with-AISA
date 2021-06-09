@@ -54,7 +54,9 @@ class SettingsScreenView extends SettingsScreenState {
             Text('primary', style: GoogleFonts.roboto(color: appTheme.themeColor)),
             CircleColorPicker(
               textStyle: GoogleFonts.roboto(color: appTheme.themeColor, fontSize: 24, fontWeight: FontWeight.bold),
-              onChanged: (colors) {},
+              onChanged: (colors) {
+                setCustomThemeColorWithoutSaving(colors);
+              },
               controller: circleColorPickerThemeColorController,
               onEnded: (colors) {
                 setCustomThemeColor(colors);
